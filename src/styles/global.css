@@ -1,0 +1,140 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --green: #0fd28c;
+  --green-dim: rgba(15, 210, 140, 0.1);
+  --green-glow: rgba(15, 210, 140, 0.4);
+  --purple: #6b21d4;
+  --purple-light: #c084fc;
+  --purple-dim: rgba(107, 33, 212, 0.1);
+  --bg: #0a0010;
+  --text: #e0e0e0;
+  --muted: #555;
+  --subtle: #333;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  font-weight: 300;
+  min-height: 100vh;
+  overflow-x: hidden;
+  cursor: crosshair;
+}
+
+/* Grid background */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(15, 210, 140, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(15, 210, 140, 0.04) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Scanlines */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.06) 2px,
+    rgba(0, 0, 0, 0.06) 4px
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Typography */
+.font-mono {
+  font-family: 'Share Tech Mono', monospace;
+}
+
+.font-display {
+  font-family: 'Orbitron', sans-serif;
+}
+
+/* Reusable section label */
+.section-label {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.65rem;
+  color: var(--green);
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  margin-bottom: 3rem;
+  opacity: 0.7;
+}
+
+.section-label::before {
+  content: '// ';
+  opacity: 0.5;
+}
+
+/* Buttons */
+.btn-primary {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 0.75rem 2rem;
+  background: transparent;
+  border: 1px solid var(--green);
+  color: var(--green);
+  cursor: crosshair;
+  transition: all 0.2s;
+  display: inline-block;
+}
+
+.btn-primary:hover {
+  background: var(--green-dim);
+  box-shadow: 0 0 20px var(--green-glow);
+}
+
+.btn-ghost {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 0.75rem 2rem;
+  background: transparent;
+  border: 1px solid rgba(107, 33, 212, 0.5);
+  color: var(--purple-light);
+  cursor: crosshair;
+  transition: all 0.2s;
+  display: inline-block;
+}
+
+.btn-ghost:hover {
+  background: var(--purple-dim);
+  box-shadow: 0 0 20px rgba(107, 33, 212, 0.2);
+}
+
+/* Tags */
+.tag {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  padding: 0.2rem 0.6rem;
+  border: 1px solid rgba(107, 33, 212, 0.4);
+  color: #9d59f5;
+}
