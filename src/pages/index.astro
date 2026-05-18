@@ -3,12 +3,13 @@ import Layout from "../layouts/Layout.astro";
 ---
 
 <Layout title="Akif Zahin">
-  <!-- NAV -->
   <nav>
     <div class="logo font-display">AZ</div>
     <ul class="nav-links">
       <li><a href="#work">Work</a></li>
-      <li><a href="#blog">Blog</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="https://medium.com/@akifzahin" target="_blank" rel="noopener">Blog</a></li>
       <li><a href="#about">About</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
@@ -17,14 +18,18 @@ import Layout from "../layouts/Layout.astro";
   <!-- HERO -->
   <section class="hero">
     <div class="hero-content">
-      <p class="hero-eyebrow font-mono">— Full-stack developer &amp; builder</p>
+      <p class="hero-eyebrow font-mono">
+        — Python Dev | Deep Learning | Full Stack 
+      </p>
       <h1 class="hero-name font-display">
         <span class="name-outline">Akif</span>
         <span class="name-glow">Zahin</span>
       </h1>
       <p class="hero-sub">
-        Building <span class="accent-purple">products that matter</span> — from insurance
-        tools to AI-powered apps. Based in Dhaka, Bangladesh.
+        Hi I'm <span class="accent-purple">Akif.</span> Here you'll find my work,
+        some information about me and my blog (which I often update). Contact me below
+        for any work opportunities. <span class="accent-purple">Thank you!</span
+        >
       </p>
       <div class="cta-row">
         <a href="#work" class="btn-primary">View Work</a>
@@ -87,6 +92,25 @@ import Layout from "../layouts/Layout.astro";
           >
             <path
               d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.41c0-3.025 1.792-4.697 4.533-4.697 1.312 0 2.686.236 2.686.236v2.97h-1.513c-1.491 0-1.956.93-1.956 1.886v2.267h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z"
+            ></path>
+          </svg>
+        </a>
+        <a
+          href="https://open.spotify.com/user/21vmzf6uacsq7zsgfp7vq452a?si=8cQivyLQRFyCFvvThV6yqg"
+          target="_blank"
+          rel="noopener"
+          aria-label="Spotify"
+          class="social-link"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="18"
+            height="18"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+          >
+            <path
+              d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"
             ></path>
           </svg>
         </a>
@@ -161,45 +185,147 @@ import Layout from "../layouts/Layout.astro";
   <section class="section" id="work">
     <p class="section-label">Selected work</p>
     <div class="projects-grid">
-      <div class="project-card">
+      <!-- Card 001 -->
+      <a
+        href="https://github.com/akifzahin/TimeGaitNet"
+        target="_blank"
+        rel="noopener"
+        class="project-card"
+      >
         <p class="project-num font-mono">001</p>
-        <h3 class="project-title font-display">Insurance Report Tool</h3>
+        <h3 class="project-title font-display">TimeGaitNet</h3>
         <p class="project-desc">
-          Automated Excel reporting system for non-technical staff. Saves hours
-          of manual work weekly.
+          Deep learning framework analyzing wearable accelerometer data to
+          detect, forecast, and estimate the intensity of Freezing of Gait
+          episodes in Parkinson's patients.
         </p>
         <div class="project-tags">
-          <span class="tag">Python</span>
-          <span class="tag">OpenPyXL</span>
-          <span class="tag">Tkinter</span>
+          <span class="tag">Pytorch</span>
+          <span class="tag">TensorFlow</span>
+          <span class="tag">NumPy</span>
         </div>
-      </div>
-      <div class="project-card">
+      </a>
+
+      <!-- Card 002 -->
+      <a
+        href="https://github.com/akifzahin/LM-FCIL"
+        target="_blank"
+        rel="noopener"
+        class="project-card"
+      >
         <p class="project-num font-mono">002</p>
-        <h3 class="project-title font-display">Stray Dog Rescue App</h3>
+        <h3 class="project-title font-display">LM-FCIL</h3>
         <p class="project-desc">
-          CV model for injury/disease detection. Community rescue coordination
-          for street animals in BD.
+          Federated Class Incremental Learning simulation for Handwriting
+          Identification using Dynamic Expanding Classifier.
         </p>
         <div class="project-tags">
-          <span class="tag">Next.js</span>
-          <span class="tag">PyTorch</span>
-          <span class="tag">Supabase</span>
+          <span class="tag">Kotlin</span>
+          <span class="tag">TFLite</span>
+          <span class="tag">OpenCV</span>
         </div>
-      </div>
-      <div class="project-card">
+      </a>
+
+      <!-- Card 003 -->
+      <a
+        href="https://github.com/t4niha/NewsLens"
+        target="_blank"
+        rel="noopener"
+        class="project-card"
+      >
         <p class="project-num font-mono">003</p>
-        <h3 class="project-title font-display">SME Invoicing Tool</h3>
+        <h3 class="project-title font-display">NewsLens</h3>
         <p class="project-desc">
-          Inventory and invoice management with Bangla UI support. Built for
-          Bangladeshi small businesses.
+          BERT-Based Detection of Political Bias in News Articles with Suggested
+          Readings.
         </p>
         <div class="project-tags">
-          <span class="tag">Astro</span>
-          <span class="tag">Supabase</span>
-          <span class="tag">Bangla UI</span>
+          <span class="tag">FastAPI</span>
+          <span class="tag">NextJS</span>
+          <span class="tag">LLMs</span>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section class="section" id="skills">
+    <p class="section-label">Skills & Stack</p>
+    <div class="skills-grid">
+
+      <div class="skill-group">
+        <p class="skill-group-title font-mono">Languages</p>
+        <div class="skill-tags">
+          <span class="tag">Python</span>
+          <span class="tag">JavaScript</span>
+          <span class="tag">TypeScript</span>
+          <span class="tag">Kotlin</span>
+          <span class="tag">SQL</span>
         </div>
       </div>
+
+      <div class="skill-group">
+        <p class="skill-group-title font-mono">Frameworks</p>
+        <div class="skill-tags">
+          <span class="tag">Next.js</span>
+          <span class="tag">Astro</span>
+          <span class="tag">FastAPI</span>
+          <span class="tag">PyTorch</span>
+          <span class="tag">TensorFlow</span>
+        </div>
+      </div>
+
+      <div class="skill-group">
+        <p class="skill-group-title font-mono">Tools & Platforms</p>
+        <div class="skill-tags">
+          <span class="tag">Jira</span>
+          <span class="tag">Git</span>
+          <span class="tag">Docker</span>
+          <span class="tag">OpenCV</span>
+          <span class="tag">TFLite</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section class="section" id="experience">
+    <p class="section-label">Experience</p>
+    <div class="timeline">
+
+      <div class="timeline-item">
+        <div class="timeline-left">
+          <img src="/src/assets/logoGLIL.png" alt="Guardian Life Insurance" class="timeline-logo" />
+          <p class="timeline-date font-mono">May 2026 — Present</p>
+        </div>
+        <div class="timeline-right">
+          <h3 class="timeline-title font-display">IT Intern</h3>
+          <p class="timeline-company accent-purple">Guardian Life Insurance Ltd</p>
+          <p class="timeline-desc">Rebuilding existing platforms with new technologies such as NextJS and React with comprehensive testing.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- EDUCATION -->
+  <section class="section" id="education">
+    <p class="section-label">Education</p>
+    <div class="timeline">
+
+      <div class="timeline-item">
+        <div class="timeline-left">
+          <img src="/src/assets/logoNSU.png" alt="North South University" class="timeline-logo" />
+          <p class="timeline-date font-mono">Oct 2021 — Dec 2025</p>
+        </div>
+        <div class="timeline-right">
+          <h3 class="timeline-title font-display">BSc in Computer Science</h3>
+          <p class="timeline-company accent-purple">North South University, Dhaka</p>
+          <p class="timeline-desc">Focused on machine learning, federated learning, and multi-task deep learning.</p>
+        </div>
+      </div>
+
     </div>
   </section>
 
@@ -207,21 +333,27 @@ import Layout from "../layouts/Layout.astro";
   <section class="section" id="blog">
     <p class="section-label">Recent writing</p>
     <div class="posts-list">
-      <a href="/blog/excel-automation" class="post-item">
+      <a
+        href="https://medium.com/@akifzahin/when-the-wave-becomes-a-tsunami-learning-to-live-with-grief-96b3fffbaae9"
+        target="_blank"
+        rel="noopener"
+        class="post-item"
+      >
         <span class="post-title"
-          >Building Excel automation tools non-devs can actually use</span
+          >When the Wave Becomes a Tsunami: Learning to Live With Grief</span
         >
-        <span class="post-date font-mono">2026-05</span>
+        <span class="post-date font-mono">Oct 14, 2025</span>
       </a>
-      <a href="/blog/why-astro" class="post-item">
-        <span class="post-title">Why I chose Astro for my personal site</span>
-        <span class="post-date font-mono">2026-04</span>
-      </a>
-      <a href="/blog/cv-social-impact" class="post-item">
+      <a
+        href="https://medium.com/@akifzahin/lessons-ive-learned-standing-in-the-middle-of-loss-and-death-9697c3fdb4fa"
+        target="_blank"
+        rel="noopener"
+        class="post-item"
+      >
         <span class="post-title"
-          >Computer vision for social impact in Bangladesh</span
+          >Lessons I’ve learned, standing in the middle of loss and death.</span
         >
-        <span class="post-date font-mono">2026-03</span>
+        <span class="post-date font-mono">Jan 19, 2026</span>
       </a>
     </div>
   </section>
@@ -231,28 +363,15 @@ import Layout from "../layouts/Layout.astro";
     <p class="section-label">About</p>
     <div class="about-grid">
       <p class="about-text">
-React and Python developer interested in building fullstack applications using integration with AI. Based in Dhaka, Bangladesh.
+        Born and raised in Dhaka, I've loved spending time tinkering with new
+        technology, all types of games and musical instruments whenever I could.
+        Now having studied Computer Science, I love building software that focus
+        on integrating AI with full-stack applications in an eco-friendly and
+        efficient manner.
+        <br />PS: I also have <span class="accent-purple">two lovely cats.</span
+        > Here's a picture of them.
       </p>
-      <div class="about-links">
-        <a
-          href="https://github.com/yourusername"
-          class="about-link font-mono"
-          target="_blank"
-          rel="noopener">GitHub ↗</a
-        >
-        <a
-          href="https://linkedin.com/in/yourusername"
-          class="about-link font-mono"
-          target="_blank"
-          rel="noopener">LinkedIn ↗</a
-        >
-        <a
-          href="https://facebook.com/yourusername"
-          class="about-link font-mono"
-          target="_blank"
-          rel="noopener">Facebook ↗</a
-        >
-      </div>
+      <img src="/src/assets/cats.jpg" alt="My two cats" class="cat-img" />
     </div>
   </section>
 
@@ -262,14 +381,14 @@ React and Python developer interested in building fullstack applications using i
     <div class="contact-grid">
       <div class="contact-left">
         <h2 class="contact-heading font-display">
-          Let's build<br /><span class="name-glow">something.</span>
+          Let's build<br /><span class="name-glow">The Future.</span>
         </h2>
         <p class="contact-sub">
-          Open to freelance work, collaborations, and interesting conversations.
+          I'd love to get in contact for any job/business opportunity.
         </p>
         <div class="contact-social">
           <a
-            href="https://github.com/yourusername"
+            href="https://github.com/akifzahin"
             target="_blank"
             rel="noopener"
             aria-label="GitHub"
@@ -288,7 +407,7 @@ React and Python developer interested in building fullstack applications using i
             </svg>
           </a>
           <a
-            href="https://linkedin.com/in/yourusername"
+            href="https://linkedin.com/in/akifzahin"
             target="_blank"
             rel="noopener"
             aria-label="LinkedIn"
@@ -307,7 +426,7 @@ React and Python developer interested in building fullstack applications using i
             </svg>
           </a>
           <a
-            href="https://facebook.com/yourusername"
+            href="https://facebook.com/zahinakif25"
             target="_blank"
             rel="noopener"
             aria-label="Facebook"
@@ -325,9 +444,39 @@ React and Python developer interested in building fullstack applications using i
               ></path>
             </svg>
           </a>
+          <a
+            href="https://open.spotify.com/user/21vmzf6uacsq7zsgfp7vq452a?si=8cQivyLQRFyCFvvThV6yqg"
+            target="_blank"
+            rel="noopener"
+            aria-label="Spotify"
+            class="social-link"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+            >
+              <path
+                d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"
+              ></path>
+            </svg>
+          </a>
         </div>
       </div>
-      <form class="contact-form" onsubmit="handleSubmit(event)">
+      <form class="contact-form" id="contact-form" method="POST">
+        <input
+          type="hidden"
+          name="access_key"
+          value="9639b915-15ef-49cb-b06d-fa51f8f30ae7"
+        />
+        <input
+          type="hidden"
+          name="subject"
+          value="New message from your portfolio"
+        />
+
         <div class="form-group">
           <label class="form-label font-mono" for="name">Name</label>
           <input
@@ -367,505 +516,37 @@ React and Python developer interested in building fullstack applications using i
           >Send Message</button
         >
       </form>
+
+      <script>
+        const form = document.getElementById("contact-form");
+        form.addEventListener("submit", async (e) => {
+          e.preventDefault();
+          const btn = form.querySelector('button[type="submit"]');
+          btn.textContent = "Sending...";
+          btn.disabled = true;
+          const data = new FormData(form);
+          const res = await fetch("https://api.web3forms.com/submit", {
+            method: "POST",
+            body: data,
+          });
+          const json = await res.json();
+          if (json.success) {
+            btn.textContent = "Sent ✓";
+            btn.style.color = "#0fd28c";
+          } else {
+            btn.textContent = "Something went wrong";
+            btn.style.color = "#ff4444";
+            btn.disabled = false;
+          }
+        });
+      </script>
     </div>
   </section>
 
   <!-- FOOTER -->
   <footer>
-    <ul class="footer-links">
-      <li>
-        <a
-          href="https://github.com/yourusername"
-          target="_blank"
-          rel="noopener"
-          class="font-mono">GitHub</a>
-      </li>
-      <li>
-        <a
-          href="https://linkedin.com/in/yourusername"
-          target="_blank"
-          rel="noopener"
-          class="font-mono">LinkedIn</a>
-      </li>
-      <li>
-        <a
-          href="https://facebook.com/yourusername"
-          target="_blank"
-          rel="noopener"
-          class="font-mono">Facebook</a>
-      </li>
-    </ul>
     <p class="footer-copy font-mono">© 2026 Akif Zahin</p>
   </footer>
 </Layout>
 
-<script>
-  function handleSubmit(e: Event) {
-    e.preventDefault();
-    const btn = (e.target as HTMLFormElement).querySelector(
-      'button[type="submit"]',
-    ) as HTMLButtonElement;
-    btn.textContent = "Sent ✓";
-    btn.style.color = "#0fd28c";
-    btn.disabled = true;
-  }
-</script>
 
-<style>
-  nav {
-    position: relative;
-    z-index: 10;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1.5rem 3rem;
-    border-bottom: 1px solid rgba(15, 210, 140, 0.15);
-  }
-
-  .logo {
-    font-size: 1.2rem;
-    font-weight: 900;
-    color: #0fd28c;
-    letter-spacing: 0.1em;
-    text-shadow: 0 0 20px rgba(15, 210, 140, 0.5);
-  }
-
-  .nav-links {
-    display: flex;
-    gap: 2.5rem;
-    list-style: none;
-  }
-
-  .nav-links a {
-    font-family: "Share Tech Mono", monospace;
-    font-size: 0.75rem;
-    color: #888;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    transition: color 0.2s;
-  }
-
-  .nav-links a:hover {
-    color: #0fd28c;
-  }
-
-  /* HERO */
-  .hero {
-    position: relative;
-    z-index: 5;
-    min-height: 90vh;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 4rem 3rem;
-    overflow: hidden;
-    /* Cyberpunk city image with deep purple overlay */
-    background:
-      linear-gradient(
-        135deg,
-        rgba(10, 0, 16, 0.88) 0%,
-        rgba(60, 0, 100, 0.82) 60%,
-        rgba(10, 0, 16, 0.92) 100%
-      ),
-      url("../src/assets/background.jpg") center/cover no-repeat;
-  }
-
-  .hero-content {
-    flex: 1;
-    max-width: 600px;
-    z-index: 2;
-  }
-
-  .hero-eyebrow {
-    font-size: 0.75rem;
-    color: #0fd28c;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    margin-bottom: 1.5rem;
-    opacity: 0.8;
-  }
-
-  .hero-name {
-    font-size: clamp(3.5rem, 10vw, 8rem);
-    line-height: 0.9;
-    text-transform: uppercase;
-    letter-spacing: -0.02em;
-  }
-
-  .name-outline {
-    display: block;
-    color: transparent;
-    -webkit-text-stroke: 2px #6b21d4;
-  }
-
-  .name-glow {
-    display: block;
-    color: #0fd28c;
-    text-shadow: 0 0 60px rgba(15, 210, 140, 0.35);
-  }
-
-  .hero-sub {
-    margin-top: 2rem;
-    font-size: 1rem;
-    color: #888;
-    max-width: 480px;
-    line-height: 1.7;
-  }
-
-  .accent-purple {
-    color: #c084fc;
-  }
-
-  .cta-row {
-    margin-top: 2.5rem;
-    display: flex;
-    gap: 1rem;
-    align-items: center;
-  }
-
-  /* Social icons */
-  .social-row {
-    margin-top: 2rem;
-    display: flex;
-    gap: 0.75rem;
-    align-items: center;
-  }
-
-  .social-link {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 36px;
-    height: 36px;
-    border: 1px solid rgba(15, 210, 140, 0.2);
-    color: #555;
-    transition: all 0.2s;
-  }
-
-  .social-link:hover {
-    color: #0fd28c;
-    border-color: #0fd28c;
-    box-shadow: 0 0 12px rgba(15, 210, 140, 0.2);
-  }
-
-  /* Profile */
-  .hero-profile {
-    z-index: 2;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 0.75rem;
-    padding-left: 3rem;
-    align-self: flex-end;
-    padding-bottom: 1rem;
-  }
-
-  .profile-frame {
-    position: relative;
-    width: 220px;
-    height: 220px;
-  }
-
-  .profile-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-    filter: grayscale(20%) contrast(1.1);
-    clip-path: polygon(10% 0%, 100% 0%, 100% 90%, 90% 100%, 0% 100%, 0% 10%);
-  }
-
-  .profile-frame::before {
-    content: "";
-    position: absolute;
-    inset: -2px;
-    background: linear-gradient(135deg, #0fd28c, #6b21d4);
-    clip-path: polygon(10% 0%, 100% 0%, 100% 90%, 90% 100%, 0% 100%, 0% 10%);
-    z-index: -1;
-  }
-
-  .profile-glow {
-    position: absolute;
-    inset: -20px;
-    background: radial-gradient(
-      ellipse,
-      rgba(15, 210, 140, 0.12),
-      transparent 70%
-    );
-    pointer-events: none;
-  }
-
-  .corner-tag {
-    font-family: "Share Tech Mono", monospace;
-    font-size: 0.6rem;
-    color: #333;
-    letter-spacing: 0.1em;
-  }
-
-  .hero-deco {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    width: 500px;
-    height: 500px;
-    opacity: 0.06;
-    pointer-events: none;
-  }
-
-  /* SECTIONS */
-  .section {
-    position: relative;
-    z-index: 5;
-    padding: 5rem 3rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.04);
-  }
-
-  /* PROJECTS */
-  .projects-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 1px;
-    background: rgba(255, 255, 255, 0.04);
-  }
-
-  .project-card {
-    background: #0a0010;
-    padding: 2rem;
-    transition: background 0.2s;
-  }
-  .project-card:hover {
-    background: rgba(15, 210, 140, 0.03);
-  }
-
-  .project-num {
-    font-family: "Share Tech Mono", monospace;
-    font-size: 0.65rem;
-    color: #333;
-    letter-spacing: 0.1em;
-    margin-bottom: 1rem;
-  }
-  .project-title {
-    font-family: "Orbitron", sans-serif;
-    font-size: 0.9rem;
-    font-weight: 700;
-    color: #fff;
-    margin-bottom: 0.75rem;
-    letter-spacing: 0.05em;
-  }
-  .project-desc {
-    font-size: 0.8rem;
-    color: #555;
-    line-height: 1.6;
-    margin-bottom: 1.5rem;
-  }
-  .project-tags {
-    display: flex;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-  }
-
-  /* BLOG */
-  .posts-list {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .post-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    padding: 1.25rem 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-    transition: padding-left 0.2s;
-    gap: 2rem;
-  }
-
-  .post-item:hover {
-    padding-left: 0.5rem;
-  }
-  .post-item:hover .post-title {
-    color: #0fd28c;
-  }
-  .post-title {
-    font-size: 0.9rem;
-    color: #ccc;
-    transition: color 0.2s;
-  }
-  .post-date {
-    font-family: "Share Tech Mono", monospace;
-    font-size: 0.65rem;
-    color: #333;
-    letter-spacing: 0.1em;
-    white-space: nowrap;
-  }
-
-  /* ABOUT */
-  .about-grid {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    gap: 4rem;
-    align-items: start;
-  }
-  .about-text {
-    font-size: 1rem;
-    color: #888;
-    line-height: 1.8;
-    max-width: 560px;
-  }
-  .about-links {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-  }
-  .about-link {
-    font-family: "Share Tech Mono", monospace;
-    font-size: 0.75rem;
-    color: #555;
-    letter-spacing: 0.1em;
-    transition: color 0.2s;
-  }
-  .about-link:hover {
-    color: #0fd28c;
-  }
-
-  /* CONTACT */
-  .contact-grid {
-    display: grid;
-    grid-template-columns: 1fr 1.2fr;
-    gap: 4rem;
-    align-items: start;
-  }
-
-  .contact-heading {
-    font-family: "Orbitron", sans-serif;
-    font-size: clamp(2rem, 4vw, 3rem);
-    font-weight: 900;
-    text-transform: uppercase;
-    line-height: 1;
-    margin-bottom: 1rem;
-    color: #fff;
-  }
-
-  .contact-sub {
-    font-size: 0.85rem;
-    color: #555;
-    line-height: 1.6;
-    margin-bottom: 2rem;
-  }
-  .contact-social {
-    display: flex;
-    gap: 0.75rem;
-  }
-
-  .form-group {
-    margin-bottom: 1.25rem;
-  }
-
-  .form-label {
-    display: block;
-    font-family: "Share Tech Mono", monospace;
-    font-size: 0.65rem;
-    color: #0fd28c;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    margin-bottom: 0.5rem;
-    opacity: 0.7;
-  }
-
-  .form-input {
-    width: 100%;
-    background: rgba(255, 255, 255, 0.02);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    color: #e0e0e0;
-    padding: 0.75rem 1rem;
-    font-size: 0.8rem;
-    outline: none;
-    transition: border-color 0.2s;
-    font-family: "Share Tech Mono", monospace;
-    resize: vertical;
-  }
-
-  .form-input::placeholder {
-    color: #333;
-  }
-  .form-input:focus {
-    border-color: rgba(15, 210, 140, 0.4);
-    box-shadow: 0 0 12px rgba(15, 210, 140, 0.05);
-  }
-
-  /* FOOTER */
-  footer {
-    position: relative;
-    z-index: 5;
-    padding: 2rem 3rem;
-    border-top: 1px solid rgba(15, 210, 140, 0.1);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .footer-links {
-    display: flex;
-    gap: 2rem;
-    list-style: none;
-  }
-  .footer-links a {
-    font-family: "Share Tech Mono", monospace;
-    font-size: 0.65rem;
-    color: #333;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    transition: color 0.2s;
-  }
-  .footer-links a:hover {
-    color: #0fd28c;
-  }
-  .footer-copy {
-    font-family: "Share Tech Mono", monospace;
-    font-size: 0.6rem;
-    color: #222;
-    letter-spacing: 0.1em;
-  }
-
-  /* RESPONSIVE */
-  @media (max-width: 768px) {
-    nav {
-      padding: 1rem 1.5rem;
-    }
-    .nav-links {
-      gap: 1.5rem;
-    }
-    .hero {
-      flex-direction: column;
-      padding: 3rem 1.5rem;
-      min-height: auto;
-      gap: 3rem;
-      align-items: flex-start;
-    }
-    .hero-profile {
-      padding-left: 0;
-      align-items: flex-start;
-      align-self: auto;
-    }
-    .hero-deco {
-      display: none;
-    }
-    .section {
-      padding: 3rem 1.5rem;
-    }
-    .about-grid {
-      grid-template-columns: 1fr;
-      gap: 2rem;
-    }
-    .contact-grid {
-      grid-template-columns: 1fr;
-      gap: 2rem;
-    }
-    footer {
-      padding: 1.5rem;
-      flex-direction: column;
-      gap: 1rem;
-    }
-  }
-</style>
