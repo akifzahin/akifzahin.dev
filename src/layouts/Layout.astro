@@ -3,11 +3,10 @@ interface Props {
   title?: string;
 }
 
-import '../styles/global.css';
-import Analytics from '@vercel/analytics/astro';
+import "../styles/global.css";
+import Analytics from "@vercel/analytics/astro";
 
-const { title = 'Akif Zahin' } = Astro.props;
-
+const { title = "Akif Zahin" } = Astro.props;
 ---
 
 <!doctype html>
@@ -15,7 +14,10 @@ const { title = 'Akif Zahin' } = Astro.props;
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Akif Zahin — Full-stack developer based in Dhaka, Bangladesh." />
+    <meta
+      name="description"
+      content="Akif Zahin — Full-stack developer based in Dhaka, Bangladesh."
+    />
     <title>{title}</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -24,6 +26,7 @@ const { title = 'Akif Zahin' } = Astro.props;
       rel="stylesheet"
     />
     <link rel="stylesheet" href="/styles/global.css" />
+    <Analytics />
   </head>
   <body>
     <slot />
