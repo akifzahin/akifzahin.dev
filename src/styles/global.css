@@ -656,6 +656,25 @@ footer {
   filter: grayscale(30%) brightness(0.9);
 }
 
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background: rgba(10, 0, 16, 0.9);
+  backdrop-filter: blur(10px);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 3rem;
+  border-bottom: 1px solid rgba(15, 210, 140, 0.15);
+}
+
+.hero {
+  padding-top: 8rem;
+}
+
 /* RESPONSIVE */
 @media (max-width: 768px) {
   nav {
@@ -730,5 +749,19 @@ footer {
     padding: 1.5rem;
     flex-direction: column;
     gap: 1rem;
+  }
+    nav {
+    padding: 1rem 1.5rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+  }
+
+  .hero {
+    padding-top: 10rem;
   }
 }
