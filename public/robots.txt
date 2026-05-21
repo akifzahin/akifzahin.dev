@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://akifzahin.dev/sitemap-index.xml

@@ -7,16 +7,43 @@ import Analytics from "@vercel/analytics/astro";
 import SpeedInsights from "@vercel/speed-insights/astro";
 const { title = "Akif Zahin" } = Astro.props;
 ---
-
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta
-      name="description"
-      content="Akif Zahin — Full-stack developer based in Dhaka, Bangladesh."
-    />
+    <meta name="description" content="Akif Zahin — Full-stack developer based in Dhaka, Bangladesh." />
+    <meta name="author" content="Akif Zahin" />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Akif Zahin — Full-stack Developer" />
+    <meta property="og:description" content="Building AI-powered apps and tools. Based in Dhaka, Bangladesh." />
+    <meta property="og:image" content="https://akifzahin.dev/og.png" />    <meta property="og:url" content="https://akifzahin.dev" />
+    <meta property="og:type" content="website" />
+
+    <!-- Twitter/X -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Akif Zahin — Full-stack Developer" />
+    <meta name="twitter:description" content="Building AI-powered apps and tools. Based in Dhaka, Bangladesh." />
+    <meta name="twitter:image" content="https://akifzahin.dev/og.png" />
+    <!-- Canonical -->
+    <link rel="canonical" href="https://akifzahin.dev" />
+
+    <!-- Schema -->
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Akif Zahin",
+      "url": "https://akifzahin.dev",
+      "jobTitle": "Full-stack Developer",
+      "address": { "@type": "PostalAddress", "addressLocality": "Dhaka", "addressCountry": "BD" },
+      "sameAs": [
+        "https://github.com/akifzahin",
+        "https://linkedin.com/in/akifzahin",
+        "https://medium.com/@akifzahin"
+      ]
+    })} />
+
     <title>{title}</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
