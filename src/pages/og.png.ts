@@ -46,7 +46,7 @@ export const GET = async () => {
                   type: 'p',
                   props: {
                     style: { color: '#888888', fontSize: '24px', margin: '0 0 30px 0' },
-                    children: 'Building AI-powered apps — Dhaka, Bangladesh',
+                    children: 'Building full stack AI-powered apps — Dhaka, Bangladesh',
                   },
                 },
                 {
