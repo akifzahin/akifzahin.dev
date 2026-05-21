@@ -31,7 +31,7 @@ export const GET = async () => {
                 {
                   type: 'p',
                   props: {
-                    style: { color: '#0fd28c', fontSize: '22px', letterSpacing: '0.3em', marginBottom: '20px', margin: '0 0 20px 0' },
+                    style: { color: '#0fd28c', fontSize: '22px', letterSpacing: '0.3em', margin: '0 0 20px 0' },
                     children: '— Python | Deep Learning | Full Stack',
                   },
                 },
@@ -45,8 +45,15 @@ export const GET = async () => {
                 {
                   type: 'p',
                   props: {
-                    style: { color: '#888888', fontSize: '24px', margin: 0 },
+                    style: { color: '#888888', fontSize: '24px', margin: '0 0 30px 0' },
                     children: 'Building AI-powered apps — Dhaka, Bangladesh',
+                  },
+                },
+                {
+                  type: 'p',
+                  props: {
+                    style: { color: '#0fd28c', fontSize: '20px', margin: 0, letterSpacing: '0.2em', textTransform: 'uppercase' },
+                    children: 'View Portfolio → akifzahin.dev',
                   },
                 },
               ],
