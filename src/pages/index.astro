@@ -649,20 +649,26 @@ import Layout from "../layouts/Layout.astro";
     let cursorX = 0,
       cursorY = 0;
 
+    let moveTimeout;
+
     window.addEventListener("mousemove", (e) => {
       mouseX = e.clientX;
       mouseY = e.clientY;
       cursorDot.style.transform = `translate(${mouseX}px, ${mouseY}px)`;
-      if (Math.random() > 0.85) {
-        const glitchX = mouseX + (Math.random() - 0.5) * 10;
-        cursor.style.borderColor = Math.random() > 0.5 ? "#6b21d4" : "#0fd28c";
-        cursor.style.transform = `translate(${glitchX}px, ${mouseY}px)`;
-        setTimeout(() => {
-          cursor.style.borderColor = "#0fd28c";
-        }, 80);
-      }
-    });
 
+      cursor.style.borderColor = "#6b21d4";
+      cursor.style.boxShadow = "0 0 12px rgba(107,33,212,0.9)";
+      cursorDot.style.background = "#6b21d4";
+      cursorDot.style.boxShadow = "0 0 6px #6b21d4";
+
+      clearTimeout(moveTimeout);
+      moveTimeout = setTimeout(() => {
+        cursor.style.borderColor = "#0fd28c";
+        cursor.style.boxShadow = "0 0 6px rgba(15,210,140,0.3)";
+        cursorDot.style.background = "#0fd28c";
+        cursorDot.style.boxShadow = "0 0 6px #0fd28c";
+      }, 150);
+    });
     document.addEventListener("mousedown", () => {
       cursor.style.transform = `translate(${cursorX + (Math.random() - 0.5) * 10}px, ${cursorY + (Math.random() - 0.5) * 10}px)`;
       cursor.style.borderColor = "#6b21d4";
