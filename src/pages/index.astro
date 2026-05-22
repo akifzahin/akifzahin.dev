@@ -9,7 +9,11 @@ import Layout from "../layouts/Layout.astro";
       <li><a href="#work">Work</a></li>
       <li><a href="#skills">Skills</a></li>
       <li><a href="#experience">Experience</a></li>
-      <li><a href="https://medium.com/@akifzahin" target="_blank" rel="noopener">Blog</a></li>
+      <li>
+        <a href="https://medium.com/@akifzahin" target="_blank" rel="noopener"
+          >Blog</a
+        >
+      </li>
       <li><a href="#about">About</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
@@ -19,11 +23,11 @@ import Layout from "../layouts/Layout.astro";
   <section class="hero">
     <div class="hero-content">
       <p class="hero-eyebrow font-mono">
-        — Python Dev | Deep Learning | Full Stack 
+        — Python Dev | Deep Learning | Full Stack
       </p>
       <h1 class="hero-name font-display">
-        <span class="name-outline">Akif</span>
-        <span class="name-glow">Zahin</span>
+        <div class="name-outline">Akif</div>
+        <div class="name-glow">Zahin</div>
       </h1>
       <p class="hero-sub">
         Hi I'm <span class="accent-purple">Akif.</span> Here you'll find my work,
@@ -33,7 +37,7 @@ import Layout from "../layouts/Layout.astro";
       </p>
       <div class="cta-row">
         <a href="#work" class="btn-primary">View Work</a>
-        <a href="/resume.pdf" class="btn-ghost" download>Download Resume</a>      
+        <a href="/resume.pdf" class="btn-ghost" download>Download Resume</a>
       </div>
 
       <!-- Social Icons -->
@@ -252,7 +256,6 @@ import Layout from "../layouts/Layout.astro";
   <section class="section" id="skills">
     <p class="section-label">Skills & Stack</p>
     <div class="skills-grid">
-
       <div class="skill-group">
         <p class="skill-group-title font-mono">Languages</p>
         <div class="skill-tags">
@@ -285,7 +288,6 @@ import Layout from "../layouts/Layout.astro";
           <span class="tag">TFLite</span>
         </div>
       </div>
-
     </div>
   </section>
 
@@ -293,19 +295,27 @@ import Layout from "../layouts/Layout.astro";
   <section class="section" id="experience">
     <p class="section-label">Experience</p>
     <div class="timeline">
-
       <div class="timeline-item">
         <div class="timeline-left">
-          <img src="/images/logoGLIL.png" alt="Guardian Life Insurance" class="timeline-logo" />
+          <img
+            src="/images/logoGLIL.png"
+            loading="lazy"
+            alt="Guardian Life Insurance"
+            class="timeline-logo"
+          />
           <p class="timeline-date font-mono">May 2026 — Present</p>
         </div>
         <div class="timeline-right">
           <h3 class="timeline-title font-display">IT Intern</h3>
-          <p class="timeline-company accent-purple">Guardian Life Insurance Ltd</p>
-          <p class="timeline-desc">Rebuilding existing platforms with new technologies such as NextJS and React with comprehensive testing.</p>
+          <p class="timeline-company accent-purple">
+            Guardian Life Insurance Ltd
+          </p>
+          <p class="timeline-desc">
+            Rebuilding existing platforms with new technologies such as NextJS
+            and React with comprehensive testing.
+          </p>
         </div>
       </div>
-
     </div>
   </section>
 
@@ -313,19 +323,27 @@ import Layout from "../layouts/Layout.astro";
   <section class="section" id="education">
     <p class="section-label">Education</p>
     <div class="timeline">
-
       <div class="timeline-item">
         <div class="timeline-left">
-          <img src="/images/logoNSU.png" alt="North South University" class="timeline-logo" />
+          <img
+            src="/images/logoNSU.png"
+            loading="lazy"
+            alt="North South University"
+            class="timeline-logo"
+          />
           <p class="timeline-date font-mono">Oct 2021 — Dec 2025</p>
         </div>
         <div class="timeline-right">
           <h3 class="timeline-title font-display">BSc in Computer Science</h3>
-          <p class="timeline-company accent-purple">North South University, Dhaka</p>
-          <p class="timeline-desc">Focused on machine learning, federated learning, and multi-task deep learning.</p>
+          <p class="timeline-company accent-purple">
+            North South University, Dhaka
+          </p>
+          <p class="timeline-desc">
+            Focused on machine learning, federated learning, and multi-task deep
+            learning.
+          </p>
         </div>
       </div>
-
     </div>
   </section>
 
@@ -371,7 +389,12 @@ import Layout from "../layouts/Layout.astro";
         <br />PS: I also have <span class="accent-purple">two lovely cats.</span
         > Here's a picture of them.
       </p>
-      <img src="/images/cats.jpg" alt="My two cats" class="cat-img" />
+      <img
+        src="/images/cats.jpg"
+        loading="lazy"
+        alt="My two cats"
+        class="cat-img"
+      />
     </div>
   </section>
 
@@ -381,7 +404,8 @@ import Layout from "../layouts/Layout.astro";
     <div class="contact-grid">
       <div class="contact-left">
         <h2 class="contact-heading font-display">
-          Let's build<br /><span class="name-glow">The Future.</span>
+          <span class="contact-glow1"> Let's build </span>
+          <br /><span class="contact-glow2">The Future.</span>
         </h2>
         <p class="contact-sub">
           I'd love to get in contact for any job/business opportunity.
@@ -498,6 +522,7 @@ import Layout from "../layouts/Layout.astro";
             placeholder="your@email.com"
             required
           />
+          <input type="checkbox" name="botcheck" style="display:none" />
         </div>
         <div class="form-group">
           <label class="form-label font-mono" for="message">Message</label>
@@ -542,11 +567,153 @@ import Layout from "../layouts/Layout.astro";
       </script>
     </div>
   </section>
+  <script>
+    // ── Scroll Progress Bar ──
+    const progressBar = document.createElement("div");
+    progressBar.id = "progress-bar";
+    document.body.appendChild(progressBar);
 
+    // ── Back to Top Button ──
+    const backToTop = document.createElement("button");
+    backToTop.id = "back-to-top";
+    backToTop.innerHTML = "↑";
+    backToTop.setAttribute("aria-label", "Back to top");
+    document.body.appendChild(backToTop);
+
+    backToTop.addEventListener("click", () =>
+      window.scrollTo({ top: 0, behavior: "smooth" }),
+    );
+
+    // Monitor scrolling for progress bar and back-to-top visibility
+    window.addEventListener("scroll", () => {
+      const scrollTop = window.scrollY;
+      const docHeight =
+        document.documentElement.scrollHeight - window.innerHeight;
+      const progress = (scrollTop / docHeight) * 100;
+      progressBar.style.width = `${progress}%`;
+      progressBar.style.boxShadow =
+        progress > 95 ? "0 0 12px #0fd28c, 0 0 24px #6b21d4" : "none";
+
+      backToTop.style.opacity = scrollTop > 300 ? "1" : "0";
+      backToTop.style.pointerEvents = scrollTop > 300 ? "auto" : "none";
+    });
+
+    // ── Active Nav Highlighting ──
+    const sections = document.querySelectorAll("section[id]");
+    const navLinks = document.querySelectorAll('.nav-links a[href^="#"]');
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            navLinks.forEach((link) => {
+              link.classList.remove("active");
+              if (link.getAttribute("href") === `#${entry.target.id}`) {
+                link.classList.add("active");
+              }
+            });
+          }
+        });
+      },
+      { threshold: 0.3 },
+    );
+
+    sections.forEach((section) => observer.observe(section));
+
+    // ── Scroll Animations ──
+    const fadeEls = document.querySelectorAll(".section");
+    const fadeObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+            fadeObserver.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.1 },
+    );
+
+    fadeEls.forEach((el) => fadeObserver.observe(el));
+
+    // ── Custom Glitch Cursor Setup ──
+    const cursor = document.createElement("div");
+    cursor.id = "cursor";
+    const cursorDot = document.createElement("div");
+    cursorDot.id = "cursor-dot";
+    document.body.appendChild(cursor);
+    document.body.appendChild(cursorDot);
+
+    let mouseX = 0,
+      mouseY = 0;
+    let cursorX = 0,
+      cursorY = 0;
+
+    window.addEventListener("mousemove", (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      cursorDot.style.transform = `translate(${mouseX}px, ${mouseY}px)`;
+      if (Math.random() > 0.85) {
+        const glitchX = mouseX + (Math.random() - 0.5) * 10;
+        cursor.style.borderColor = Math.random() > 0.5 ? "#6b21d4" : "#0fd28c";
+        cursor.style.transform = `translate(${glitchX}px, ${mouseY}px)`;
+        setTimeout(() => {
+          cursor.style.borderColor = "#0fd28c";
+        }, 80);
+      }
+    });
+
+    document.addEventListener("mousedown", () => {
+      cursor.style.transform = `translate(${cursorX + (Math.random() - 0.5) * 10}px, ${cursorY + (Math.random() - 0.5) * 10}px)`;
+      cursor.style.borderColor = "#6b21d4";
+      cursor.style.boxShadow = "0 0 16px rgba(107,33,212,0.9)";
+      setTimeout(() => {
+        cursor.style.borderColor = "#0fd28c";
+        cursor.style.boxShadow = "0 0 6px rgba(15,210,140,0.3)";
+      }, 150);
+    });
+
+    // Trail
+    const trail = [];
+    for (let i = 0; i < 8; i++) {
+      const sq = document.createElement("div");
+      sq.style.cssText = `position:fixed;pointer-events:none;z-index:99990;border:1px solid #0fd28c;width:${6 + i * 3}px;height:${6 + i * 3}px;opacity:0;will-change:transform;margin-left:-${3 + i * 1.5}px;margin-top:-${3 + i * 1.5}px;`;
+      document.body.appendChild(sq);
+      trail.push({ el: sq, x: 0, y: 0 });
+    }
+
+    function animateCursor() {
+      cursorX += (mouseX - cursorX) * 0.12;
+      cursorY += (mouseY - cursorY) * 0.12;
+      cursor.style.transform = `translate(${cursorX}px, ${cursorY}px)`;
+
+      trail[0].x = mouseX;
+      trail[0].y = mouseY;
+      for (let i = 1; i < 8; i++) {
+        trail[i].x += (trail[i - 1].x - trail[i].x) * 0.35;
+        trail[i].y += (trail[i - 1].y - trail[i].y) * 0.35;
+      }
+      trail.forEach((t, i) => {
+        t.el.style.transform = `translate(${t.x}px,${t.y}px)`;
+        t.el.style.opacity = (((8 - i) / 8) * 0.25).toFixed(2);
+      });
+
+      requestAnimationFrame(animateCursor);
+    }
+    animateCursor();
+
+    // Hover effect on links/buttons for the custom cursor
+    document.querySelectorAll("a, button").forEach((el) => {
+      el.addEventListener("mouseenter", () =>
+        cursor.classList.add("cursor-hover"),
+      );
+      el.addEventListener("mouseleave", () =>
+        cursor.classList.remove("cursor-hover"),
+      );
+    });
+  </script>
   <!-- FOOTER -->
   <footer>
     <p class="footer-copy font-mono">© 2026 Akif Zahin</p>
   </footer>
 </Layout>
-
-

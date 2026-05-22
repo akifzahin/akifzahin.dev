@@ -1,4 +1,6 @@
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -49,13 +51,11 @@ body::after {
   content: '';
   position: fixed;
   inset: 0;
-  background: repeating-linear-gradient(
-    0deg,
-    transparent,
-    transparent 2px,
-    rgba(0, 0, 0, 0.06) 2px,
-    rgba(0, 0, 0, 0.06) 4px
-  );
+  background: repeating-linear-gradient(0deg,
+      transparent,
+      transparent 2px,
+      rgba(0, 0, 0, 0.06) 2px,
+      rgba(0, 0, 0, 0.06) 4px);
   pointer-events: none;
   z-index: 1;
 }
@@ -178,7 +178,7 @@ nav {
 
 .nav-links a {
   font-family: 'Share Tech Mono', monospace;
-  font-size: 0.79rem;
+  font-size: 0.75rem;
   color: #888;
   letter-spacing: 0.15em;
   text-transform: uppercase;
@@ -200,12 +200,10 @@ nav {
   padding: 4rem 3rem;
   overflow: hidden;
   background:
-    linear-gradient(
-      135deg,
+    linear-gradient(135deg,
       rgba(10, 0, 16, 0.88) 0%,
       rgba(60, 0, 100, 0.82) 60%,
-      rgba(10, 0, 16, 0.92) 100%
-    ),
+      rgba(10, 0, 16, 0.92) 100%),
     url('/images/background.jpg') center/cover no-repeat;
 }
 
@@ -221,7 +219,12 @@ nav {
   letter-spacing: 0.3em;
   text-transform: uppercase;
   margin-bottom: 1.5rem;
-  opacity: 0.8;
+  overflow: hidden;
+  white-space: nowrap;
+  border-right: 2px solid #0fd28c;
+  width: 0;
+  opacity: 0;
+  animation: fadeUp 0.6s ease 0.2s forwards, typing 5.5s steps(40) 0.8s infinite, blink 0.8s step-end infinite;
 }
 
 .hero-name {
@@ -233,14 +236,17 @@ nav {
 
 .name-outline {
   display: block;
-  color: transparent;
-  -webkit-text-stroke: 2px #6b21d4;
+  color: rgba(244, 11, 244, 0.877);
+  text-shadow: 0 0 10px rgba(244, 11, 244, 0.9),
+    0 0 40px rgba(244, 11, 244, 0.6);
 }
 
 .name-glow {
   display: block;
-  color: #0fd28c;
-  text-shadow: 0 0 60px rgba(15, 210, 140, 0.35);
+  color: #30efa9;
+  text-shadow: 0 0 10px rgba(15, 210, 140, 0.9),
+    0 0 40px rgba(15, 210, 140, 0.6);
+
 }
 
 .hero-sub {
@@ -535,7 +541,7 @@ nav {
 .timeline-company {
   font-size: 0.9rem;
   margin-bottom: 0.75rem;
-  
+
 }
 
 .timeline-desc {
@@ -559,7 +565,7 @@ nav {
   text-transform: uppercase;
   line-height: 1;
   margin-bottom: 1rem;
-  color: #fff;
+
 }
 
 .contact-sub {
@@ -676,13 +682,432 @@ nav {
   padding-top: 8rem;
 }
 
+/* Progress Bar */
+#progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 2px;
+  width: 0%;
+  background: linear-gradient(90deg, #0fd28c, #6b21d4);
+  z-index: 9999;
+  transition: width 0.1s linear;
+}
+
+/* Back to Top */
+#back-to-top {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  width: 40px;
+  height: 40px;
+  background: transparent;
+  border: 1px solid #0fd28c;
+  color: #0fd28c;
+  font-size: 1.2rem;
+  cursor: crosshair;
+  z-index: 999;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s, box-shadow 0.2s;
+}
+
+#back-to-top:hover {
+  box-shadow: 0 0 16px rgba(15, 210, 140, 0.4);
+}
+
+/* Active Nav Link */
+.nav-links a.active {
+  color: #0fd28c;
+}
+
+/* Scroll Animations */
+.section {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.section.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Cursor Canvas */
+#cursor-canvas {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9998;
+}
+
+/* Typing Animation */
+
+
+@keyframes typing {
+  from {
+    width: 0;
+  }
+
+  to {
+    width: 100%;
+  }
+}
+
+@keyframes blink {
+  50% {
+    border-color: transparent;
+  }
+}
+
+/* Glitch Effect */
+.name-glow,
+.name-outline,
+.contact-glow1,
+.contact-glow2 {
+  position: relative;
+}
+
+.name-glow::before,
+.name-glow::after {
+  content: 'ZAHIN';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.name-outline::before,
+.name-outline::after {
+  content: 'AKIF';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+
+
+/* 1. Make the spans block/inline-block and relative anchors for the absolute text layers */
+.contact-glow1,
+.contact-glow2 {
+  position: relative;
+  display: inline-block;
+}
+
+/* 2. Set the base colors for the main font layer */
+.contact-glow1 {
+  color: rgba(244, 11, 244, 0.877);
+  /* 1st shadow: bright inner core | 2nd shadow: wide outer atmosphere */
+  text-shadow: 0 0 10px rgba(244, 11, 244, 0.9),
+    0 0 40px rgba(244, 11, 244, 0.6);
+}
+
+.contact-glow2 {
+  color: #30efa9;
+  text-shadow: 0 0 10px rgba(15, 210, 140, 0.9),
+    0 0 40px rgba(15, 210, 140, 0.6);
+}
+
+/* Keep your pseudo-elements sharp and perfectly overlapping */
+.contact-glow1::before,
+.contact-glow1::after,
+.contact-glow2::before,
+.contact-glow2::after {
+  /* Match 'Let's build' explicitly (added the straight quote to match your HTML exactly) */
+  content: "Let's build";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+}
+
+/* Ensure the second line's pseudo-elements mirror its unique text string */
+.contact-glow2::before,
+.contact-glow2::after {
+  content: 'The Future.';
+}
+
+.contact-glow1::before,
+.contact-glow2::before {
+  color: #6b21d4;
+  /* Glitch layer color 1 */
+  animation: glitch1 3s steps(1) infinite;
+  clip-path: polygon(0 20%, 100% 20%, 100% 40%, 0 40%);
+}
+
+.contact-glow1::after,
+.contact-glow2::after {
+  color: #0fd28c;
+  /* Glitch layer color 2 */
+  animation: glitch2 3s steps(1) infinite;
+  clip-path: polygon(0 60%, 100% 60%, 100% 80%, 0 80%);
+  opacity: 0.7;
+}
+
+.name-outline::before {
+  color: rgba(244, 11, 244, 0.877);
+  animation: glitch1 3s steps(1) infinite;
+  clip-path: polygon(0 20%, 100% 20%, 100% 40%, 0 40%);
+}
+
+.name-outline::after {
+  color: #0fd28c;
+  animation: glitch2 3s steps(1) infinite;
+  clip-path: polygon(0 60%, 100% 60%, 100% 80%, 0 80%);
+  opacity: 0.7;
+}
+
+.name-glow::before {
+  color: rgba(244, 11, 244, 0.877);
+  animation: glitch1 3s steps(1) infinite;
+  clip-path: polygon(0 20%, 100% 20%, 100% 40%, 0 40%);
+}
+
+.name-glow::after {
+  color: #0fd28c;
+  animation: glitch2 3s steps(1) infinite;
+  clip-path: polygon(0 60%, 100% 60%, 100% 80%, 0 80%);
+  opacity: 0.7;
+}
+
+@keyframes glitch1 {
+
+  /* Rest phase expanded from 50% to 75% for a snappier arrival */
+  0%,
+  75%,
+  100% {
+    transform: translate(0);
+    opacity: 0;
+  }
+
+  /* Twitch 1: Snaps out and only holds for 3% of the timeline */
+  76%,
+  79% {
+    transform: translate(-5px, 2px);
+    opacity: 1;
+  }
+
+  /* Twitch 2: Quickly jumps to position 2 and holds for 5% of the timeline */
+  80%,
+  85% {
+    transform: translate(5px, -1px);
+    opacity: 1;
+  }
+
+  /* Cuts off cleanly */
+  86% {
+    transform: translate(0);
+    opacity: 0;
+  }
+}
+
+@keyframes glitch2 {
+
+  /* Rest phase expanded to 78% */
+  0%,
+  78%,
+  100% {
+    transform: translate(0);
+    opacity: 0;
+  }
+
+  /* Twitch 1: Short, sharp color pop */
+  79%,
+  82% {
+    transform: translate(4px, 1px);
+    opacity: 1;
+  }
+
+  /* Twitch 2: Counter-displacement shift */
+  83%,
+  88% {
+    transform: translate(-3px, -2px);
+    opacity: 1;
+  }
+
+  /* Cuts off cleanly */
+  89% {
+    transform: translate(0);
+    opacity: 0;
+  }
+}
+
+/* Hide default cursor on the page and all interactive elements */
+body,
+a,
+button,
+input,
+select,
+textarea {
+  cursor: none !important;
+}
+
+#cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 32px;
+  height: 32px;
+  border: 1px solid #0fd28c;
+  border-radius: 0;
+  pointer-events: none;
+  z-index: 99999;
+  margin-left: -16px;
+  margin-top: -16px;
+  /* Explicitly list exactly what transitions to avoid overriding the JS glitch transforms */
+  transition: border-color 0.1s ease, width 0.2s ease, height 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 0 6px rgba(15, 210, 140, 0.3);
+  /* Hint to the browser that this element moves constantly for better rendering hardware acceleration */
+  will-change: transform;
+}
+
+#cursor.cursor-hover {
+  width: 48px;
+  height: 48px;
+  margin-left: -24px;
+  margin-top: -24px;
+
+  border-color: #6b21d4;
+  box-shadow: 0 0 12px rgba(107, 33, 212, 0.9);
+}
+
+#cursor-dot {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 4px;
+  background: #0fd28c;
+  pointer-events: none;
+  z-index: 99999;
+  margin-left: -2px;
+  margin-top: -2px;
+  box-shadow: 0 0 6px #0fd28c;
+  will-change: transform;
+}
+
+@keyframes typing {
+  0% {
+    width: 0;
+  }
+
+  45% {
+    width: 100%;
+  }
+
+  70% {
+    width: 100%;
+  }
+
+  99% {
+    width: 0;
+  }
+
+  100% {
+    width: 0;
+  }
+}
+
+
+.hero-name {
+  opacity: 0;
+  animation: fadeUp 0.6s ease 0.6s forwards;
+}
+
+.hero-sub {
+  opacity: 0;
+  animation: fadeUp 0.6s ease 1s forwards;
+}
+
+.cta-row {
+  opacity: 0;
+  animation: fadeUp 0.6s ease 1.3s forwards;
+}
+
+.social-row {
+  opacity: 0;
+  animation: fadeUp 0.6s ease 1.5s forwards;
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.project-card {
+  position: relative;
+}
+
+.project-card::before,
+.project-card::after {
+  content: '';
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.project-card::before {
+  top: 8px;
+  left: 8px;
+  border-top: 1px solid #0fd28c;
+  border-left: 1px solid #0fd28c;
+}
+
+.project-card::after {
+  bottom: 8px;
+  right: 8px;
+  border-bottom: 1px solid #0fd28c;
+  border-right: 1px solid #0fd28c;
+}
+
+.project-card:hover::before,
+.project-card:hover::after {
+  opacity: 1;
+}
+
 /* RESPONSIVE */
+/* ==========================================================================
+   ── RESPONSIVE MEDIA TARGET (768px BLOCKS AND SMALLER) ──
+   ========================================================================== */
 @media (max-width: 768px) {
+
+  /* Prevent overall layout system leaks across mobile screens */
+  html,
+  body {
+    overflow-x: hidden;
+    max-width: 100%;
+  }
+
+  /* Navigation Optimization */
   nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
     padding: 1rem 1.5rem;
     flex-wrap: wrap;
     gap: 1rem;
     justify-content: center;
+  }
+
+  nav {
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+    background: rgba(10, 0, 16, 0.97) !important;
   }
 
   .logo {
@@ -695,31 +1120,49 @@ nav {
     flex-wrap: wrap;
     font-size: 0.65rem;
     justify-content: center;
+    padding-left: 0;
   }
 
+  /* Hero Section Restructuring */
   .hero {
     flex-direction: column;
-    padding: 3rem 1.5rem;
+    padding: 10rem 1.5rem 3rem 1.5rem;
+    /* Includes navigation safety pad */
     min-height: auto;
     gap: 3rem;
     align-items: flex-start;
   }
 
+  .hero-content {
+    max-width: 100%;
+  }
+
+  .cta-row {
+    flex-wrap: wrap;
+  }
+
+  /* Profile Frame Reset (Fixes Profile Image Leak) */
   .hero-profile {
     padding-left: 0;
     align-items: flex-start;
     align-self: flex-start;
     margin-top: 0;
-    width: auto;
+    /* Fully cancels out desktop negative tracking overlap */
+    width: 100%;
   }
 
   .profile-frame {
-    width: 200px;
-    height: 220px;
+    max-width: 100%;
+    /* Keeps frame from expanding outside phone viewports */
+    width: 260px;
+    /* Adjusted to match mobile proportions cleanly */
+    height: 260px;
   }
 
   .cat-img {
-    width: 60%;
+    width: 100%;
+    /* Allows image to fill the grid module naturally */
+    max-width: 320px;
     height: auto;
   }
 
@@ -727,42 +1170,67 @@ nav {
     display: none;
   }
 
+  /* Cyberpunk Glitch Typography Mobile Wrapping Insurance */
+  .name-glow,
+  .name-outline,
+  .contact-glow1,
+  .contact-glow2 {
+    display: block;
+    /* Changes inline-blocks to text blocks so they fold */
+    word-break: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+    /* Permits the line to wrap naturally down if too wide */
+  }
+
+  /* Layout Grids */
   .section {
     padding: 3rem 1.5rem;
   }
 
-  .about-grid {
-    grid-template-columns: 1fr;
-    gap: 2rem;
-  }
-
-  .timeline-item {
-    grid-template-columns: 1fr;
-    gap: 0.5rem;
-  }
-
+  .about-grid,
+  .timeline-item,
   .contact-grid {
     grid-template-columns: 1fr;
     gap: 2rem;
   }
 
+  .timeline-item {
+    gap: 0.5rem;
+  }
+
+  /* Footer Layout Modification */
   footer {
     padding: 1.5rem;
     flex-direction: column;
     gap: 1rem;
-  }
-    nav {
-    padding: 1rem 1.5rem;
-    flex-wrap: wrap;
-    gap: 1rem;
-    justify-content: center;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
+    text-align: center;
   }
 
-  .hero {
-    padding-top: 10rem;
+  .footer-links {
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .hero-eyebrow {
+    font-size: clamp(0.68rem, 2.8vw, 0.85rem) !important;
+    letter-spacing: 0.06em !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    border-right: 2px solid #0fd28c !important;
+    opacity: 0;
+    width: 0;
+    animation: fadeUp 0.6s ease 0.2s forwards, typing 7.5s steps(38) 0.8s infinite, blink 0.8s step-end infinite !important;
+  }
+
+  @keyframes mobileTyping {
+    from {
+      width: 0;
+    }
+
+    to {
+      width: 38ch;
+    }
   }
 }
