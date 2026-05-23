@@ -493,7 +493,7 @@ import Layout from "../layouts/Layout.astro";
         <input
           type="hidden"
           name="access_key"
-          value="9639b915-15ef-49cb-b06d-fa51f8f30ae7"
+          value="9639b915-15ef-49cb-b0F6d-fa51f8f30ae7"
         />
         <input
           type="hidden"
@@ -702,6 +702,8 @@ import Layout from "../layouts/Layout.astro";
       trail.forEach((t, i) => {
         t.el.style.transform = `translate(${t.x}px,${t.y}px)`;
         t.el.style.opacity = (((8 - i) / 8) * 0.25).toFixed(2);
+        // cycle green → purple based on position in trail
+        t.el.style.borderColor = i < 4 ? "#6b21d4" : "#0fd28c";
       });
 
       requestAnimationFrame(animateCursor);
@@ -716,6 +718,41 @@ import Layout from "../layouts/Layout.astro";
       el.addEventListener("mouseleave", () =>
         cursor.classList.remove("cursor-hover"),
       );
+    });
+    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%";
+
+    document.querySelectorAll(".nav-links a").forEach((link) => {
+      const original = link.textContent.trim();
+      let interval;
+
+      const scramble = () => {
+        let iterations = 0;
+        clearInterval(interval);
+        interval = setInterval(() => {
+          link.textContent = original
+            .split("")
+            .map((char, i) => {
+              if (char === " ") return " ";
+              if (i < iterations) return original[i];
+              return chars[Math.floor(Math.random() * chars.length)];
+            })
+            .join("");
+          iterations += 0.5;
+          if (iterations >= original.length) {
+            clearInterval(interval);
+            link.textContent = original;
+          }
+        }, 40);
+      };
+
+      const reset = () => {
+        clearInterval(interval);
+        link.textContent = original;
+      };
+
+      link.addEventListener("mouseenter", scramble);
+      link.addEventListener("mouseleave", reset);
+      link.addEventListener("touchstart", scramble, { passive: true });
     });
   </script>
   <!-- FOOTER -->
