@@ -991,6 +991,11 @@ textarea {
   will-change: transform;
 }
 
+#cursor,
+#cursor-dot {
+  display: none !important;
+}
+
 @keyframes typing {
   0% {
     width: 0;
