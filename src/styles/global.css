@@ -991,10 +991,6 @@ textarea {
   will-change: transform;
 }
 
-#cursor,
-#cursor-dot {
-  display: none !important;
-}
 
 @keyframes typing {
   0% {
@@ -1108,6 +1104,12 @@ textarea {
     gap: 1rem;
     justify-content: center;
   }
+
+  #cursor,
+  #cursor-dot {
+    display: none !important;
+  }
+
 
   nav {
     -webkit-backdrop-filter: none !important;
