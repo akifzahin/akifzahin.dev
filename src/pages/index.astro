@@ -4,7 +4,9 @@ import Layout from "../layouts/Layout.astro";
 
 <Layout title="Akif Zahin">
   <nav>
-    <a href="#" class="logo font-display">AZ</a>
+    <a href="#" class="logo font-display">
+      <span class="logo-a">A</span><span class="logo-z">Z</span>
+    </a>
     <ul class="nav-links">
       <li><a href="#work">Work</a></li>
       <li><a href="#skills">Skills</a></li>
@@ -493,7 +495,7 @@ import Layout from "../layouts/Layout.astro";
         <input
           type="hidden"
           name="access_key"
-          value="9639b915-15ef-49cb-b0F6d-fa51f8f30ae7"
+          value="9639b915-15ef-49cb-b06d-fa51f8f30ae7"
         />
         <input
           type="hidden"
@@ -602,20 +604,50 @@ import Layout from "../layouts/Layout.astro";
     const sections = document.querySelectorAll("section[id]");
     const navLinks = document.querySelectorAll('.nav-links a[href^="#"]');
 
+    function clearActiveLinks() {
+      navLinks.forEach((link) => link.classList.remove("active"));
+    }
+
     const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            navLinks.forEach((link) => {
-              link.classList.remove("active");
-              if (link.getAttribute("href") === `#${entry.target.id}`) {
-                link.classList.add("active");
-              }
-            });
+      () => {
+        // Don't highlight anything at the top
+        if (window.scrollY < 50) {
+          clearActiveLinks();
+          return;
+        }
+
+        let currentSection = null;
+        let maxVisibility = 0;
+
+        sections.forEach((section) => {
+          const rect = section.getBoundingClientRect();
+
+          const visibleHeight =
+            Math.min(rect.bottom, window.innerHeight) - Math.max(rect.top, 0);
+
+          const visibilityRatio = visibleHeight / rect.height;
+
+          if (visibilityRatio > maxVisibility && visibilityRatio > 0) {
+            maxVisibility = visibilityRatio;
+            currentSection = section;
           }
         });
+
+        clearActiveLinks();
+
+        if (currentSection) {
+          const activeLink = document.querySelector(
+            `.nav-links a[href="#${currentSection.id}"]`,
+          );
+
+          if (activeLink) {
+            activeLink.classList.add("active");
+          }
+        }
       },
-      { threshold: 0.3 },
+      {
+        threshold: [0, 0.25, 0.5, 0.75, 1],
+      },
     );
 
     sections.forEach((section) => observer.observe(section));
@@ -702,8 +734,6 @@ import Layout from "../layouts/Layout.astro";
       trail.forEach((t, i) => {
         t.el.style.transform = `translate(${t.x}px,${t.y}px)`;
         t.el.style.opacity = (((8 - i) / 8) * 0.25).toFixed(2);
-        // cycle green → purple based on position in trail
-        t.el.style.borderColor = i < 4 ? "#6b21d4" : "#0fd28c";
       });
 
       requestAnimationFrame(animateCursor);
@@ -728,6 +758,7 @@ import Layout from "../layouts/Layout.astro";
       const scramble = () => {
         let iterations = 0;
         clearInterval(interval);
+
         interval = setInterval(() => {
           link.textContent = original
             .split("")
@@ -737,12 +768,17 @@ import Layout from "../layouts/Layout.astro";
               return chars[Math.floor(Math.random() * chars.length)];
             })
             .join("");
+
+          // 1. REVEAL SPEED: Lowering this from 0.5 to 0.25 makes the
+          // letters lock into place twice as slow.
           iterations += 0.5;
+
           if (iterations >= original.length) {
             clearInterval(interval);
             link.textContent = original;
           }
-        }, 40);
+        }, 55); // 2. FLASH SPEED: Changing this from 40 to 60 (milliseconds)
+        // makes the random characters swap less aggressively.
       };
 
       const reset = () => {

@@ -1,18 +1,21 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
-  <defs>
-    <style>
-      @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono');
-      @keyframes g1 { 0%,80%,100%{clip-path:none;transform:translate(0)} 81%,84%{clip-path:polygon(0 20%,100% 20%,100% 45%,0 45%);transform:translate(-1px,0)} 85%,90%{clip-path:polygon(0 55%,100% 55%,100% 75%,0 75%);transform:translate(1px,0)} }
-      @keyframes g2 { 0%,82%,100%{opacity:0} 83%,88%{clip-path:polygon(0 30%,100% 30%,100% 55%,0 55%);transform:translate(1px,0);opacity:0.7} }
-      .a  { font: 700 18px 'Share Tech Mono'; fill: #f40bf4; }
-      .z  { font: 700 18px 'Share Tech Mono'; fill: #0fd28c; }
-      .g1 { font: 700 18px 'Share Tech Mono'; fill: #6b21d4; animation: g1 3s steps(1) infinite; }
-      .g2 { font: 700 18px 'Share Tech Mono'; fill: #0fd28c; animation: g2 3s steps(1) infinite; }
-    </style>
-  </defs>
-  <rect width="32" height="32" fill="#0a0010"/>
-  <text class="g1" x="2" y="22">AZ</text>
-  <text class="g2" x="2" y="22">AZ</text>
-  <text class="a"  x="2" y="22">A</text>
-  <text class="z"  x="17" y="22">Z</text>
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 36 32">
+  <style>
+    @keyframes flickerA {
+      0%,89%,100%{fill:#f40bf4;transform:translate(0)}
+      90%,92%{fill:#0fd28c;transform:translate(-1px,0)}
+      93%,95%{fill:#6b21d4;transform:translate(1px,0)}
+      96%{fill:#f40bf4;transform:translate(0)}
+    }
+    @keyframes flickerZ {
+      0%,84%,100%{fill:#0fd28c;transform:translate(0)}
+      85%,87%{fill:#f40bf4;transform:translate(1px,0)}
+      88%,90%{fill:#6b21d4;transform:translate(-1px,0)}
+      91%{fill:#0fd28c;transform:translate(0)}
+    }
+    .fa{animation:flickerA 3s steps(1) infinite}
+    .fz{animation:flickerZ 3s steps(1) infinite}
+  </style>
+  <rect width="36" height="32" fill="transparent"/>
+  <path class="fa" fill="#f40bf4" d="M3,28 L3,14 L5,8 L13,8 L15,14 L15,28 L12,28 L12,20 L6,20 L6,28 Z M6,17 L12,17 L12,14 L10,11 L8,11 L6,14 Z"/>
+  <path class="fz" fill="#0fd28c" d="M19,8 L33,8 L33,11 L23,25 L33,25 L33,28 L19,28 L19,25 L29,11 L19,11 Z"/>
 </svg>
