@@ -1,3 +1,6 @@
+/* ==========================================================================
+   RESET & ROOT
+   ========================================================================== */
 *,
 *::before,
 *::after {
@@ -23,6 +26,15 @@ html {
   scroll-behavior: smooth;
 }
 
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+
+/* ==========================================================================
+   BODY & BACKGROUND FX
+   ========================================================================== */
 body {
   background: var(--bg);
   color: var(--text);
@@ -33,7 +45,7 @@ body {
   cursor: crosshair;
 }
 
-/* Grid background */
+/* Grid overlay */
 body::before {
   content: '';
   position: fixed;
@@ -44,6 +56,7 @@ body::before {
   background-size: 40px 40px;
   pointer-events: none;
   z-index: 0;
+  animation: gridDrift 20s linear infinite;
 }
 
 /* Scanlines */
@@ -60,12 +73,20 @@ body::after {
   z-index: 1;
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
+/* Hide default cursor */
+body,
+a,
+button,
+input,
+select,
+textarea {
+  cursor: none !important;
 }
 
-/* Typography */
+
+/* ==========================================================================
+   TYPOGRAPHY HELPERS
+   ========================================================================== */
 .font-mono {
   font-family: 'Share Tech Mono', monospace;
 }
@@ -74,91 +95,24 @@ a {
   font-family: 'Orbitron', sans-serif;
 }
 
-/* Section label */
-.section-label {
-  font-family: 'Share Tech Mono', monospace;
-  font-size: 0.9rem;
-  color: var(--green);
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  margin-bottom: 3rem;
-  text-shadow: 0 0 2px var(--green);
-  opacity: 0.7;
-}
 
-.section-label::before {
-  content: '// ';
-  opacity: 0.5;
-}
-
-/* Buttons */
-.btn-primary {
-  font-family: 'Share Tech Mono', monospace;
-  font-size: 0.9rem;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  padding: 0.75rem 1.1rem;
-  background: transparent;
-  border: 1px solid var(--green);
-  color: var(--green);
-  cursor: crosshair;
-  transition: all 0.2s;
-  display: inline-block;
-}
-
-.btn-primary:hover {
-  background: var(--green-dim);
-  box-shadow: 0 0 20px var(--green);
-}
-
-.btn-ghost {
-  font-family: 'Share Tech Mono', monospace;
-  font-size: 0.9rem;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  padding: 0.75rem 1.1rem;
-  background: transparent;
-  border: 1px solid var(--purple-light);
-  color: var(--purple-light);
-  cursor: crosshair;
-  transition: all 0.2s;
-  display: inline-block;
-}
-
-.btn-ghost:hover {
-  background: var(--purple-dim);
-  box-shadow: 0 0 20px var(--purple);
-}
-
-/* Tags */
-.tag {
-  font-family: 'Share Tech Mono', monospace;
-  font-size: 0.8rem;
-  letter-spacing: 0.1em;
-  padding: 0.2rem 0.6rem;
-  border: 1px solid rgba(107, 33, 212, 0.4);
-  color: #9d59f5;
-}
-
-/* Cat image */
-.cat-img {
-  width: 400px;
-  height: auto;
-  object-fit: fill;
-  clip-path: polygon(10% 0%, 100% 0%, 100% 90%, 90% 100%, 0% 100%, 0% 10%);
-  filter: grayscale(20%) contrast(1.1);
-  border: 1px solid rgba(15, 210, 140, 0.2);
-}
-
-/* NAV */
+/* ==========================================================================
+   NAVIGATION
+   ========================================================================== */
 nav {
-  position: relative;
-  z-index: 10;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 1.5rem 3rem;
+  background: rgba(10, 0, 16, 0.9);
   border-bottom: 1px solid rgba(15, 210, 140, 0.15);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
 }
 
 .logo {
@@ -178,18 +132,22 @@ nav {
 
 .nav-links a {
   font-family: 'Share Tech Mono', monospace;
-  font-size: 0.75rem;
+  font-size: 0.9rem;
   color: #888;
   letter-spacing: 0.15em;
   text-transform: uppercase;
   transition: color 0.2s;
 }
 
-.nav-links a:hover {
+.nav-links a:hover,
+.nav-links a.active {
   color: #0fd28c;
 }
 
-/* HERO */
+
+/* ==========================================================================
+   HERO
+   ========================================================================== */
 .hero {
   position: relative;
   z-index: 5;
@@ -197,7 +155,7 @@ nav {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 4rem 3rem;
+  padding: 8rem 3rem 4rem;
   overflow: hidden;
   background:
     linear-gradient(135deg,
@@ -224,7 +182,10 @@ nav {
   border-right: 2px solid #0fd28c;
   width: 0;
   opacity: 0;
-  animation: fadeUp 0.6s ease 0.2s forwards, typing 5.5s steps(40) 0.8s infinite, blink 0.8s step-end infinite;
+  animation:
+    fadeUp 0.6s ease 0.2s forwards,
+    typing 5.5s steps(40) 0.8s infinite,
+    blink 0.8s step-end infinite;
 }
 
 .hero-name {
@@ -232,21 +193,20 @@ nav {
   line-height: 0.9;
   text-transform: uppercase;
   letter-spacing: -0.02em;
+  opacity: 0;
+  animation: fadeUp 0.6s ease 0.6s forwards;
 }
 
 .name-outline {
   display: block;
   color: rgba(244, 11, 244, 0.877);
-  text-shadow: 0 0 10px rgba(244, 11, 244, 0.9),
-    0 0 40px rgba(244, 11, 244, 0.6);
+  text-shadow: 0 0 10px rgba(244, 11, 244, 0.9), 0 0 40px rgba(244, 11, 244, 0.6);
 }
 
 .name-glow {
   display: block;
   color: #30efa9;
-  text-shadow: 0 0 10px rgba(15, 210, 140, 0.9),
-    0 0 40px rgba(15, 210, 140, 0.6);
-
+  text-shadow: 0 0 10px rgba(15, 210, 140, 0.9), 0 0 40px rgba(15, 210, 140, 0.6);
 }
 
 .hero-sub {
@@ -255,6 +215,8 @@ nav {
   color: #a09e9e;
   max-width: 480px;
   line-height: 1.7;
+  opacity: 0;
+  animation: fadeUp 0.6s ease 1s forwards;
 }
 
 .accent-purple {
@@ -266,31 +228,17 @@ nav {
   display: flex;
   gap: 1rem;
   align-items: center;
+  opacity: 0;
+  animation: fadeUp 0.6s ease 1.3s forwards;
 }
 
-/* Social icons */
 .social-row {
   margin-top: 2rem;
   display: flex;
   gap: 0.75rem;
   align-items: center;
-}
-
-.social-link {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 36px;
-  height: 36px;
-  border: 1px solid rgba(15, 210, 140, 0.2);
-  color: #555;
-  transition: all 0.2s;
-}
-
-.social-link:hover {
-  color: #0fd28c;
-  border-color: #0fd28c;
-  box-shadow: 0 0 12px rgba(15, 210, 140, 0.2);
+  opacity: 0;
+  animation: fadeUp 0.6s ease 1.5s forwards;
 }
 
 /* Profile */
@@ -355,15 +303,128 @@ nav {
   pointer-events: none;
 }
 
-/* SECTIONS */
+
+/* ==========================================================================
+   BUTTONS
+   ========================================================================== */
+.btn-primary {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.9rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 0.75rem 1.1rem;
+  background: transparent;
+  border: 1px solid var(--green);
+  color: var(--green);
+  transition: all 0.2s;
+  display: inline-block;
+}
+
+.btn-primary:hover {
+  background: var(--green-dim);
+  box-shadow: 0 0 20px var(--green);
+}
+
+.btn-ghost {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.9rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 0.75rem 1.1rem;
+  background: transparent;
+  border: 1px solid var(--purple-light);
+  color: var(--purple-light);
+  transition: all 0.2s;
+  display: inline-block;
+}
+
+.btn-ghost:hover {
+  background: var(--purple-dim);
+  box-shadow: 0 0 20px var(--purple);
+}
+
+
+/* ==========================================================================
+   SOCIAL LINKS
+   ========================================================================== */
+.social-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid rgba(15, 210, 140, 0.2);
+  color: #555;
+  transition: all 0.2s;
+}
+
+.social-link:hover {
+  color: #0fd28c;
+  border-color: #0fd28c;
+  box-shadow: 0 0 12px rgba(15, 210, 140, 0.2);
+}
+
+
+/* ==========================================================================
+   SECTIONS (shared)
+   ========================================================================== */
 .section {
   position: relative;
   z-index: 5;
   padding: 5rem 3rem;
   border-top: 1px solid rgba(255, 255, 255, 0.04);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
 }
 
-/* PROJECTS */
+.section.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.section-label {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.9rem;
+  color: var(--green);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: 3rem;
+  text-shadow: 0 0 2px var(--green);
+  opacity: 0.7;
+  animation: none;
+}
+
+.section-label::before {
+  content: '// ';
+  opacity: 0.5;
+}
+
+.section.visible .section-label {
+  animation: labelGlitch 0.4s steps(1) forwards;
+}
+
+/* Tags */
+.tag {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+  padding: 0.2rem 0.6rem;
+  border: 1px solid rgba(107, 33, 212, 0.4);
+  color: #9d59f5;
+}
+
+.tag:hover {
+  color: #c341e3;
+  border-color: #6b21d4;
+  box-shadow: 0 0 8px rgba(107, 33, 212, 0.5);
+  animation: tagFlicker 0.3s steps(1);
+}
+
+
+/* ==========================================================================
+   PROJECTS
+   ========================================================================== */
 .projects-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -372,16 +433,49 @@ nav {
 }
 
 .project-card {
+  position: relative;
   background: #0a0010;
   padding: 0.8rem;
-  transition: background 0.2s;
   display: block;
   text-decoration: none;
   color: inherit;
+  overflow: hidden;
+  transition: background 0.2s;
 }
 
 .project-card:hover {
   background: rgba(148, 36, 234, 0.1);
+  animation: glitchCard 0.4s steps(1) forwards;
+}
+
+/* Corner brackets */
+.project-card::before,
+.project-card::after {
+  content: '';
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.project-card::before {
+  top: 8px;
+  left: 8px;
+  border-top: 1px solid #0fd28c;
+  border-left: 1px solid #0fd28c;
+}
+
+.project-card::after {
+  bottom: 8px;
+  right: 8px;
+  border-bottom: 1px solid #0fd28c;
+  border-right: 1px solid #0fd28c;
+}
+
+.project-card:hover::before,
+.project-card:hover::after {
+  opacity: 1;
 }
 
 .project-num {
@@ -414,7 +508,10 @@ nav {
   flex-wrap: wrap;
 }
 
-/* BLOG */
+
+/* ==========================================================================
+   BLOG
+   ========================================================================== */
 .posts-list {
   display: flex;
   flex-direction: column;
@@ -452,7 +549,10 @@ nav {
   white-space: nowrap;
 }
 
-/* ABOUT */
+
+/* ==========================================================================
+   ABOUT
+   ========================================================================== */
 .about-grid {
   display: grid;
   grid-template-columns: 1fr auto;
@@ -467,25 +567,19 @@ nav {
   max-width: 560px;
 }
 
-.about-links {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
+.cat-img {
+  width: 400px;
+  height: auto;
+  object-fit: fill;
+  clip-path: polygon(10% 0%, 100% 0%, 100% 90%, 90% 100%, 0% 100%, 0% 10%);
+  filter: grayscale(20%) contrast(1.1);
+  border: 1px solid rgba(15, 210, 140, 0.2);
 }
 
-.about-link {
-  font-family: 'Share Tech Mono', monospace;
-  font-size: 0.75rem;
-  color: #555;
-  letter-spacing: 0.1em;
-  transition: color 0.2s;
-}
 
-.about-link:hover {
-  color: #0fd28c;
-}
-
-/* SKILLS */
+/* ==========================================================================
+   SKILLS
+   ========================================================================== */
 .skills-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -493,7 +587,7 @@ nav {
 }
 
 .skill-group-title {
-  font-size: 0.86rem;
+  font-size: 0.96rem;
   color: #0fd28c;
   letter-spacing: 0.2em;
   text-transform: uppercase;
@@ -507,7 +601,10 @@ nav {
   gap: 0.5rem;
 }
 
-/* TIMELINE */
+
+/* ==========================================================================
+   TIMELINE
+   ========================================================================== */
 .timeline {
   display: flex;
   flex-direction: column;
@@ -520,6 +617,14 @@ nav {
   gap: 2rem;
   padding-bottom: 2.5rem;
   border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.timeline-logo {
+  width: 75px;
+  height: 75px;
+  object-fit: contain;
+  margin-bottom: 0.75rem;
+  filter: grayscale(30%) brightness(0.9);
 }
 
 .timeline-date {
@@ -541,7 +646,6 @@ nav {
 .timeline-company {
   font-size: 0.9rem;
   margin-bottom: 0.75rem;
-
 }
 
 .timeline-desc {
@@ -550,7 +654,10 @@ nav {
   line-height: 1.6;
 }
 
-/* CONTACT */
+
+/* ==========================================================================
+   CONTACT
+   ========================================================================== */
 .contact-grid {
   display: grid;
   grid-template-columns: 1fr 1.2fr;
@@ -565,7 +672,6 @@ nav {
   text-transform: uppercase;
   line-height: 1;
   margin-bottom: 1rem;
-
 }
 
 .contact-sub {
@@ -613,11 +719,14 @@ nav {
 }
 
 .form-input:focus {
-  border-color: rgba(15, 210, 140, 0.4);
-  box-shadow: 0 0 12px rgba(15, 210, 140, 0.05);
+  border-color: rgba(15, 210, 140, 0.6);
+  animation: inputPulse 1.5s ease infinite;
 }
 
-/* FOOTER */
+
+/* ==========================================================================
+   FOOTER
+   ========================================================================== */
 footer {
   position: relative;
   z-index: 5;
@@ -654,35 +763,10 @@ footer {
   letter-spacing: 0.1em;
 }
 
-.timeline-logo {
-  width: 75px;
-  height: 75px;
-  object-fit: contain;
-  margin-bottom: 0.75rem;
-  filter: grayscale(30%) brightness(0.9);
-}
 
-nav {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 100;
-  background: rgba(10, 0, 16, 0.9);
-  -webkit-backdrop-filter: blur(10px);
-  backdrop-filter: blur(10px);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1.5rem 3rem;
-  border-bottom: 1px solid rgba(15, 210, 140, 0.15);
-}
-
-.hero {
-  padding-top: 8rem;
-}
-
-/* Progress Bar */
+/* ==========================================================================
+   PROGRESS BAR & BACK TO TOP
+   ========================================================================== */
 #progress-bar {
   position: fixed;
   top: 0;
@@ -694,7 +778,6 @@ nav {
   transition: width 0.1s linear;
 }
 
-/* Back to Top */
 #back-to-top {
   position: fixed;
   bottom: 2rem;
@@ -705,7 +788,6 @@ nav {
   border: 1px solid #0fd28c;
   color: #0fd28c;
   font-size: 1.2rem;
-  cursor: crosshair;
   z-index: 999;
   opacity: 0;
   pointer-events: none;
@@ -716,24 +798,51 @@ nav {
   box-shadow: 0 0 16px rgba(15, 210, 140, 0.4);
 }
 
-/* Active Nav Link */
-.nav-links a.active {
-  color: #0fd28c;
+
+/* ==========================================================================
+   CUSTOM CURSOR
+   ========================================================================== */
+#cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 32px;
+  height: 32px;
+  border: 1px solid #0fd28c;
+  border-radius: 0;
+  pointer-events: none;
+  z-index: 99999;
+  margin-left: -16px;
+  margin-top: -16px;
+  transition: border-color 0.1s ease, width 0.2s ease, height 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 0 6px rgba(15, 210, 140, 0.3);
+  will-change: transform;
 }
 
-/* Scroll Animations */
-.section {
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
+#cursor.cursor-hover {
+  width: 48px;
+  height: 48px;
+  margin-left: -24px;
+  margin-top: -24px;
+  border-color: #6b21d4;
+  box-shadow: 0 0 12px rgba(107, 33, 212, 0.9);
 }
 
-.section.visible {
-  opacity: 1;
-  transform: translateY(0);
+#cursor-dot {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 4px;
+  background: #0fd28c;
+  pointer-events: none;
+  z-index: 99999;
+  margin-left: -2px;
+  margin-top: -2px;
+  box-shadow: 0 0 6px #0fd28c;
+  will-change: transform;
 }
 
-/* Cursor Canvas */
 #cursor-canvas {
   position: fixed;
   inset: 0;
@@ -741,26 +850,10 @@ nav {
   z-index: 9998;
 }
 
-/* Typing Animation */
 
-
-@keyframes typing {
-  from {
-    width: 0;
-  }
-
-  to {
-    width: 100%;
-  }
-}
-
-@keyframes blink {
-  50% {
-    border-color: transparent;
-  }
-}
-
-/* Glitch Effect */
+/* ==========================================================================
+   GLITCH FX — name & contact headings
+   ========================================================================== */
 .name-glow,
 .name-outline,
 .contact-glow1,
@@ -788,35 +881,23 @@ nav {
   height: 100%;
 }
 
-
-
-/* 1. Make the spans block/inline-block and relative anchors for the absolute text layers */
 .contact-glow1,
 .contact-glow2 {
-  position: relative;
   display: inline-block;
 }
 
-/* 2. Set the base colors for the main font layer */
 .contact-glow1 {
   color: rgba(244, 11, 244, 0.877);
-  /* 1st shadow: bright inner core | 2nd shadow: wide outer atmosphere */
-  text-shadow: 0 0 10px rgba(244, 11, 244, 0.9),
-    0 0 40px rgba(244, 11, 244, 0.6);
+  text-shadow: 0 0 10px rgba(244, 11, 244, 0.9), 0 0 40px rgba(244, 11, 244, 0.6);
 }
 
 .contact-glow2 {
   color: #30efa9;
-  text-shadow: 0 0 10px rgba(15, 210, 140, 0.9),
-    0 0 40px rgba(15, 210, 140, 0.6);
+  text-shadow: 0 0 10px rgba(15, 210, 140, 0.9), 0 0 40px rgba(15, 210, 140, 0.6);
 }
 
-/* Keep your pseudo-elements sharp and perfectly overlapping */
 .contact-glow1::before,
-.contact-glow1::after,
-.contact-glow2::before,
-.contact-glow2::after {
-  /* Match 'Let's build' explicitly (added the straight quote to match your HTML exactly) */
+.contact-glow1::after {
   content: "Let's build";
   position: absolute;
   top: 0;
@@ -826,171 +907,63 @@ nav {
   background: transparent;
 }
 
-/* Ensure the second line's pseudo-elements mirror its unique text string */
 .contact-glow2::before,
 .contact-glow2::after {
   content: 'The Future.';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent;
 }
 
+/* Glitch layer 1 */
+.name-outline::before,
+.name-glow::before,
 .contact-glow1::before,
 .contact-glow2::before {
   color: #6b21d4;
-  /* Glitch layer color 1 */
   animation: glitch1 3s steps(1) infinite;
   clip-path: polygon(0 20%, 100% 20%, 100% 40%, 0 40%);
 }
 
+/* Glitch layer 2 */
+.name-outline::after,
+.name-glow::after,
 .contact-glow1::after,
 .contact-glow2::after {
   color: #0fd28c;
-  /* Glitch layer color 2 */
   animation: glitch2 3s steps(1) infinite;
   clip-path: polygon(0 60%, 100% 60%, 100% 80%, 0 80%);
   opacity: 0.7;
 }
 
-.name-outline::before {
-  color: rgba(244, 11, 244, 0.877);
-  animation: glitch1 3s steps(1) infinite;
-  clip-path: polygon(0 20%, 100% 20%, 100% 40%, 0 40%);
+/* Name hover burst */
+.hero-name:hover .name-glow::before,
+.hero-name:hover .name-glow::after,
+.hero-name:hover .name-outline::before,
+.hero-name:hover .name-outline::after {
+  animation: glitchBurst 0.4s steps(1) forwards;
 }
 
-.name-outline::after {
-  color: #0fd28c;
-  animation: glitch2 3s steps(1) infinite;
-  clip-path: polygon(0 60%, 100% 60%, 100% 80%, 0 80%);
-  opacity: 0.7;
-}
 
-.name-glow::before {
-  color: rgba(244, 11, 244, 0.877);
-  animation: glitch1 3s steps(1) infinite;
-  clip-path: polygon(0 20%, 100% 20%, 100% 40%, 0 40%);
-}
+/* ==========================================================================
+   KEYFRAMES
+   ========================================================================== */
 
-.name-glow::after {
-  color: #0fd28c;
-  animation: glitch2 3s steps(1) infinite;
-  clip-path: polygon(0 60%, 100% 60%, 100% 80%, 0 80%);
-  opacity: 0.7;
-}
-
-@keyframes glitch1 {
-
-  /* Rest phase expanded from 50% to 75% for a snappier arrival */
-  0%,
-  75%,
-  100% {
-    transform: translate(0);
-    opacity: 0;
+/* Grid background drift */
+@keyframes gridDrift {
+  from {
+    background-position: 0 0;
   }
 
-  /* Twitch 1: Snaps out and only holds for 3% of the timeline */
-  76%,
-  79% {
-    transform: translate(-5px, 2px);
-    opacity: 1;
-  }
-
-  /* Twitch 2: Quickly jumps to position 2 and holds for 5% of the timeline */
-  80%,
-  85% {
-    transform: translate(5px, -1px);
-    opacity: 1;
-  }
-
-  /* Cuts off cleanly */
-  86% {
-    transform: translate(0);
-    opacity: 0;
+  to {
+    background-position: 40px 40px;
   }
 }
 
-@keyframes glitch2 {
-
-  /* Rest phase expanded to 78% */
-  0%,
-  78%,
-  100% {
-    transform: translate(0);
-    opacity: 0;
-  }
-
-  /* Twitch 1: Short, sharp color pop */
-  79%,
-  82% {
-    transform: translate(4px, 1px);
-    opacity: 1;
-  }
-
-  /* Twitch 2: Counter-displacement shift */
-  83%,
-  88% {
-    transform: translate(-3px, -2px);
-    opacity: 1;
-  }
-
-  /* Cuts off cleanly */
-  89% {
-    transform: translate(0);
-    opacity: 0;
-  }
-}
-
-/* Hide default cursor on the page and all interactive elements */
-body,
-a,
-button,
-input,
-select,
-textarea {
-  cursor: none !important;
-}
-
-#cursor {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 32px;
-  height: 32px;
-  border: 1px solid #0fd28c;
-  border-radius: 0;
-  pointer-events: none;
-  z-index: 99999;
-  margin-left: -16px;
-  margin-top: -16px;
-  /* Explicitly list exactly what transitions to avoid overriding the JS glitch transforms */
-  transition: border-color 0.1s ease, width 0.2s ease, height 0.2s ease, box-shadow 0.2s ease;
-  box-shadow: 0 0 6px rgba(15, 210, 140, 0.3);
-  /* Hint to the browser that this element moves constantly for better rendering hardware acceleration */
-  will-change: transform;
-}
-
-#cursor.cursor-hover {
-  width: 48px;
-  height: 48px;
-  margin-left: -24px;
-  margin-top: -24px;
-
-  border-color: #6b21d4;
-  box-shadow: 0 0 12px rgba(107, 33, 212, 0.9);
-}
-
-#cursor-dot {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 4px;
-  height: 4px;
-  background: #0fd28c;
-  pointer-events: none;
-  z-index: 99999;
-  margin-left: -2px;
-  margin-top: -2px;
-  box-shadow: 0 0 6px #0fd28c;
-  will-change: transform;
-}
-
+/* Typing */
 @keyframes typing {
   0% {
     width: 0;
@@ -1013,27 +986,14 @@ textarea {
   }
 }
 
-
-.hero-name {
-  opacity: 0;
-  animation: fadeUp 0.6s ease 0.6s forwards;
+/* Cursor blink */
+@keyframes blink {
+  50% {
+    border-color: transparent;
+  }
 }
 
-.hero-sub {
-  opacity: 0;
-  animation: fadeUp 0.6s ease 1s forwards;
-}
-
-.cta-row {
-  opacity: 0;
-  animation: fadeUp 0.6s ease 1.3s forwards;
-}
-
-.social-row {
-  opacity: 0;
-  animation: fadeUp 0.6s ease 1.5s forwards;
-}
-
+/* Fade up */
 @keyframes fadeUp {
   from {
     opacity: 0;
@@ -1046,65 +1006,231 @@ textarea {
   }
 }
 
-.project-card {
-  position: relative;
+/* Section label glitch on scroll */
+@keyframes labelGlitch {
+  0% {
+    opacity: 0;
+    transform: translate(-3px, 0);
+    color: #f40bf4;
+  }
+
+  25% {
+    opacity: 1;
+    transform: translate(3px, 0);
+    color: #6b21d4;
+  }
+
+  50% {
+    opacity: 0;
+    transform: translate(-1px, 0);
+    color: #0fd28c;
+  }
+
+  75% {
+    opacity: 1;
+    transform: translate(1px, 0);
+    color: #f40bf4;
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate(0);
+    color: #0fd28c;
+  }
 }
 
-.project-card::before,
-.project-card::after {
-  content: '';
-  position: absolute;
-  width: 12px;
-  height: 12px;
-  opacity: 0;
-  transition: opacity 0.2s;
+/* Tag flicker */
+@keyframes tagFlicker {
+  0% {
+    opacity: 1;
+  }
+
+  20% {
+    opacity: 0;
+  }
+
+  40% {
+    opacity: 1;
+  }
+
+  60% {
+    opacity: 0;
+  }
+
+  80% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 1;
+  }
 }
 
-.project-card::before {
-  top: 8px;
-  left: 8px;
-  border-top: 1px solid #0fd28c;
-  border-left: 1px solid #0fd28c;
+/* Project card glitch shift */
+@keyframes glitchCard {
+  0% {
+    transform: translate(0);
+    border-color: #333;
+  }
+
+  20% {
+    transform: translate(-4px, 0);
+    border-color: #f40bf4;
+    filter: hue-rotate(90deg);
+  }
+
+  40% {
+    transform: translate(4px, 0);
+    border-color: #6b21d4;
+    filter: hue-rotate(180deg);
+  }
+
+  60% {
+    transform: translate(-2px, 0);
+    border-color: #0fd28c;
+    filter: none;
+  }
+
+  80% {
+    transform: translate(2px, 0);
+    border-color: #f40bf4;
+  }
+
+  100% {
+    transform: translate(0);
+    border-color: #333;
+  }
 }
 
-.project-card::after {
-  bottom: 8px;
-  right: 8px;
-  border-bottom: 1px solid #0fd28c;
-  border-right: 1px solid #0fd28c;
+/* Form input pulse */
+@keyframes inputPulse {
+
+  0%,
+  100% {
+    box-shadow: 0 0 6px rgba(15, 210, 140, 0.1);
+  }
+
+  50% {
+    box-shadow: 0 0 16px rgba(15, 210, 140, 0.35);
+  }
 }
 
-.project-card:hover::before,
-.project-card:hover::after {
-  opacity: 1;
+/* Name glitch burst on hover */
+@keyframes glitchBurst {
+  0% {
+    transform: translate(-6px, 2px);
+    opacity: 1;
+    clip-path: polygon(0 10%, 100% 10%, 100% 35%, 0 35%);
+  }
+
+  20% {
+    transform: translate(6px, -2px);
+    opacity: 1;
+    clip-path: polygon(0 50%, 100% 50%, 100% 70%, 0 70%);
+  }
+
+  40% {
+    transform: translate(-4px, 3px);
+    opacity: 1;
+    clip-path: polygon(0 25%, 100% 25%, 100% 50%, 0 50%);
+  }
+
+  60% {
+    transform: translate(4px, -3px);
+    opacity: 1;
+    clip-path: polygon(0 65%, 100% 65%, 100% 85%, 0 85%);
+  }
+
+  80% {
+    transform: translate(-2px, 1px);
+    opacity: 0.5;
+  }
+
+  100% {
+    transform: translate(0);
+    opacity: 0;
+  }
 }
 
-/* RESPONSIVE */
+/* Idle glitch layers */
+@keyframes glitch1 {
+
+  0%,
+  75%,
+  100% {
+    transform: translate(0);
+    opacity: 0;
+  }
+
+  76%,
+  79% {
+    transform: translate(-5px, 2px);
+    opacity: 1;
+  }
+
+  80%,
+  85% {
+    transform: translate(5px, -1px);
+    opacity: 1;
+  }
+
+  86% {
+    transform: translate(0);
+    opacity: 0;
+  }
+}
+
+@keyframes glitch2 {
+
+  0%,
+  78%,
+  100% {
+    transform: translate(0);
+    opacity: 0;
+  }
+
+  79%,
+  82% {
+    transform: translate(4px, 1px);
+    opacity: 1;
+  }
+
+  83%,
+  88% {
+    transform: translate(-3px, -2px);
+    opacity: 1;
+  }
+
+  89% {
+    transform: translate(0);
+    opacity: 0;
+  }
+}
+
+
 /* ==========================================================================
-   ── RESPONSIVE MEDIA TARGET (768px BLOCKS AND SMALLER) ──
+   RESPONSIVE — max-width: 768px
    ========================================================================== */
 @media (max-width: 768px) {
 
-  /* Prevent overall layout system leaks across mobile screens */
   html,
   body {
     overflow-x: hidden;
     max-width: 100%;
   }
 
-  /* Navigation Optimization */
+  /* Cursor — hide on touch */
+  #cursor,
+  #cursor-dot {
+    display: none !important;
+  }
+
+  /* Nav */
   nav {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
     padding: 1rem 1.5rem;
     flex-wrap: wrap;
     gap: 1rem;
     justify-content: center;
-  }
-
-  nav {
     -webkit-backdrop-filter: none !important;
     backdrop-filter: none !important;
     background: rgba(10, 0, 16, 0.97) !important;
@@ -1123,11 +1249,10 @@ textarea {
     padding-left: 0;
   }
 
-  /* Hero Section Restructuring */
+  /* Hero */
   .hero {
     flex-direction: column;
-    padding: 10rem 1.5rem 3rem 1.5rem;
-    /* Includes navigation safety pad */
+    padding: 10rem 1.5rem 3rem;
     min-height: auto;
     gap: 3rem;
     align-items: flex-start;
@@ -1141,65 +1266,82 @@ textarea {
     flex-wrap: wrap;
   }
 
-  /* Profile Frame Reset (Fixes Profile Image Leak) */
+  .hero-deco {
+    display: none;
+  }
+
+  .hero-eyebrow {
+    font-size: clamp(0.68rem, 2.8vw, 0.85rem) !important;
+    letter-spacing: 0.06em !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    border-right: 2px solid #0fd28c !important;
+    opacity: 0;
+    width: 0;
+    animation:
+      fadeUp 0.6s ease 0.2s forwards,
+      typing 7.5s steps(38) 0.8s infinite,
+      blink 0.8s step-end infinite !important;
+  }
+
+  /* Profile */
   .hero-profile {
     padding-left: 0;
     align-items: flex-start;
     align-self: flex-start;
     margin-top: 0;
-    /* Fully cancels out desktop negative tracking overlap */
     width: 100%;
   }
 
   .profile-frame {
     max-width: 100%;
-    /* Keeps frame from expanding outside phone viewports */
     width: 260px;
-    /* Adjusted to match mobile proportions cleanly */
     height: 260px;
   }
 
-  .cat-img {
-    width: 100%;
-    /* Allows image to fill the grid module naturally */
-    max-width: 320px;
-    height: auto;
+  /* Name glitch — tap instead of hover */
+  .hero-name:active .name-glow::before,
+  .hero-name:active .name-glow::after,
+  .hero-name:active .name-outline::before,
+  .hero-name:active .name-outline::after {
+    animation: glitchBurst 0.4s steps(1) forwards;
   }
 
-  .hero-deco {
-    display: none;
-  }
-
-  /* Cyberpunk Glitch Typography Mobile Wrapping Insurance */
+  /* Typography overflow fix */
   .name-glow,
   .name-outline,
   .contact-glow1,
   .contact-glow2 {
     display: block;
-    /* Changes inline-blocks to text blocks so they fold */
     word-break: break-word;
     overflow-wrap: break-word;
     white-space: normal;
-    /* Permits the line to wrap naturally down if too wide */
   }
 
-  /* Layout Grids */
+  /* Cat image */
+  .cat-img {
+    width: 100%;
+    max-width: 320px;
+    height: auto;
+  }
+
+  /* Layout grids */
   .section {
     padding: 3rem 1.5rem;
   }
 
   .about-grid,
-  .timeline-item,
   .contact-grid {
     grid-template-columns: 1fr;
     gap: 2rem;
   }
 
   .timeline-item {
+    grid-template-columns: 1fr;
     gap: 0.5rem;
   }
 
-  /* Footer Layout Modification */
+  /* Footer */
   footer {
     padding: 1.5rem;
     flex-direction: column;
@@ -1211,26 +1353,5 @@ textarea {
     justify-content: center;
     flex-wrap: wrap;
     gap: 1rem;
-  }
-
-  .hero-eyebrow {
-    font-size: clamp(0.68rem, 2.8vw, 0.85rem) !important;
-    letter-spacing: 0.06em !important;
-    white-space: nowrap !important;
-    overflow: hidden !important;
-    border-right: 2px solid #0fd28c !important;
-    opacity: 0;
-    width: 0;
-    animation: fadeUp 0.6s ease 0.2s forwards, typing 7.5s steps(38) 0.8s infinite, blink 0.8s step-end infinite !important;
-  }
-
-  @keyframes mobileTyping {
-    from {
-      width: 0;
-    }
-
-    to {
-      width: 38ch;
-    }
   }
 }
