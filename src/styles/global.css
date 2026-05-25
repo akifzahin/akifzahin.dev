@@ -798,6 +798,13 @@ footer {
   box-shadow: 0 0 16px rgba(15, 210, 140, 0.4);
 }
 
+.post-summary {
+  font-size: 0.85rem;
+  color: #777;
+  margin-top: 4px;
+  line-height: 1.4;
+  max-width: 90%;
+}
 
 /* ==========================================================================
    CUSTOM CURSOR

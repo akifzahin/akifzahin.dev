@@ -1,0 +1,27 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout title="404 — Not Found">
+  <section
+    class="hero"
+    style="min-height:100vh; flex-direction:column; justify-content:center; align-items:flex-start;"
+  >
+    <p
+      class="hero-eyebrow font-mono"
+      style="animation:none; width:auto; border-right:none; opacity:1;"
+    >
+      — ERROR 404
+    </p>
+    <h1 class="hero-name font-display" style="opacity:1;">
+      <span class="name-outline">PAGE</span>
+      <span class="name-glow">LOST.</span>
+    </h1>
+    <p class="hero-sub">
+      This sector doesn't exist or has been decommissioned.
+    </p>
+    <div class="cta-row" style="opacity:1;">
+      <a href="/" class="btn-primary">Return Home</a>
+    </div>
+  </section>
+</Layout>

@@ -352,29 +352,8 @@ import Layout from "../layouts/Layout.astro";
   <!-- BLOG -->
   <section class="section" id="blog">
     <p class="section-label">Recent writing</p>
-    <div class="posts-list">
-      <a
-        href="https://medium.com/@akifzahin/when-the-wave-becomes-a-tsunami-learning-to-live-with-grief-96b3fffbaae9"
-        target="_blank"
-        rel="noopener"
-        class="post-item"
-      >
-        <span class="post-title"
-          >When the Wave Becomes a Tsunami: Learning to Live With Grief</span
-        >
-        <span class="post-date font-mono">Oct 14, 2025</span>
-      </a>
-      <a
-        href="https://medium.com/@akifzahin/lessons-ive-learned-standing-in-the-middle-of-loss-and-death-9697c3fdb4fa"
-        target="_blank"
-        rel="noopener"
-        class="post-item"
-      >
-        <span class="post-title"
-          >Lessons I’ve learned, standing in the middle of loss and death.</span
-        >
-        <span class="post-date font-mono">Jan 19, 2026</span>
-      </a>
+    <div class="posts-list" id="posts-list">
+      <p class="post-loading" style="color:#555">Loading...</p>
     </div>
   </section>
 
@@ -790,6 +769,33 @@ import Layout from "../layouts/Layout.astro";
       link.addEventListener("mouseleave", reset);
       link.addEventListener("touchstart", scramble, { passive: true });
     });
+  </script>
+  <script>
+    async function loadPosts() {
+      const res = await fetch("/api/medium");
+      const data = await res.json();
+
+      const list = document.getElementById("posts-list");
+
+      list.innerHTML = data
+        .map((item) => {
+          const date = new Date(item.date).toLocaleDateString("en-US", {
+            month: "short",
+            day: "numeric",
+            year: "numeric",
+          });
+
+          return `
+        <a href="${item.link}" target="_blank" class="post-item">
+          <span class="post-title">${item.title}</span>
+          <span class="post-date font-mono">${date}</span>
+        </a>
+      `;
+        })
+        .join("");
+    }
+
+    loadPosts();
   </script>
   <!-- FOOTER -->
   <footer>
