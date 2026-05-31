@@ -256,8 +256,9 @@ nav {
 
 .profile-frame {
   position: relative;
-  width: 450px;
-  height: 450px;
+  width: min(450px, 100%);
+  height: auto;
+  aspect-ratio: 1;
 }
 
 .profile-img {
