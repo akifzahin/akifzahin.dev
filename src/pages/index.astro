@@ -127,7 +127,7 @@ import Layout from "../layouts/Layout.astro";
     <div class="hero-profile">
       <div class="profile-frame">
         <!-- Replace /images/profile.jpg with your actual photo in the public/ folder -->
-        <img src="/images/dp.jpg" alt="Akif Zahin" class="profile-img" />
+        <img src="/images/dp2.png" alt="Akif Zahin" class="profile-img" />
         <div class="profile-glow"></div>
       </div>
       <p class="corner-tag font-mono">SYS::PORTFOLIO_v1.0</p>
@@ -370,12 +370,16 @@ import Layout from "../layouts/Layout.astro";
         <br />PS: I also have <span class="accent-purple">two lovely cats.</span
         > Here's a picture of them.
       </p>
-      <img
-        src="/images/cats.jpg"
-        loading="lazy"
-        alt="My two cats"
-        class="cat-img"
-      />
+      <div class="cat-container">
+        <img
+          src="/images/cats.jpg"
+          loading="lazy"
+          alt="My two cats"
+          class="cat-img"
+        />
+        <img src="/images/paw-orange.png" alt="" class="cat-paw cat-paw--tl" />
+        <img src="/images/paw-black.png" alt="" class="cat-paw cat-paw--br" />
+      </div>
     </div>
   </section>
 
@@ -549,6 +553,19 @@ import Layout from "../layouts/Layout.astro";
     </div>
   </section>
   <script>
+    window.addEventListener("load", () => {
+      document.querySelector(".hero").classList.add("ready");
+    });
+    const catContainer = document.querySelector(".cat-container");
+    if (catContainer) {
+      catContainer.addEventListener(
+        "touchstart",
+        () => {
+          catContainer.classList.toggle("hovered");
+        },
+        { passive: true },
+      );
+    }
     // ── Scroll Progress Bar ──
     const progressBar = document.createElement("div");
     progressBar.id = "progress-bar";
