@@ -46,17 +46,27 @@ body {
 }
 
 /* Grid overlay */
+/* Grid overlay */
 body::before {
   content: '';
   position: fixed;
   inset: 0;
   background-image:
-    linear-gradient(rgba(15, 210, 140, 0.2) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(15, 210, 140, 0.2) 1px, transparent 1px);
+    linear-gradient(rgba(15, 210, 140, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(15, 210, 140, 0.1) 1px, transparent 1px);
   background-size: 40px 40px;
   pointer-events: none;
   z-index: 0;
   animation: gridDrift 2s linear infinite;
+
+  /* ==========================================
+     ADDED FOR BLUR EFFECT 
+     ========================================== */
+  /* 1. Tweak this value (1px to 3px) to get the perfect soft glow look */
+  filter: blur(1.5px); 
+  
+  /* 2. Slightly scales up the grid so the blur doesn't create a white vignette gap at the screen edges */
+  transform: scale(1.02); 
 }
 
 /* Scanlines */
