@@ -51,8 +51,8 @@ body::before {
   position: fixed;
   inset: 0;
   background-image:
-    linear-gradient(rgba(15, 210, 140, 0.1) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(15, 210, 140, 0.1) 1px, transparent 1px);
+    linear-gradient(rgba(15, 210, 140, 0.2) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(15, 210, 140, 0.2) 1px, transparent 1px);
   background-size: 40px 40px;
   pointer-events: none;
   z-index: 0;
@@ -132,8 +132,8 @@ nav {
 
 .nav-links a {
   font-family: 'Share Tech Mono', monospace;
-  font-size: 0.9rem;
-  color: #888;
+  font-size: 1.05rem;
+  color: #e5e0e0;
   letter-spacing: 0.15em;
   text-transform: uppercase;
   transition: color 0.2s;
@@ -154,20 +154,47 @@ nav {
   min-height: 90vh;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+
+  /* CHANGED: Pull items to the center instead of blasting them to the screen edges */
+  justify-content: center;
+
+  /* CHANGED: This is your master control knob for the distance between text and photo */
+  gap: 10rem;
+
   padding: 8rem 3rem 4rem;
   overflow: hidden;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.hero.ready {
+  opacity: 1;
+}
+
+/* New pseudo-element handles the blurry background */
+.hero::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -1;
   background:
     linear-gradient(135deg,
       rgba(10, 0, 16, 0.88) 0%,
-      rgba(60, 0, 100, 0.82) 60%,
-      rgba(10, 0, 16, 0.92) 100%),
-    url('/images/background.jpg') center/cover no-repeat;
+      rgba(60, 0, 100, 0.72) 60%,
+      rgba(10, 0, 16, 0.85) 100%),
+    url('/images/city.png') center/cover no-repeat;
+  filter: blur(1.5px);
+  transform: scale(1.05);
 }
 
 .hero-content {
-  flex: 1;
-  max-width: 55%;
+  /* CHANGED: Remove flex: 1 to let it size dynamically up to its content */
+  width: max-content;
+  max-width: 550px;
+  /* Anchors text to a highly readable width */
   z-index: 2;
   position: relative;
 }
@@ -190,7 +217,8 @@ nav {
 }
 
 .hero-name {
-  font-size: clamp(3.5rem, 10vw, 8rem);
+  font-size: clamp(3.5rem, 6.5vw, 6.5rem);
+  /* Tamed clamp value to balance desktop scaling */
   line-height: 0.9;
   text-transform: uppercase;
   letter-spacing: -0.02em;
@@ -213,15 +241,20 @@ nav {
 .hero-sub {
   margin-top: 2rem;
   font-size: 1.1rem;
-  color: #a09e9e;
-  max-width: 480px;
+  color: #ede7e7;
+  max-width: 100%;
+  /* CHANGED: Spans full width of hero-content container so tags don't snap */
   line-height: 1.7;
   opacity: 0;
   animation: fadeUp 0.6s ease 1s forwards;
 }
 
 .accent-purple {
-  color: #c084fc;
+  color: #f40bf4;
+}
+
+.accent-green {
+  color: #30efa9;
 }
 
 .cta-row {
@@ -242,93 +275,133 @@ nav {
   animation: fadeUp 0.6s ease 1.5s forwards;
 }
 
-.hero {
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.hero.ready {
-  opacity: 1;
-}
-
-/* Profile */
+/* Profile Container */
 .hero-profile {
-  position: absolute;
-  right: 3rem;
-  bottom: 0;
+  /* CHANGED: Removed position: absolute; letting it behave like a natural flex neighbor */
+  position: relative;
   z-index: 1;
   pointer-events: none;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
   gap: 0.75rem;
-  padding-bottom: 6rem;
+
+  /* Ground it to the bottom of the flex alignment area */
+  align-self: flex-end;
+  padding-bottom: 0;
+  margin-bottom: -4rem;
+  /* Compensates for hero layout padding to rest on the screen floor */
+
   opacity: 0;
   animation: fadeUp 0.6s ease 0.3s forwards;
 }
 
+/* Glow implementation */
+.hero-profile::before {
+  content: "";
+  position: absolute;
+  inset: -5% -10% 10% -10%;
+  background: radial-gradient(circle at center, rgba(15, 210, 140, 0.22) 0%, transparent 70%);
+  z-index: 0;
+  pointer-events: none;
+}
+
 .profile-frame {
   position: relative;
-  width: min(450px, 100%);
-  height: auto;
-  aspect-ratio: 1;
+  z-index: 1;
+  width: min(440px, 35vw);
+  /* Slightly tapered width constraint for dynamic wide screens */
+  aspect-ratio: 4 / 5;
   will-change: transform;
   transform: translateZ(0);
-  isolation: isolate;
-  -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
-  mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+
+  /* Dual mask: smooth gradient out towards the left side and down to the floor */
+  -webkit-mask-image:
+    linear-gradient(to bottom, black 70%, transparent 100%),
+    linear-gradient(to right, black 90%, transparent 100%),
+    linear-gradient(to left, black 80%, transparent 100%);
+  mask-image:
+    linear-gradient(to bottom, black 70%, transparent 100%),
+    linear-gradient(to right, black 90%, transparent 100%),
+    linear-gradient(to left, black 80%, transparent 100%);
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
 }
 
 .profile-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: top 30% left 40%;
   display: block;
-  filter: grayscale(20%) contrast(1.1);
+  filter: grayscale(10%) contrast(1.05) drop-shadow(0 0 12px rgba(15, 210, 140, 0.25));
   pointer-events: none;
 }
 
 .profile-glow {
-  position: absolute;
-  inset: -20px;
-  background: radial-gradient(ellipse, rgba(15, 210, 140, 0.12), transparent 70%);
-  pointer-events: none;
+  display: none;
 }
 
 .corner-tag {
   font-family: 'Share Tech Mono', monospace;
   font-size: 0.6rem;
-  color: #333;
+  color: #444;
+  /* Slightly lifted visibility for theme styling */
   letter-spacing: 0.1em;
 }
 
 .hero-deco {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  width: 500px;
-  height: 500px;
-  opacity: 0.06;
-  pointer-events: none;
   display: none;
 }
-
 
 /* ==========================================================================
    BUTTONS
    ========================================================================== */
 .btn-primary {
   font-family: 'Share Tech Mono', monospace;
-  font-size: 0.9rem;
+  font-size: 1rem;
   letter-spacing: 0.15em;
   text-transform: uppercase;
   padding: 0.75rem 1.1rem;
   background: transparent;
   border: 1px solid var(--green);
-  color: var(--green);
+  color: #30efa9;
   transition: all 0.2s;
   display: inline-block;
+
+  /* CRUCIAL: Keeps the ambient glow contained right behind the button */
+  position: relative;
+  z-index: 1;
+}
+
+/* The soft green glow element behind the button */
+.btn-primary::before {
+  content: "";
+  position: absolute;
+
+  /* Pulls it slightly wider than the button boundary for a soft spill-over effect */
+  inset: -4px -8px;
+
+  /* Pushes it directly behind the button's text and borders */
+  z-index: -1;
+
+  /* Uses your --green theme color with a subtle opacity */
+  background: rgba(15, 210, 140, 0.25);
+
+  /* Smooth blur to create that soft digital backing aura */
+  filter: blur(12px);
+  border-radius: 4px;
+  pointer-events: none;
+
+  /* Matches the button's hover transition duration */
+  transition: opacity 0.2s ease, filter 0.2s ease;
+}
+
+/* Optional Hover Polish: Amplify the intensity when hovering over the button */
+.btn-primary:hover::before {
+  background: rgba(15, 210, 140, 0.45);
+  filter: blur(16px);
+  /* Expands the glow slightly on hover */
 }
 
 .btn-primary:hover {
@@ -336,9 +409,10 @@ nav {
   box-shadow: 0 0 20px var(--green);
 }
 
+/*
 .btn-ghost {
   font-family: 'Share Tech Mono', monospace;
-  font-size: 0.9rem;
+  font-size: 1rem;
   letter-spacing: 0.15em;
   text-transform: uppercase;
   padding: 0.75rem 1.1rem;
@@ -353,7 +427,7 @@ nav {
   background: var(--purple-dim);
   box-shadow: 0 0 20px var(--purple);
 }
-
+*/
 
 /* ==========================================================================
    SOCIAL LINKS
@@ -364,8 +438,8 @@ nav {
   justify-content: center;
   width: 36px;
   height: 36px;
-  border: 1px solid lightslategray;
-  color: lightslategray;
+  border: 1px solid rgb(235, 237, 241);
+  color: rgb(224, 227, 230);
   transition: all 0.2s;
 }
 
@@ -397,12 +471,12 @@ nav {
 .section-label {
   font-family: 'Share Tech Mono', monospace;
   font-size: 0.9rem;
-  color: var(--green);
+  color: #30efa9;
   letter-spacing: 0.2em;
   text-transform: uppercase;
   margin-bottom: 3rem;
   text-shadow: 0 0 2px var(--green);
-  opacity: 0.7;
+  opacity: 0.9;
   animation: none;
 }
 
@@ -418,17 +492,17 @@ nav {
 /* Tags */
 .tag {
   font-family: 'Share Tech Mono', monospace;
-  font-size: 0.8rem;
+  font-size: 1.1rem;
   letter-spacing: 0.1em;
   padding: 0.2rem 0.6rem;
-  border: 1px solid rgba(107, 33, 212, 0.4);
-  color: #9d59f5;
+  border: 2px solid rgb(244, 11, 244, 0.6);
+  color: rgb(244, 11, 244, 0.8);
 }
 
 .tag:hover {
-  color: #c341e3;
-  border-color: #6b21d4;
-  box-shadow: 0 0 8px rgba(107, 33, 212, 0.5);
+  color: #30efa9;
+  border-color: rgb(48, 239, 169);
+  box-shadow: 0 0 8px rgba(48, 239, 169, 0.5);
   animation: tagFlicker 0.3s steps(1);
 }
 
@@ -447,7 +521,7 @@ nav {
   position: relative;
   background: transparent;
   padding: 0.8rem;
-  border: 2px solid rgb(15, 210, 140, 0.3);
+  border: 2.3px solid rgb(15, 210, 140, 0.3);
   display: block;
   text-decoration: none;
   color: inherit;
@@ -509,7 +583,7 @@ nav {
 
 .project-desc {
   font-size: 1rem;
-  color: #8b8b8b;
+  color: #d0cccc;
   line-height: 1.6;
   margin-bottom: 1.5rem;
 }
@@ -556,7 +630,7 @@ nav {
 .post-date {
   font-family: 'Share Tech Mono', monospace;
   font-size: 0.8rem;
-  color: #333;
+  color: #d1cece;
   letter-spacing: 0.1em;
   white-space: nowrap;
 }
@@ -574,7 +648,7 @@ nav {
 
 .about-text {
   font-size: 1rem;
-  color: #888;
+  color: #dad5d5;
   line-height: 1.8;
   max-width: 560px;
 }
@@ -646,11 +720,11 @@ nav {
 
 .skill-group-title {
   font-size: 0.96rem;
-  color: #0fd28c;
+  color: rgb(48, 239, 169);
   letter-spacing: 0.2em;
   text-transform: uppercase;
   margin-bottom: 1rem;
-  opacity: 0.7;
+  opacity: 0.9;
 }
 
 .skill-tags {
@@ -687,7 +761,7 @@ nav {
 
 .timeline-date {
   font-size: 0.85rem;
-  color: #7c7b7b;
+  color: #dedcdc;
   letter-spacing: 0.1em;
   padding-top: 0.2rem;
 }
@@ -708,7 +782,7 @@ nav {
 
 .timeline-desc {
   font-size: 1rem;
-  color: #7a7979;
+  color: #e3e2e2;
   line-height: 1.6;
 }
 
@@ -734,7 +808,7 @@ nav {
 
 .contact-sub {
   font-size: 1rem;
-  color: #8c8b8b;
+  color: #ded9d9;
   line-height: 1.6;
   margin-bottom: 2rem;
 }
@@ -762,7 +836,7 @@ nav {
 .form-input {
   width: 100%;
   background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   color: #e0e0e0;
   padding: 0.75rem 1rem;
   font-size: 1rem;
@@ -773,7 +847,7 @@ nav {
 }
 
 .form-input::placeholder {
-  color: #333;
+  color: rgba(255, 255, 255, 0.2)
 }
 
 .form-input:focus {
@@ -952,7 +1026,7 @@ footer {
 }
 
 .contact-glow1 {
-  color: rgba(244, 11, 244, 0.877);
+  color: #f40bf4e0;
   text-shadow: 0 0 10px rgba(244, 11, 244, 0.9), 0 0 40px rgba(244, 11, 244, 0.6);
 }
 

@@ -2,20 +2,9 @@ import Parser from "rss-parser";
 
 const parser = new Parser();
 
-let cache = {
-  data: null,
-  timestamp: 0,
-};
-
-const CACHE_DURATION = 1000 * 60 * 30; // 30 min
-
 export async function GET() {
-  const now = Date.now();
-
   try {
-    const feed = await parser.parseURL(
-      "https://medium.com/feed/@akifzahin"
-    );
+    const feed = await parser.parseURL("https://medium.com/feed/@akifzahin");
 
     const posts = feed.items.slice(0, 5).map((item) => ({
       title: item.title,
@@ -24,31 +13,22 @@ export async function GET() {
       summary: item.contentSnippet || "",
     }));
 
-    cache = {
-      data: posts,
-      timestamp: now,
-    };
-
     return new Response(JSON.stringify(posts), {
+      status: 200,
       headers: {
         "Content-Type": "application/json",
-        "Cache-Control": "s-maxage=1800, stale-while-revalidate",
+        // The edge CDN serves this for 30 mins and updates it quietly in the background
+        "Cache-Control": "public, max-age=0, s-maxage=1800, stale-while-revalidate=60",
       },
     });
   } catch (err) {
-    // 🔥 fallback: return last known good cache
-    if (cache.data) {
-      return new Response(JSON.stringify(cache.data), {
-        headers: {
-          "Content-Type": "application/json",
-          "X-Cache-Fallback": "true",
-        },
-      });
-    }
-
+    // CDN automatically serves the old cached version to users if your fetch fails!
     return new Response(
-      JSON.stringify({ error: "Medium feed unavailable" }),
-      { status: 500 }
+      JSON.stringify({ error: "Medium feed temporarily unavailable" }),
+      { 
+        status: 502, // Bad Gateway is more accurate for a third-party failure
+        headers: { "Content-Type": "application/json" }
+      }
     );
   }
 }
