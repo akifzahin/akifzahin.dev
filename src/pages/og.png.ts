@@ -3,8 +3,15 @@ import { readFile } from 'fs/promises';
 import { join } from 'path';
 
 export const GET = async () => {
-  const font = await readFile(join(process.cwd(), 'public/fonts/orbitron-bold.otf'));
-  const image = await readFile(join(process.cwd(), 'public/images/dp3.webp'));
+  // 1. Read the font and explicitly convert the Node Buffer to an ArrayBuffer
+  const fontBuffer = await readFile(join(process.cwd(), 'public/fonts/orbitron-bold.otf'));
+  const fontArrayBuffer = fontBuffer.buffer.slice(
+    fontBuffer.byteOffset,
+    fontBuffer.byteOffset + fontBuffer.byteLength
+  );
+
+  // 2. Read the image as usual
+  const image = await readFile(join(process.cwd(), 'public/images/dp3.jpg'));
   const imageBase64 = `data:image/jpeg;base64,${image.toString('base64')}`;
 
   return new ImageResponse(
@@ -80,7 +87,7 @@ export const GET = async () => {
       fonts: [
         {
           name: 'Orbitron',
-          data: font,
+          data: fontArrayBuffer, // <-- Passing the clean ArrayBuffer here fixes the crash
           weight: 900,
         },
       ],
