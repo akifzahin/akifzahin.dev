@@ -12,8 +12,7 @@ export const GET = async () => {
 
   // 2. Read the image as usual
   const image = await readFile(join(process.cwd(), 'public/images/dp3.png'));
-  const imageBase64 = `data:image/jpeg;base64,${image.toString('base64')}`;
-
+  const imageBase64 = `data:image/png;base64,${image.toString('base64')}`;
   return new ImageResponse(
     {
       type: 'div',
