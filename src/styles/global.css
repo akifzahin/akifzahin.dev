@@ -6,7 +6,7 @@
   --green: rgb(15, 210, 140);
   --green-dim: rgba(15, 210, 140, 0.1);
   --green-glow: rgba(60, 235, 171, 0.4);
-  --green-bright: #30efa9;
+  --green-bright: rgb(48, 239, 169);
   --green-alt: #0fd28c;
   --purple: #6b21d4;
   --purple-light: #c341e3;
@@ -82,13 +82,21 @@ body::before {
   content: '';
   position: fixed;
   inset: 0;
+  /* 1. We made the lines 1.5px to give the browser more pixels to work with when tilting */
   background-image:
-    linear-gradient(rgba(15, 210, 140, 0.6) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(15, 210, 140, 0.6) 1px, transparent 1px);
+    linear-gradient(rgba(48, 239, 169, 0.5) 1.5px, transparent 1.5px),
+    linear-gradient(90deg, rgba(48, 239, 169, 0.5) 1.5px, transparent 1.5px);
   background-size: 50px 50px;
   background-position: center top;
-  transform: perspective(250px) rotateX(75deg) translateY(-25%) scale(1.2);
+
+  /* 2. Added translateZ(0) to force the computer's graphics card to render it crisply */
+  transform: perspective(250px) rotateX(75deg) translateY(-25%) scale(1) translateZ(0);
   transform-origin: top center;
+
+  /* 3. This tells the browser to optimize this layer for 3D movement */
+  will-change: transform;
+  backface-visibility: hidden;
+
   -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 8vh, black calc(100vh - 15%), transparent 100%);
   mask-image: linear-gradient(to bottom, transparent 0%, black 8vh, black calc(100vh - 15%), transparent 100%);
   pointer-events: none;
@@ -517,8 +525,8 @@ nav {
   color: rgb(224, 227, 230);
   transition: all var(--t-fast);
   background: rgba(10, 10, 15, 0.5);
-  -webkit-backdrop-filter: blur(4px);
-  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(18px);
 }
 
 .social-link:hover {
@@ -600,11 +608,11 @@ nav {
 
   /* Apply the blur */
 
-  -webkit-backdrop-filter: blur(4px);
-  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(18px);
   /* Safari support */
 
-  padding: 0.6rem;
+  padding: 1rem;
   border: 2.3px solid rgba(15, 210, 140, 0.3);
   display: block;
   color: inherit;
@@ -613,8 +621,8 @@ nav {
 }
 
 .project-card:hover {
-  background: rgba(148, 36, 234, 0.1);
-  animation: glitchCard 0.33s steps(1) forwards;
+  /* background: rgba(148, 36, 234, 0.1); */
+  animation: glitchCard 3s linear infinite;
 }
 
 .project-card::before,
@@ -694,15 +702,15 @@ nav {
   border-bottom: 1px solid rgba(255, 255, 255, 0.04);
   transition: padding-left var(--t-fast);
   background: rgba(10, 10, 15, 0.5);
-  -webkit-backdrop-filter: blur(4px);
-  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(18px);
   padding: 0.6rem;
   border: 2.3px solid rgba(15, 210, 140, 0.3);
 }
 
 .post-item:hover {
-  background: rgba(148, 36, 234, 0.1);
-  animation: glitchCard 0.33s steps(1) forwards;
+  /* background: rgba(148, 36, 234, 0.1); */
+  animation: glitchCard 3s linear infinite;
 }
 
 .post-title {
@@ -745,10 +753,15 @@ nav {
   line-height: 1.8;
   max-width: 560px;
   background: rgba(10, 10, 15, 0.5);
-  -webkit-backdrop-filter: blur(4px);
-  backdrop-filter: blur(4px);
-  padding: 0.6rem;
+  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(18px);
+  padding: 1rem;
   border: 2.3px solid rgba(15, 210, 140, 0.3);
+}
+
+.about-text:hover {
+  /* background: rgba(148, 36, 234, 0.1); */
+  animation: glitchCard 3s linear infinite;
 }
 
 .cat-container {
@@ -831,9 +844,9 @@ nav {
   gap: 0.5rem;
   /* Changed from transparent to a dark tint so the blur pops and text is readable */
   background: rgba(10, 10, 15, 0.5);
-  -webkit-backdrop-filter: blur(4px);
-  backdrop-filter: blur(4px);
-  padding: 0.6rem;
+  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(18px);
+  padding: 1rem;
   border: 2.3px solid rgba(15, 210, 140, 0.3);
 
 
@@ -846,8 +859,8 @@ nav {
 }
 
 .skill-tags:hover {
-  background: rgba(148, 36, 234, 0.1);
-  animation: glitchCard 0.33s steps(1) forwards;
+  /* background: rgba(148, 36, 234, 0.1); */
+  animation: glitchCard 3s linear infinite;
 }
 
 /* ==========================================================================
@@ -866,17 +879,19 @@ nav {
   padding-bottom: 2.5rem;
   border-bottom: 1px solid rgba(255, 255, 255, 0.04);
   background: rgba(10, 10, 15, 0.5);
-  -webkit-backdrop-filter: blur(4px);
-  backdrop-filter: blur(4px);
-  padding: 0.6rem;
+  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(18px);
+  padding: 1rem;
   border: 2.3px solid rgba(15, 210, 140, 0.3);
 
 }
 
 .timeline-item:hover {
-  background: rgba(148, 36, 234, 0.1);
-  animation: glitchCard 0.33s steps(1) forwards;
+  /* background: rgba(148, 36, 234, 0.1); */
+  animation: glitchCard 3s linear infinite;
 }
+
+
 
 .timeline-logo {
   width: 75px;
@@ -923,10 +938,15 @@ nav {
   gap: 4rem;
   align-items: start;
   background: rgba(10, 10, 15, 0.5);
-  -webkit-backdrop-filter: blur(4px);
-  backdrop-filter: blur(4px);
-  padding: 0.6rem;
+  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(18px);
+  padding: 1rem;
   border: 2.3px solid rgba(15, 210, 140, 0.3);
+}
+
+.contact-grid:hover {
+  /* background: rgba(148, 36, 234, 0.1); */
+  animation: glitchCard 3s linear infinite;
 }
 
 .contact-heading {
@@ -1051,8 +1071,8 @@ nav {
   resize: vertical;
   transition: border-color var(--t-fast);
   background: rgba(10, 10, 15, 0.5);
-  -webkit-backdrop-filter: blur(4px);
-  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(18px);
 }
 
 .form-input::placeholder {
@@ -1076,6 +1096,12 @@ footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  background: rgba(10, 10, 15, 0.5);
+  
+  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(18px);
+  border-top: 1.3px solid rgba(15, 210, 140, 0.4);
+
 }
 
 .footer-links {
@@ -1133,6 +1159,8 @@ footer {
   opacity: 0;
   pointer-events: none;
   transition: opacity var(--t-base), box-shadow var(--t-fast);
+  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(18px);
 }
 
 #back-to-top:hover {
@@ -1317,36 +1345,28 @@ footer {
 
 @keyframes glitchCard {
   0% {
-    transform: translate(0);
     border-color: #333;
+    box-shadow: 0 0 0px transparent;
   }
 
-  20% {
-    transform: translate(-4px);
+  25% {
     border-color: var(--pink);
-    filter: hue-rotate(90deg);
+    box-shadow: 0 0 8px var(--pink);
   }
 
-  40% {
-    transform: translate(4px);
+  50% {
     border-color: var(--purple);
-    filter: hue-rotate(180deg);
+    box-shadow: 0 0 8px var(--purple);
   }
 
-  60% {
-    transform: translate(-2px);
+  75% {
     border-color: var(--green-alt);
-    filter: none;
-  }
-
-  80% {
-    transform: translate(2px);
-    border-color: var(--pink);
+    box-shadow: 0 0 8px var(--green-alt);
   }
 
   100% {
-    transform: translate(0);
-    border-color: var(--green);
+    border-color: #333;
+    box-shadow: 0 0 0px transparent;
   }
 }
 
