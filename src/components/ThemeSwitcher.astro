@@ -5,39 +5,96 @@
 
 <div class="theme-controls">
   <!-- Dark / Light toggle -->
-  <button id="dark-toggle" class="theme-btn" aria-label="Toggle dark mode" title="Toggle dark mode">
+  <button
+    id="dark-toggle"
+    class="theme-btn"
+    aria-label="Toggle dark mode"
+    title="Toggle dark mode"
+  >
     <span class="icon-dark">◑</span>
   </button>
 
   <!-- Color preset dropdown -->
   <div class="color-picker-wrapper">
-    <button id="color-trigger" class="theme-btn" aria-label="Color theme" title="Color theme">
+    <button
+      id="color-trigger"
+      class="theme-btn"
+      aria-label="Color theme"
+      title="Color theme"
+    >
       <span class="icon-palette">◈</span>
     </button>
     <ul class="color-dropdown" id="color-dropdown" role="listbox">
-      <li class="dropdown-item active" role="option" data-primary="#0fd28c" data-accent="#f40bf4" data-name="Default">
+      <!-- 1. Default (Your exact original setup) -->
+      <li
+        class="dropdown-item active"
+        role="option"
+        data-primary="#0fd28c"
+        data-accent="#f40bf4"
+        data-name="Default"
+      >
         <span class="swatch" style="--a: #0fd28c; --b: #f40bf4"></span>
         <span>Default</span>
       </li>
-      <li class="dropdown-item" role="option" data-primary="#00e5ff" data-accent="#f40bf4" data-name="Cyber Blue">
-        <span class="swatch" style="--a: #00e5ff; --b: #f40bf4"></span>
-        <span>Cyber Blue</span>
+
+      <!-- 2. Electric Ocean -->
+      <li
+        class="dropdown-item"
+        role="option"
+        data-primary="#0096c7"
+        data-accent="#f15bb5"
+        data-name="Electric Ocean"
+      >
+        <span class="swatch" style="--a: #0096c7; --b: #f15bb5"></span>
+        <span>Ocean</span>
       </li>
-      <li class="dropdown-item" role="option" data-primary="#ff3c3c" data-accent="#ff9500" data-name="Blood">
-        <span class="swatch" style="--a: #ff3c3c; --b: #ff9500"></span>
-        <span>Blood</span>
+
+      <!-- 3. Tokyo Crimson -->
+      <li
+        class="dropdown-item"
+        role="option"
+        data-primary="#ff2a5f"
+        data-accent="#ff7b00"
+        data-name="Tokyo Crimson"
+      >
+        <span class="swatch" style="--a: #ff2a5f; --b: #ff7b00"></span>
+        <span>Crimson</span>
       </li>
-      <li class="dropdown-item" role="option" data-primary="#4fc3f7" data-accent="#7c4dff" data-name="Void">
-        <span class="swatch" style="--a: #4fc3f7; --b: #7c4dff"></span>
-        <span>Void</span>
+
+      <!-- 4. Bio-Grid -->
+      <li
+        class="dropdown-item"
+        role="option"
+        data-primary="#00a86b"
+        data-accent="#3b82f6"
+        data-name="Bio-Grid"
+      >
+        <span class="swatch" style="--a: #00a86b; --b: #3b82f6"></span>
+        <span>Bio-Grid</span>
       </li>
-      <li class="dropdown-item" role="option" data-primary="#e0f7fa" data-accent="#00e5ff" data-name="Ice">
-        <span class="swatch" style="--a: #e0f7fa; --b: #00e5ff"></span>
-        <span>Ice</span>
+
+      <!-- 5. Royal Gold -->
+      <li
+        class="dropdown-item"
+        role="option"
+        data-primary="#9b5de5"
+        data-accent="#ffb700"
+        data-name="Royal Gold"
+      >
+        <span class="swatch" style="--a: #9b5de5; --b: #ffb700"></span>
+        <span>Royal Gold</span>
       </li>
-      <li class="dropdown-item" role="option" data-primary="#b9ff66" data-accent="#ff6ec7" data-name="Y2K">
-        <span class="swatch" style="--a: #b9ff66; --b: #ff6ec7"></span>
-        <span>Y2K</span>
+
+      <!-- 6. Monochrome Chrome -->
+      <li
+        class="dropdown-item"
+        role="option"
+        data-primary="#64748b"
+        data-accent="#475569"
+        data-name="Monochrome"
+      >
+        <span class="swatch" style="--a: #64748b; --b: #475569"></span>
+        <span>Chrome</span>
       </li>
     </ul>
   </div>
@@ -105,7 +162,9 @@
     letter-spacing: 0.1em;
     color: #aaa;
     cursor: pointer !important;
-    transition: color 0.15s ease, background 0.15s ease;
+    transition:
+      color 0.15s ease,
+      background 0.15s ease;
     text-transform: uppercase;
   }
 
@@ -122,18 +181,19 @@
     height: 12px;
     flex-shrink: 0;
     background: linear-gradient(90deg, var(--a) 50%, var(--b) 50%);
-    border: 1px solid rgba(255,255,255,0.1);
+    border: 1px solid rgba(255, 255, 255, 0.1);
   }
 
   /* Light mode overrides */
-  :root.light {
-    --bg: #f0f0f5;
-    --bg-surface: rgba(240, 240, 245, 0.7);
-    --bg-nav: rgba(240, 240, 245, 0.9);
-    --text: #111;
-    --text-muted: #888;
-    --text-subtle: #aaa;
-  }
+:root.light {
+  --bg:         #e0e0ea;            /* Soft lavender gray */
+  --bg-rgb:     224, 224, 234;      /* Corresponding RGB numbers */
+  --bg-surface: rgba(224, 224, 234, 0.75);
+  --bg-nav:     rgba(224, 224, 234, 0.95);
+  --text:       #1a1a2e;            /* Deep midnight blue text */
+  --text-muted: #4a4a6a;
+  --text-subtle:#71719a;
+}
 </style>
 
 <script>
@@ -147,72 +207,74 @@
 
   function applyTheme(primary, accent) {
     const root = document.documentElement;
-    root.style.setProperty('--primary', primary);
-    root.style.setProperty('--accent', accent);
-    root.style.setProperty('--primary-rgb', hexToRgb(primary));
-    root.style.setProperty('--accent-rgb', hexToRgb(accent));
+    root.style.setProperty("--primary", primary);
+    root.style.setProperty("--accent", accent);
+    root.style.setProperty("--primary-rgb", hexToRgb(primary));
+    root.style.setProperty("--accent-rgb", hexToRgb(accent));
 
     // Update glow/dim variants so existing CSS still works
-    root.style.setProperty('--primary-dim',  `rgba(${hexToRgb(primary)}, 0.1)`);
-    root.style.setProperty('--primary-glow', `rgba(${hexToRgb(primary)}, 0.4)`);
-    root.style.setProperty('--accent-dim',   `rgba(${hexToRgb(accent)}, 0.1)`);
-    root.style.setProperty('--accent-glow',  `rgba(${hexToRgb(accent)}, 0.4)`);
+    root.style.setProperty("--primary-dim", `rgba(${hexToRgb(primary)}, 0.1)`);
+    root.style.setProperty("--primary-glow", `rgba(${hexToRgb(primary)}, 0.4)`);
+    root.style.setProperty("--accent-dim", `rgba(${hexToRgb(accent)}, 0.1)`);
+    root.style.setProperty("--accent-glow", `rgba(${hexToRgb(accent)}, 0.4)`);
   }
 
   function savePrefs(primary, accent, dark) {
-    localStorage.setItem('theme-primary', primary);
-    localStorage.setItem('theme-accent', accent);
-    localStorage.setItem('theme-dark', dark);
+    localStorage.setItem("theme-primary", primary);
+    localStorage.setItem("theme-accent", accent);
+    localStorage.setItem("theme-dark", dark);
   }
 
   // ── Init from saved prefs ─────────────────────────────────────────────────
-  const savedPrimary = localStorage.getItem('theme-primary');
-  const savedAccent  = localStorage.getItem('theme-accent');
-  const savedDark    = localStorage.getItem('theme-dark');
+  const savedPrimary = localStorage.getItem("theme-primary");
+  const savedAccent = localStorage.getItem("theme-accent");
+  const savedDark = localStorage.getItem("theme-dark");
 
   if (savedPrimary && savedAccent) applyTheme(savedPrimary, savedAccent);
-  if (savedDark === 'false') document.documentElement.classList.add('light');
+  if (savedDark === "false") document.documentElement.classList.add("light");
 
   // ── DOM refs ──────────────────────────────────────────────────────────────
-  const darkToggle   = document.getElementById('dark-toggle');
-  const colorTrigger = document.getElementById('color-trigger');
-  const dropdown     = document.getElementById('color-dropdown');
-  const items        = dropdown.querySelectorAll('.dropdown-item');
+  const darkToggle = document.getElementById("dark-toggle");
+  const colorTrigger = document.getElementById("color-trigger");
+  const dropdown = document.getElementById("color-dropdown");
+  const items = dropdown.querySelectorAll(".dropdown-item");
 
   // Mark active item from storage
   if (savedPrimary) {
-    items.forEach(item => {
-      item.classList.toggle('active', item.dataset.primary === savedPrimary);
+    items.forEach((item) => {
+      item.classList.toggle("active", item.dataset.primary === savedPrimary);
     });
   }
 
   // ── Dark mode toggle ──────────────────────────────────────────────────────
-  let isDark = savedDark !== 'false';
+  let isDark = savedDark !== "false";
 
-  darkToggle.addEventListener('click', () => {
+  darkToggle.addEventListener("click", () => {
     isDark = !isDark;
-    document.documentElement.classList.toggle('light', !isDark);
-    const primary = document.documentElement.style.getPropertyValue('--primary') || '#0fd28c';
-    const accent  = document.documentElement.style.getPropertyValue('--accent')  || '#f40bf4';
+    document.documentElement.classList.toggle("light", !isDark);
+    const primary =
+      document.documentElement.style.getPropertyValue("--primary") || "#0fd28c";
+    const accent =
+      document.documentElement.style.getPropertyValue("--accent") || "#f40bf4";
     savePrefs(primary, accent, isDark);
   });
 
   // ── Color dropdown ────────────────────────────────────────────────────────
-  colorTrigger.addEventListener('click', (e) => {
+  colorTrigger.addEventListener("click", (e) => {
     e.stopPropagation();
-    dropdown.classList.toggle('open');
+    dropdown.classList.toggle("open");
   });
 
-  document.addEventListener('click', () => dropdown.classList.remove('open'));
+  document.addEventListener("click", () => dropdown.classList.remove("open"));
 
-  items.forEach(item => {
-    item.addEventListener('click', () => {
+  items.forEach((item) => {
+    item.addEventListener("click", () => {
       const { primary, accent } = item.dataset;
       applyTheme(primary, accent);
-      items.forEach(i => i.classList.remove('active'));
-      item.classList.add('active');
+      items.forEach((i) => i.classList.remove("active"));
+      item.classList.add("active");
       savePrefs(primary, accent, isDark);
-      dropdown.classList.remove('open');
+      dropdown.classList.remove("open");
     });
   });
 </script>
