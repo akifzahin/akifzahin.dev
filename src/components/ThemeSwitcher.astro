@@ -1,0 +1,218 @@
+---
+// ThemeSwitcher.astro
+// Drop this anywhere in your nav layout, e.g. beside the nav-links
+---
+
+<div class="theme-controls">
+  <!-- Dark / Light toggle -->
+  <button id="dark-toggle" class="theme-btn" aria-label="Toggle dark mode" title="Toggle dark mode">
+    <span class="icon-dark">◑</span>
+  </button>
+
+  <!-- Color preset dropdown -->
+  <div class="color-picker-wrapper">
+    <button id="color-trigger" class="theme-btn" aria-label="Color theme" title="Color theme">
+      <span class="icon-palette">◈</span>
+    </button>
+    <ul class="color-dropdown" id="color-dropdown" role="listbox">
+      <li class="dropdown-item active" role="option" data-primary="#0fd28c" data-accent="#f40bf4" data-name="Default">
+        <span class="swatch" style="--a: #0fd28c; --b: #f40bf4"></span>
+        <span>Default</span>
+      </li>
+      <li class="dropdown-item" role="option" data-primary="#00e5ff" data-accent="#f40bf4" data-name="Cyber Blue">
+        <span class="swatch" style="--a: #00e5ff; --b: #f40bf4"></span>
+        <span>Cyber Blue</span>
+      </li>
+      <li class="dropdown-item" role="option" data-primary="#ff3c3c" data-accent="#ff9500" data-name="Blood">
+        <span class="swatch" style="--a: #ff3c3c; --b: #ff9500"></span>
+        <span>Blood</span>
+      </li>
+      <li class="dropdown-item" role="option" data-primary="#4fc3f7" data-accent="#7c4dff" data-name="Void">
+        <span class="swatch" style="--a: #4fc3f7; --b: #7c4dff"></span>
+        <span>Void</span>
+      </li>
+      <li class="dropdown-item" role="option" data-primary="#e0f7fa" data-accent="#00e5ff" data-name="Ice">
+        <span class="swatch" style="--a: #e0f7fa; --b: #00e5ff"></span>
+        <span>Ice</span>
+      </li>
+      <li class="dropdown-item" role="option" data-primary="#b9ff66" data-accent="#ff6ec7" data-name="Y2K">
+        <span class="swatch" style="--a: #b9ff66; --b: #ff6ec7"></span>
+        <span>Y2K</span>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<style>
+  .theme-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .theme-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    background: rgba(7, 7, 15, 0.5);
+    border: 1px solid rgba(var(--primary-rgb, 15, 210, 140), 0.4);
+    color: var(--primary);
+    font-size: 1rem;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    transition: all 0.2s ease;
+    cursor: pointer !important;
+  }
+
+  .theme-btn:hover {
+    border-color: var(--primary);
+    box-shadow: 0 0 10px rgba(var(--primary-rgb, 15, 210, 140), 0.3);
+  }
+
+  /* Dropdown wrapper */
+  .color-picker-wrapper {
+    position: relative;
+  }
+
+  .color-dropdown {
+    display: none;
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    list-style: none;
+    background: rgba(7, 7, 15, 0.95);
+    border: 1px solid rgba(var(--primary-rgb, 15, 210, 140), 0.3);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    min-width: 160px;
+    z-index: 999;
+    padding: 0.25rem 0;
+  }
+
+  .color-dropdown.open {
+    display: block;
+  }
+
+  .dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.5rem 0.75rem;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    color: #aaa;
+    cursor: pointer !important;
+    transition: color 0.15s ease, background 0.15s ease;
+    text-transform: uppercase;
+  }
+
+  .dropdown-item:hover,
+  .dropdown-item.active {
+    color: var(--primary);
+    background: rgba(var(--primary-rgb, 15, 210, 140), 0.05);
+  }
+
+  /* Two-color swatch pill */
+  .swatch {
+    display: inline-block;
+    width: 24px;
+    height: 12px;
+    flex-shrink: 0;
+    background: linear-gradient(90deg, var(--a) 50%, var(--b) 50%);
+    border: 1px solid rgba(255,255,255,0.1);
+  }
+
+  /* Light mode overrides */
+  :root.light {
+    --bg: #f0f0f5;
+    --bg-surface: rgba(240, 240, 245, 0.7);
+    --bg-nav: rgba(240, 240, 245, 0.9);
+    --text: #111;
+    --text-muted: #888;
+    --text-subtle: #aaa;
+  }
+</style>
+
+<script>
+  // ── Helpers ───────────────────────────────────────────────────────────────
+  function hexToRgb(hex) {
+    const r = parseInt(hex.slice(1, 3), 16);
+    const g = parseInt(hex.slice(3, 5), 16);
+    const b = parseInt(hex.slice(5, 7), 16);
+    return `${r}, ${g}, ${b}`;
+  }
+
+  function applyTheme(primary, accent) {
+    const root = document.documentElement;
+    root.style.setProperty('--primary', primary);
+    root.style.setProperty('--accent', accent);
+    root.style.setProperty('--primary-rgb', hexToRgb(primary));
+    root.style.setProperty('--accent-rgb', hexToRgb(accent));
+
+    // Update glow/dim variants so existing CSS still works
+    root.style.setProperty('--primary-dim',  `rgba(${hexToRgb(primary)}, 0.1)`);
+    root.style.setProperty('--primary-glow', `rgba(${hexToRgb(primary)}, 0.4)`);
+    root.style.setProperty('--accent-dim',   `rgba(${hexToRgb(accent)}, 0.1)`);
+    root.style.setProperty('--accent-glow',  `rgba(${hexToRgb(accent)}, 0.4)`);
+  }
+
+  function savePrefs(primary, accent, dark) {
+    localStorage.setItem('theme-primary', primary);
+    localStorage.setItem('theme-accent', accent);
+    localStorage.setItem('theme-dark', dark);
+  }
+
+  // ── Init from saved prefs ─────────────────────────────────────────────────
+  const savedPrimary = localStorage.getItem('theme-primary');
+  const savedAccent  = localStorage.getItem('theme-accent');
+  const savedDark    = localStorage.getItem('theme-dark');
+
+  if (savedPrimary && savedAccent) applyTheme(savedPrimary, savedAccent);
+  if (savedDark === 'false') document.documentElement.classList.add('light');
+
+  // ── DOM refs ──────────────────────────────────────────────────────────────
+  const darkToggle   = document.getElementById('dark-toggle');
+  const colorTrigger = document.getElementById('color-trigger');
+  const dropdown     = document.getElementById('color-dropdown');
+  const items        = dropdown.querySelectorAll('.dropdown-item');
+
+  // Mark active item from storage
+  if (savedPrimary) {
+    items.forEach(item => {
+      item.classList.toggle('active', item.dataset.primary === savedPrimary);
+    });
+  }
+
+  // ── Dark mode toggle ──────────────────────────────────────────────────────
+  let isDark = savedDark !== 'false';
+
+  darkToggle.addEventListener('click', () => {
+    isDark = !isDark;
+    document.documentElement.classList.toggle('light', !isDark);
+    const primary = document.documentElement.style.getPropertyValue('--primary') || '#0fd28c';
+    const accent  = document.documentElement.style.getPropertyValue('--accent')  || '#f40bf4';
+    savePrefs(primary, accent, isDark);
+  });
+
+  // ── Color dropdown ────────────────────────────────────────────────────────
+  colorTrigger.addEventListener('click', (e) => {
+    e.stopPropagation();
+    dropdown.classList.toggle('open');
+  });
+
+  document.addEventListener('click', () => dropdown.classList.remove('open'));
+
+  items.forEach(item => {
+    item.addEventListener('click', () => {
+      const { primary, accent } = item.dataset;
+      applyTheme(primary, accent);
+      items.forEach(i => i.classList.remove('active'));
+      item.classList.add('active');
+      savePrefs(primary, accent, isDark);
+      dropdown.classList.remove('open');
+    });
+  });
+</script>

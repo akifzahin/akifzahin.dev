@@ -1,12 +1,15 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import ThemeSwitcher from "../components/ThemeSwitcher.astro";
 ---
 
 <Layout title="Akif Zahin">
   <nav>
+    
     <a href="#" class="logo font-display">
       <span class="logo-a">A</span><span class="logo-z">Z</span>
     </a>
+    <ThemeSwitcher />
     <ul class="nav-links">
       <li><a href="#work">Work</a></li>
       <li><a href="#skills">Skills</a></li>
@@ -185,7 +188,6 @@ import Layout from "../layouts/Layout.astro";
       <circle cx="150" cy="150" r="4" fill="#0fd28c"></circle>
     </svg>
   </section>
-
 
   <!-- WORK -->
   <section class="section" id="work">
@@ -383,9 +385,7 @@ import Layout from "../layouts/Layout.astro";
         </div>
         <div class="timeline-right">
           <h3 class="timeline-title font-display">IT Intern</h3>
-          <p class="timeline-company">
-            Guardian Life Insurance Ltd
-          </p>
+          <p class="timeline-company">Guardian Life Insurance Ltd</p>
           <p class="timeline-desc">
             Rebuilding existing platforms with new technologies such as NextJS
             and React with comprehensive testing.
@@ -411,9 +411,7 @@ import Layout from "../layouts/Layout.astro";
         </div>
         <div class="timeline-right">
           <h3 class="timeline-title font-display">BSc in Computer Science</h3>
-          <p class="timeline-company">
-            North South University, Dhaka
-          </p>
+          <p class="timeline-company">North South University, Dhaka</p>
           <p class="timeline-desc">
             Focused on machine learning, federated learning, and multi-task deep
             learning.
@@ -887,7 +885,7 @@ import Layout from "../layouts/Layout.astro";
 
     loadPosts();
   </script>
- 
+
   <!-- FOOTER -->
   <footer>
     <p class="footer-copy font-mono">© 2026 Akif Zahin</p>
