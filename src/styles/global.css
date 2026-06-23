@@ -1399,6 +1399,8 @@ nav {
 .post-card:hover {
   border-color: rgba(var(--primary-rgb), 0.5);
   box-shadow: 0 0 20px rgba(var(--primary-rgb), 0.08);
+  animation: glitchCard 3s ease-in-out infinite;
+
 }
 
 .post-card a {
