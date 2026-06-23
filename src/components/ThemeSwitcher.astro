@@ -176,14 +176,32 @@
   }
 
   /* Two-color swatch pill */
-  .swatch {
-    display: inline-block;
-    width: 24px;
-    height: 12px;
-    flex-shrink: 0;
-    background: linear-gradient(90deg, var(--a) 50%, var(--b) 50%);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-  }
+.swatch {
+  display: inline-flex;
+  flex-shrink: 0;
+  gap: 3px;
+  align-items: center;
+}
+
+.swatch::before,
+.swatch::after {
+  content: '';
+  display: block;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.4);
+}
+
+.swatch::before {
+  background: var(--a);
+  box-shadow: 0 0 5px var(--a);
+}
+
+.swatch::after {
+  background: var(--b);
+  box-shadow: 0 0 5px var(--b);
+}
 
   /* Light mode overrides */
   :root.light {

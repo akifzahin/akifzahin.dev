@@ -1,31 +1,14 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import ThemeSwitcher from "../components/ThemeSwitcher.astro";
+
 ---
 
 <Layout title="Akif Zahin">
-  <nav>
-    
-    <a href="#" class="logo font-display">
-      <span class="logo-a">A</span><span class="logo-z">Z</span>
-    </a>
-    <ThemeSwitcher />
-    <ul class="nav-links">
-      <li><a href="#work">Work</a></li>
-      <li><a href="#skills">Skills</a></li>
-      <li><a href="#experience">Experience</a></li>
-      <li>
-        <a href="https://medium.com/@akifzahin" target="_blank" rel="noopener"
-          >Blog</a
-        >
-      </li>
-      <li><a href="#about">About</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
-  </nav>
 
   <!-- HERO -->
   <section class="hero">
+    
     <div class="hero-content">
       <p class="hero-eyebrow font-mono">
         — Python Dev | Deep Learning | Full Stack
@@ -421,13 +404,6 @@ import ThemeSwitcher from "../components/ThemeSwitcher.astro";
     </div>
   </section>
 
-  <!-- BLOG -->
-  <section class="section" id="blog">
-    <p class="section-label">Recent writing</p>
-    <div class="posts-list" id="posts-list">
-      <p class="post-loading" style="color:#555">Loading...</p>
-    </div>
-  </section>
 
   <!-- ABOUT -->
   <section class="section" id="about">
@@ -441,17 +417,18 @@ import ThemeSwitcher from "../components/ThemeSwitcher.astro";
         efficient manner.
         <br />PS: I also have two lovely cats. Here's a picture of them.
       </p>
-      <div class="cat-container">
-        <img
-          src="/images/cats.jpg"
-          loading="lazy"
-          alt="My two cats"
-          class="cat-img"
-        />
-        <img src="/images/paw-orange.png" alt="" class="cat-paw cat-paw--tl" />
-        <img src="/images/paw-black.png" alt="" class="cat-paw cat-paw--br" />
-      </div>
-    </div>
+<div class="cat-img-wrapper">
+  <div class="cat-container">
+    <img
+      src="/images/cats.jpg"
+      loading="lazy"
+      alt="My two cats"
+      class="cat-img"
+    />
+    <img src="/images/paw-orange.png" alt="" class="cat-paw cat-paw--tl" />
+    <img src="/images/paw-black.png" alt="" class="cat-paw cat-paw--br" />
+  </div>
+</div>
   </section>
 
   <!-- CONTACT -->
@@ -597,294 +574,10 @@ import ThemeSwitcher from "../components/ThemeSwitcher.astro";
           >Send Message</button
         >
       </form>
+    </div> <!-- closes .contact-grid -->
+  </section> <!-- closes #contact -->
+  <script src="/src/scripts/home.js"></script>
 
-      <script>
-        const form = document.getElementById("contact-form");
-        form.addEventListener("submit", async (e) => {
-          e.preventDefault();
-          const btn = form.querySelector('button[type="submit"]');
-          btn.textContent = "Sending...";
-          btn.disabled = true;
-          const data = new FormData(form);
-          const res = await fetch("https://api.web3forms.com/submit", {
-            method: "POST",
-            body: data,
-          });
-          const json = await res.json();
-          if (json.success) {
-            btn.textContent = "Sent ✓";
-            btn.style.color = "#0fd28c";
-          } else {
-            btn.textContent = "Something went wrong";
-            btn.style.color = "#ff4444";
-            btn.disabled = false;
-          }
-        });
-      </script>
-    </div>
-  </section>
-  <script>
-    window.addEventListener("load", () => {
-      document.querySelector(".hero").classList.add("ready");
-    });
-    const catContainer = document.querySelector(".cat-container");
-    if (catContainer) {
-      catContainer.addEventListener(
-        "touchstart",
-        () => {
-          catContainer.classList.toggle("hovered");
-        },
-        { passive: true },
-      );
-    }
-    // ── Scroll Progress Bar ──
-    const progressBar = document.createElement("div");
-    progressBar.id = "progress-bar";
-    document.body.appendChild(progressBar);
-
-    // ── Back to Top Button ──
-    const backToTop = document.createElement("button");
-    backToTop.id = "back-to-top";
-    backToTop.innerHTML = "↑";
-    backToTop.setAttribute("aria-label", "Back to top");
-    document.body.appendChild(backToTop);
-
-    backToTop.addEventListener("click", () =>
-      window.scrollTo({ top: 0, behavior: "smooth" }),
-    );
-
-    // Monitor scrolling for progress bar and back-to-top visibility
-    window.addEventListener("scroll", () => {
-      const scrollTop = window.scrollY;
-      const docHeight =
-        document.documentElement.scrollHeight - window.innerHeight;
-      const progress = (scrollTop / docHeight) * 100;
-      progressBar.style.width = `${progress}%`;
-      progressBar.style.boxShadow =
-        progress > 95 ? "0 0 12px #0fd28c, 0 0 24px #6b21d4" : "none";
-
-      backToTop.style.opacity = scrollTop > 300 ? "1" : "0";
-      backToTop.style.pointerEvents = scrollTop > 300 ? "auto" : "none";
-    });
-
-    // ── Active Nav Highlighting ──
-    const sections = document.querySelectorAll("section[id]");
-    const navLinks = document.querySelectorAll('.nav-links a[href^="#"]');
-
-    function clearActiveLinks() {
-      navLinks.forEach((link) => link.classList.remove("active"));
-    }
-
-    const observer = new IntersectionObserver(
-      () => {
-        // Don't highlight anything at the top
-        if (window.scrollY < 50) {
-          clearActiveLinks();
-          return;
-        }
-
-        let currentSection = null;
-        let maxVisibility = 0;
-
-        sections.forEach((section) => {
-          const rect = section.getBoundingClientRect();
-
-          const visibleHeight =
-            Math.min(rect.bottom, window.innerHeight) - Math.max(rect.top, 0);
-
-          const visibilityRatio = visibleHeight / rect.height;
-
-          if (visibilityRatio > maxVisibility && visibilityRatio > 0) {
-            maxVisibility = visibilityRatio;
-            currentSection = section;
-          }
-        });
-
-        clearActiveLinks();
-
-        if (currentSection) {
-          const activeLink = document.querySelector(
-            `.nav-links a[href="#${currentSection.id}"]`,
-          );
-
-          if (activeLink) {
-            activeLink.classList.add("active");
-          }
-        }
-      },
-      {
-        threshold: [0, 0.25, 0.5, 0.75, 1],
-      },
-    );
-
-    sections.forEach((section) => observer.observe(section));
-
-    // ── Scroll Animations ──
-    const fadeEls = document.querySelectorAll(".section");
-    const fadeObserver = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("visible");
-            fadeObserver.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.1 },
-    );
-
-    fadeEls.forEach((el) => fadeObserver.observe(el));
-
-    // ── Custom Glitch Cursor Setup ──
-    const cursor = document.createElement("div");
-    cursor.id = "cursor";
-    const cursorDot = document.createElement("div");
-    cursorDot.id = "cursor-dot";
-    document.body.appendChild(cursor);
-    document.body.appendChild(cursorDot);
-
-    let mouseX = 0,
-      mouseY = 0;
-    let cursorX = 0,
-      cursorY = 0;
-
-    let moveTimeout;
-
-    window.addEventListener("mousemove", (e) => {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-      cursorDot.style.transform = `translate(${mouseX}px, ${mouseY}px)`;
-
-      cursor.style.borderColor = "#6b21d4";
-      cursor.style.boxShadow = "0 0 12px rgba(107,33,212,0.9)";
-      cursorDot.style.background = "#6b21d4";
-      cursorDot.style.boxShadow = "0 0 6px #6b21d4";
-
-      clearTimeout(moveTimeout);
-      moveTimeout = setTimeout(() => {
-        cursor.style.borderColor = "#0fd28c";
-        cursor.style.boxShadow = "0 0 6px rgba(15,210,140,0.3)";
-        cursorDot.style.background = "#0fd28c";
-        cursorDot.style.boxShadow = "0 0 6px #0fd28c";
-      }, 50);
-    });
-    document.addEventListener("mousedown", () => {
-      cursor.style.transform = `translate(${cursorX + (Math.random() - 0.5) * 10}px, ${cursorY + (Math.random() - 0.5) * 10}px)`;
-      cursor.style.borderColor = "#6b21d4";
-      cursor.style.boxShadow = "0 0 16px rgba(107,33,212,0.9)";
-      setTimeout(() => {
-        cursor.style.borderColor = "#0fd28c";
-        cursor.style.boxShadow = "0 0 6px rgba(15,210,140,0.3)";
-      }, 150);
-    });
-
-    // Trail
-    const trail = [];
-    for (let i = 0; i < 8; i++) {
-      const sq = document.createElement("div");
-      sq.style.cssText = `position:fixed;pointer-events:none;z-index:99990;border:1px solid #0fd28c;width:${6 + i * 3}px;height:${6 + i * 3}px;opacity:0;will-change:transform;margin-left:-${3 + i * 1.5}px;margin-top:-${3 + i * 1.5}px;`;
-      document.body.appendChild(sq);
-      trail.push({ el: sq, x: 0, y: 0 });
-    }
-
-    function animateCursor() {
-      cursorX += (mouseX - cursorX) * 0.12;
-      cursorY += (mouseY - cursorY) * 0.12;
-      cursor.style.transform = `translate(${cursorX}px, ${cursorY}px)`;
-
-      trail[0].x = mouseX;
-      trail[0].y = mouseY;
-      for (let i = 1; i < 8; i++) {
-        trail[i].x += (trail[i - 1].x - trail[i].x) * 0.35;
-        trail[i].y += (trail[i - 1].y - trail[i].y) * 0.35;
-      }
-      trail.forEach((t, i) => {
-        t.el.style.transform = `translate(${t.x}px,${t.y}px)`;
-        t.el.style.opacity = (((8 - i) / 8) * 0.25).toFixed(2);
-      });
-
-      requestAnimationFrame(animateCursor);
-    }
-    animateCursor();
-
-    // Hover effect on links/buttons for the custom cursor
-    document.querySelectorAll("a, button").forEach((el) => {
-      el.addEventListener("mouseenter", () =>
-        cursor.classList.add("cursor-hover"),
-      );
-      el.addEventListener("mouseleave", () =>
-        cursor.classList.remove("cursor-hover"),
-      );
-    });
-    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%";
-
-    document.querySelectorAll(".nav-links a").forEach((link) => {
-      const original = link.textContent.trim();
-      let interval;
-
-      const scramble = () => {
-        let iterations = 0;
-        clearInterval(interval);
-
-        interval = setInterval(() => {
-          link.textContent = original
-            .split("")
-            .map((char, i) => {
-              if (char === " ") return " ";
-              if (i < iterations) return original[i];
-              return chars[Math.floor(Math.random() * chars.length)];
-            })
-            .join("");
-
-          // 1. REVEAL SPEED: Lowering this from 0.5 to 0.25 makes the
-          // letters lock into place twice as slow.
-          iterations += 0.5;
-
-          if (iterations >= original.length) {
-            clearInterval(interval);
-            link.textContent = original;
-          }
-        }, 55); // 2. FLASH SPEED: Changing this from 40 to 60 (milliseconds)
-        // makes the random characters swap less aggressively.
-      };
-
-      const reset = () => {
-        clearInterval(interval);
-        link.textContent = original;
-      };
-
-      link.addEventListener("mouseenter", scramble);
-      link.addEventListener("mouseleave", reset);
-      link.addEventListener("touchstart", scramble, { passive: true });
-    });
-  </script>
-  <script>
-    async function loadPosts() {
-      const res = await fetch("/api/medium");
-      const data = await res.json();
-
-      const list = document.getElementById("posts-list");
-
-      list.innerHTML = data
-        .map((item) => {
-          const date = new Date(item.date).toLocaleDateString("en-US", {
-            month: "short",
-            day: "numeric",
-            year: "numeric",
-          });
-
-          return `
-        <a href="${item.link}" target="_blank" class="post-item">
-          <span class="post-title">${item.title}</span>
-          <span class="post-date font-mono">${date}</span>
-        </a>
-      `;
-        })
-        .join("");
-    }
-
-    loadPosts();
-  </script>
 
   <!-- FOOTER -->
   <footer>
