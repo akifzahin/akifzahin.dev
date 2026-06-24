@@ -1,14 +1,10 @@
 ---
 import Layout from "../layouts/Layout.astro";
-
-
 ---
 
 <Layout title="Akif Zahin">
-
   <!-- HERO -->
   <section class="hero">
-    
     <div class="hero-content">
       <p class="hero-eyebrow font-mono">
         — Python Dev | Deep Learning | Full Stack
@@ -404,7 +400,6 @@ import Layout from "../layouts/Layout.astro";
     </div>
   </section>
 
-
   <!-- ABOUT -->
   <section class="section" id="about">
     <p class="section-label">About</p>
@@ -417,20 +412,24 @@ import Layout from "../layouts/Layout.astro";
         efficient manner.
         <br />PS: I also have two lovely cats. Here's a picture of them.
       </p>
-<div class="cat-img-wrapper">
-  <div class="cat-container">
-    <img
-      src="/images/cats.jpg"
-      loading="lazy"
-      alt="My two cats"
-      class="cat-img"
-    />
-    <img src="/images/paw-black.png" alt="" class="cat-paw cat-paw--tl" />
-    <img src="/images/paw-orange.png" alt="" class="cat-paw cat-paw--br" />
-  </div>
-</div>
+      <div class="cat-img-wrapper">
+        <div class="cat-container">
+          <img
+            src="/images/cats.jpg"
+            loading="lazy"
+            alt="My two cats"
+            class="cat-img"
+          />
+          <img src="/images/paw-black.png" alt="" class="cat-paw cat-paw--tl" />
+          <img
+            src="/images/paw-orange.png"
+            alt=""
+            class="cat-paw cat-paw--br"
+          />
+        </div>
+      </div>
+    </div>
   </section>
-
   <!-- CONTACT -->
   <section class="section" id="contact">
     <p class="section-label">Contact</p>
@@ -574,10 +573,13 @@ import Layout from "../layouts/Layout.astro";
           >Send Message</button
         >
       </form>
-    </div> <!-- closes .contact-grid -->
-  </section> <!-- closes #contact -->
-  <script src="/src/scripts/home.js"></script>
-
+    </div>
+    <!-- closes .contact-grid -->
+  </section>
+  <!-- closes #contact -->
+  <script>
+    import "../scripts/home";
+  </script>
 
   <!-- FOOTER -->
   <footer>

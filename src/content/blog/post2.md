@@ -5,9 +5,9 @@ description: "What I've learned watching my father slowly die."
 tags: ["Personal", "Grief"]
 image: "/images/post2-dad.webp"
 ---
-![](https://cdn-images-1.medium.com/max/800/0*v9cLJC3Mf5EK40uh)
+![img](https://cdn-images-1.medium.com/max/800/0*v9cLJC3Mf5EK40uh)
 
-Singapore, 2018. A year before his terminal cancer diagnosis.
+*Singapore, 2018. A year before his terminal cancer diagnosis.*
 
 It was 12pm on a sunny Tuesday. The sun was just starting to settle down above my head. I remember drinking coffee sitting opposite my sister at the outdoor cafeteria. The lake shone bright under the sunlight, with its green hue and the never ending sound of the birds chirping across the horizon.
 

@@ -1,3 +1,10 @@
+// ── cursor.js ───────────────────────────────────────────────────────────────
+// Runs once on hard load. ClientRouter keeps <body> alive between navigations
+// so this file never re-executes — no duplicate guard needed for the DOM
+// elements. The only thing that must re-run after each navigation is the
+// hover listener binding (new page = new <a> and <button> elements).
+
+// ── Create cursor elements (once) ───────────────────────────────────────────
 const cursor = document.createElement("div");
 cursor.id = "cursor";
 const cursorDot = document.createElement("div");
@@ -5,11 +12,17 @@ cursorDot.id = "cursor-dot";
 document.body.appendChild(cursor);
 document.body.appendChild(cursorDot);
 
-const getPrimary = () => getComputedStyle(document.documentElement).getPropertyValue('--primary').trim();
-const getAccent = () => getComputedStyle(document.documentElement).getPropertyValue('--accent').trim();
+// ── CSS variable helpers ─────────────────────────────────────────────────────
+const getPrimary = () =>
+  getComputedStyle(document.documentElement).getPropertyValue("--primary").trim();
+const getAccent = () =>
+  getComputedStyle(document.documentElement).getPropertyValue("--accent").trim();
 
-let mouseX = 0, mouseY = 0;
-let cursorX = 0, cursorY = 0;
+// ── Mouse tracking ───────────────────────────────────────────────────────────
+let mouseX = 0,
+  mouseY = 0;
+let cursorX = 0,
+  cursorY = 0;
 let moveTimeout;
 
 window.addEventListener("mousemove", (e) => {
@@ -45,6 +58,7 @@ document.addEventListener("mousedown", () => {
   }, 150);
 });
 
+// ── Trail squares (created once) ─────────────────────────────────────────────
 const trail = [];
 for (let i = 0; i < 8; i++) {
   const sq = document.createElement("div");
@@ -56,12 +70,17 @@ for (let i = 0; i < 8; i++) {
 
 function updateTrailColors() {
   const primary = getPrimary();
-  trail.forEach(t => t.el.style.borderColor = primary);
+  trail.forEach((t) => (t.el.style.borderColor = primary));
 }
 
+// Re-color trail whenever the theme class or data-theme attribute changes
 const themeObserver = new MutationObserver(updateTrailColors);
-themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['class', 'data-theme'] });
+themeObserver.observe(document.documentElement, {
+  attributes: true,
+  attributeFilter: ["class", "data-theme"],
+});
 
+// ── Animation loop (runs forever, started once) ───────────────────────────────
 function animateCursor() {
   cursorX += (mouseX - cursorX) * 0.12;
   cursorY += (mouseY - cursorY) * 0.12;
@@ -82,7 +101,14 @@ function animateCursor() {
 }
 animateCursor();
 
-document.querySelectorAll("a, button").forEach((el) => {
-  el.addEventListener("mouseenter", () => cursor.classList.add("cursor-hover"));
-  el.addEventListener("mouseleave", () => cursor.classList.remove("cursor-hover"));
-});
+// ── Hover expand — re-bound on every page load ────────────────────────────────
+// After a SPA navigation the old <a>/<button> elements are replaced with new
+// ones, so we re-query and re-attach on each astro:page-load.
+function bindCursorHover() {
+  document.querySelectorAll("a, button").forEach((el) => {
+    el.addEventListener("mouseenter", () => cursor.classList.add("cursor-hover"));
+    el.addEventListener("mouseleave", () => cursor.classList.remove("cursor-hover"));
+  });
+}
+
+document.addEventListener("astro:page-load", bindCursorHover);

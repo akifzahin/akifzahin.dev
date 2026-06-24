@@ -104,6 +104,7 @@
 
 .color-dropdown.open {
   display: block;
+
 }
 
 .dropdown-item {
@@ -647,10 +648,12 @@ nav {
 
 .accent-purple {
   color: var(--accent);
+
 }
 
 .accent-green {
   color: var(--primary);
+
 }
 
 .cta-row {
@@ -891,7 +894,7 @@ nav {
 
 .section-label {
   font-family: var(--font-mono);
-  font-size: 1.2rem;
+  font-size: 1.3rem;
   color: var(--primary);
   letter-spacing: 0.2em;
   text-transform: uppercase;
@@ -945,8 +948,8 @@ nav {
    ========================================================================== */
 .projects-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 1px;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 2.5rem;
 }
 
 .project-card {
@@ -959,11 +962,14 @@ nav {
   display: block;
   color: inherit;
   overflow: hidden;
-  transition: background var(--t-fast), backdrop-filter var(--t-fast);
+  transition: background var(--t-fast), backdrop-filter var(--t-fast), transform var(--t-slow);
 }
 
 .project-card:hover {
-  animation: glitchCard 3s ease-in-out infinite;
+  animation: glitchCard 6s ease-in-out infinite;
+  transform: scale(1.02);
+
+
 }
 
 .project-card::before,
@@ -1048,7 +1054,7 @@ nav {
 }
 
 .post-item:hover {
-  animation: glitchCard 3s ease-in-out infinite;
+  animation: glitchCard 6s ease-in-out infinite;
 }
 
 .post-title {
@@ -1094,10 +1100,13 @@ nav {
   backdrop-filter: blur(18px);
   padding: 1rem;
   border: 2.3px solid rgba(var(--primary-rgb), 0.3);
+  transition: background var(--t-fast), backdrop-filter var(--t-fast), transform var(--t-slow);
+
 }
 
 .about-text:hover {
-  animation: glitchCard 3s ease-in-out infinite;
+  animation: glitchCard 6s ease-in-out infinite;
+  transform: scale(1.02);
 }
 
 .cat-img-wrapper {
@@ -1176,7 +1185,7 @@ nav {
 }
 
 .skill-group-title {
-  font-size: 0.96rem;
+  font-size: 1.1rem;
   color: var(--primary);
   letter-spacing: 0.2em;
   text-transform: uppercase;
@@ -1193,10 +1202,13 @@ nav {
   backdrop-filter: blur(18px);
   padding: 1rem;
   border: 2.3px solid rgba(var(--primary-rgb), 0.3);
+  transition: background var(--t-fast), backdrop-filter var(--t-fast), transform var(--t-slow);
+
 }
 
 .skill-tags:hover {
-  animation: glitchCard 3s ease-in-out infinite;
+  animation: glitchCard 6s ease-in-out infinite;
+  transform: scale(1.02);
 }
 
 
@@ -1218,10 +1230,14 @@ nav {
   backdrop-filter: blur(18px);
   padding: 1rem;
   border: 2.3px solid rgba(var(--primary-rgb), 0.3);
+  transition: background var(--t-fast), backdrop-filter var(--t-fast), transform var(--t-slow);
+
 }
 
 .timeline-item:hover {
-  animation: glitchCard 3s ease-in-out infinite;
+  animation: glitchCard 6s ease-in-out infinite;
+  transform: scale(1.02);
+
 }
 
 .timeline-logo {
@@ -1273,10 +1289,14 @@ nav {
   backdrop-filter: blur(18px);
   padding: 1rem;
   border: 2.3px solid rgba(var(--primary-rgb), 0.3);
+  will-change: transform;
+  transition: background var(--t-fast), backdrop-filter var(--t-fast), transform var(--t-slow);
+
 }
 
 .contact-grid:hover {
-  animation: glitchCard 3s ease-in-out infinite;
+  animation: glitchCard 6s ease-in-out infinite;
+  transform: scale(1.02)
 }
 
 .contact-heading {
@@ -1430,6 +1450,10 @@ nav {
 :root.light .form-input {
   border: 1px solid var(--accent);
 
+}
+
+:root.light .form-input:focus {
+  animation-name: inputPulseLight;
 }
 
 /* ==========================================================================
@@ -1644,7 +1668,7 @@ nav {
 
 .post-card {
   border: 2px solid var(--primary);
-  transition: border-color var(--t-fast), box-shadow var(--t-fast);
+  transition: border-color var(--t-slow), box-shadow var(--t-slow), transform var(--t-slow);
 }
 
 :root.light .post-card {
@@ -1654,7 +1678,8 @@ nav {
 .post-card:hover {
   border-color: rgba(var(--primary-rgb), 0.5);
   box-shadow: 0 0 20px rgba(var(--primary-rgb), 0.08);
-  animation: glitchCard 3s ease-in-out infinite;
+  animation: glitchCard 6s ease-in-out infinite;
+  transform: scale(1.02);
 
 }
 
@@ -1725,10 +1750,14 @@ nav {
   border: 2px solid var(--primary)
 }
 
+:root.light .post-card-image {
+  border: 2px solid var(--accent)
+}
+
 .post-card-image img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   display: block;
   filter: saturate(0.8);
   transition: filter var(--t-base), transform var(--t-base);
@@ -1740,6 +1769,204 @@ nav {
   transition: filter 0.3s ease, transform 0.3s ease;
 }
 
+/* --- 1. OVERALL CONTAINER --- */
+.post-footer {
+  margin-top: 6rem;
+  padding-top: 4rem;
+  border-top: 2px solid rgba(var(--primary-rgb), 0.2);
+  border-bottom: 2px solid rgba(var(--primary-rgb), 0.2);
+  /* Your green divider line */
+
+  /* Flexbox tells the footer to stack its children vertically */
+  display: flex !important;
+  flex-direction: column !important;
+  /* This creates a mandatory 4rem (approx. 64px) safety gap between elements */
+  gap: 4rem !important;
+  position: relative;
+  height: auto !important;
+}
+
+/* --- 2. "READ NEXT" CARD DESIGN --- */
+.read-next {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+  height: auto !important;
+  position: relative !important;
+}
+
+.read-next-label {
+  font-size: 0.8rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--primary);
+  opacity: 0.7;
+  margin: 0;
+}
+
+/* The !important tags here act as a shield against global .post-card styles */
+.read-next-card {
+  display: block !important;
+  position: relative !important;
+  float: none !important;
+  /* Prevents elements from floating out of bounds */
+  height: auto !important;
+  /* Forces the card to grow based on text size */
+  text-decoration: none;
+  border: 1px solid rgba(var(--primary-rgb), 0.15);
+  border-radius: 16px;
+  padding: 2.5rem;
+  background: rgba(var(--primary-rgb), 0.02);
+  backdrop-filter: blur(8px);
+  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.read-next-card:hover {
+  border-color: rgba(var(--primary-rgb), 0.4);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+}
+
+/* Arranges text on the left and image on the right */
+.post-card-content {
+  display: flex !important;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 3rem;
+  height: auto !important;
+}
+
+.post-card-text {
+  flex: 1 !important;
+  /* Tells the text to use up all remaining space on the left */
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  text-align: left;
+  /* Ensures your text stays left-aligned like Medium */
+}
+
+.post-date {
+  font-size: 0.8rem;
+  color: var(--primary);
+  opacity: 0.6;
+}
+
+.post-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0.5rem 0;
+  line-height: 1.3;
+}
+
+.post-desc {
+  font-size: 1rem;
+  color: var(--text);
+  opacity: 0.7;
+  line-height: 1.5;
+}
+
+/* Formats the image container on the right */
+.post-card-image {
+  width: 240px;
+  height: 150px;
+  flex-shrink: 0;
+  /* Keeps the image box from shrinking or folding */
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+}
+
+.post-card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* Centers and clips the photo cleanly inside the container */
+}
+
+
+/* --- 3. BOTTOM BUTTONS PAGINATION --- */
+.post-nav {
+  display: flex !important;
+  flex-direction: row;
+  gap: 1.5rem;
+  width: 100%;
+  height: auto !important;
+  position: relative !important;
+  border: none !important;
+  border-bottom: none !important;
+  box-shadow: none !important;
+}
+
+.post-nav-btn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1.5rem;
+  border: 1px solid rgba(var(--primary-rgb), 0.15);
+  border-radius: 12px;
+  text-decoration: none;
+  background: rgba(var(--primary-rgb), 0.01);
+  transition: transform 0.3s ease, border-color 0.3s ease;
+  text-align: center;
+  /* Keeps button text clean and left-aligned */
+}
+
+.post-nav-btn:hover {
+  border-color: var(--primary);
+  transform: translateY(-2px);
+}
+
+.post-nav-dir {
+  font-size: 1.2rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--primary);
+  transition: transform 0.2s ease;
+}
+
+.post-nav-btn:hover:first-child .post-nav-dir {
+  transform: translateX(-4px);
+  /* Shifts the Older arrow left on hover */
+}
+
+.post-nav-btn:hover:last-child .post-nav-dir {
+  transform: translateX(4px);
+  /* Shifts the Newer arrow right on hover */
+}
+
+.post-nav-title {
+  font-size: 1rem;
+  color: var(--text);
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+
+/* --- 4. RESPONSIVE DESIGN (MOBILE) --- */
+@media (max-width: 768px) {
+  .post-card-content {
+    flex-direction: column-reverse !important;
+    /* Puts image on top, text below on mobile */
+    align-items: flex-start;
+    gap: 1.5rem;
+  }
+
+  .post-card-image {
+    width: 100%;
+    height: 180px;
+  }
+
+  .post-nav {
+    flex-direction: column !important;
+    /* Stacks the pagination buttons on top of each other */
+    gap: 1rem;
+  }
+}
 
 /* Mobile — stack image above text */
 
@@ -1878,7 +2105,7 @@ footer {
   height: 40px;
   background: rgba(var(--bg-rgb), 0.4);
   color: var(--primary);
-  z-index: 999;
+  z-index: 98;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2141,31 +2368,77 @@ footer {
   }
 }
 
-@keyframes glitchCard {
+@keyframes glitchCardLight {
   0% {
-    border-color: var(--primary);
-    box-shadow: 0 0 6px var(--primary);
+    border-color: none;
+    box-shadow: none;
   }
 
-  25% {
+  20% {
     border-color: var(--accent);
     box-shadow: 0 0 10px var(--accent);
   }
 
-  50% {
+  40% {
     border-color: var(--primary);
     box-shadow: 0 0 6px var(--primary);
   }
 
-  75% {
+  60% {
     border-color: var(--accent);
     box-shadow: 0 0 10px var(--accent);
+  }
+
+  80% {
+    border-color: var(--primary);
+    box-shadow: 0 0 6px var(--primary);
   }
 
   100% {
-    border-color: var(--primary);
-    box-shadow: 0 0 6px var(--primary);
+    border-color: none;
+    box-shadow: none;
   }
+}
+
+@keyframes glitchCard {
+  0% {
+    border-color: none;
+    box-shadow: none;
+  }
+
+  20% {
+    border-color: var(--primary);
+    box-shadow: 0 0 10px var(--primary);
+  }
+
+  40% {
+    border-color: var(--accent);
+    box-shadow: 0 0 6px var(--accent);
+  }
+
+  60% {
+    border-color: var(--primary);
+    box-shadow: 0 0 10px var(--primary);
+  }
+
+  80% {
+    border-color: var(--accent);
+    box-shadow: 0 0 6px var(--accent);
+  }
+
+  100% {
+    border-color: none;
+    box-shadow: none;
+  }
+}
+
+:root.light .post-card:hover,
+:root.light .contact-grid:hover,
+:root.light .about-text:hover,
+:root.light .timeline-item:hover,
+:root.light .skill-tags:hover,
+:root.light .project-card:hover {
+  animation-name: glitchCardLight;
 }
 
 @keyframes inputPulse {
@@ -2180,7 +2453,7 @@ footer {
   }
 }
 
-@keyframes inputPulse2 {
+@keyframes inputPulseLight {
 
   0%,
   100% {
@@ -2293,6 +2566,7 @@ footer {
     display: none !important;
   }
 }
+
 .nav-wrapper {
   position: relative;
   z-index: 100;
@@ -2321,9 +2595,17 @@ footer {
   transform-origin: center;
 }
 
-.nav-hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
-.nav-hamburger.open span:nth-child(2) { opacity: 0; }
-.nav-hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+.nav-hamburger.open span:nth-child(1) {
+  transform: translateY(6.5px) rotate(45deg);
+}
+
+.nav-hamburger.open span:nth-child(2) {
+  opacity: 0;
+}
+
+.nav-hamburger.open span:nth-child(3) {
+  transform: translateY(-6.5px) rotate(-45deg);
+}
 
 :root.light .nav-hamburger {
   border-color: rgba(var(--accent-rgb), 0.4);
@@ -2375,6 +2657,7 @@ footer {
 .nav-drawer ul li a:hover {
   color: var(--primary);
   background: rgba(var(--primary-rgb), 0.05);
+
 }
 
 :root.light .nav-drawer {
@@ -2402,7 +2685,7 @@ footer {
 @media (max-width: 1024px) {
 
 
-  
+
   #back-button {
     top: calc(var(--nav-height) + 1rem);
     left: 1rem;

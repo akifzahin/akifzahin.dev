@@ -25,7 +25,7 @@ function pageHref(n: number) { return "?page=" + n; }
 function pageClass(n: number) { return n === currentPage ? "page-btn active" : "page-btn"; }
 ---
 
-<Layout title="Blog — Akif Zahin">
+<Layout title="Blog — Akif Zahin" showBack={true}>
   <main class="blog-index">
     <BackButton />
     <div class="blog-body">

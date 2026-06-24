@@ -7,7 +7,7 @@ image: "/images/post1-waves.webp"
 ---
 ![man sitting on surfboard over vast cyan ocean](https://cdn-images-1.medium.com/max/1200/1*qUXexM6j4QyCv6jk9VAgQQ.jpeg)
 
-Photo by [Felipe Coelho](https://unsplash.com/@ofelipecoelho?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText) on [Unsplash](https://unsplash.com/photos/surfer-is-paddling-alone-in-the-vast-ocean--otamb-hEPM?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText)
+*Photo by [Felipe Coelho](https://unsplash.com/@ofelipecoelho?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText) on [Unsplash](https://unsplash.com/photos/surfer-is-paddling-alone-in-the-vast-ocean--otamb-hEPM?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText)*
 
 I’m tired of hearing the same line over and over again — “*Grief comes in waves and it’ll pass*”. It’s not a wave, it’s a **tsunami**.
 
@@ -37,7 +37,7 @@ The wave of grief has now fully engulfed you in all its glory. You are now subme
 
 ![person draped in white cloth in the night under red light](https://cdn-images-1.medium.com/max/1200/1*Dg8hcsohvSC0LfvDPX9opw.jpeg)
 
-Photo by [Kevin Escate](https://unsplash.com/@hf_photography?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText) on [Unsplash](https://unsplash.com/photos/person-in-yellow-hijab-standing-on-brown-field-during-night-time-4Se7r4gf6KE?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText)
+*Photo by [Kevin Escate](https://unsplash.com/@hf_photography?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText) on [Unsplash](https://unsplash.com/photos/person-in-yellow-hijab-standing-on-brown-field-during-night-time-4Se7r4gf6KE?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText)*
 
 I’ve spent the whole year trying to investigate why this phenomenon seems to happen. What makes something as simple as a wave of sadness that should pass over you and let you be okay, takes control and tries to drown you. Some might call it the brain rewiring, or hormonal imbalance, or the way our memory works.
 
@@ -57,7 +57,7 @@ Part of what makes grief like this so *terrifyingly beautiful* is the love that�
 
 ![two people sitting on surfboards on the sea with mountains in the back](https://cdn-images-1.medium.com/max/1200/1*5fLt7QLqxMwrxYDAJ2xz_A.jpeg)
 
-Photo by [Kellen Riggin](https://unsplash.com/@kalaniparker?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText) on [Unsplash](https://unsplash.com/photos/two-surfers-wait-for-waves-near-a-rocky-coastline-MA0nBwOmuwQ?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText)
+*Photo by [Kellen Riggin](https://unsplash.com/@kalaniparker?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText) on [Unsplash](https://unsplash.com/photos/two-surfers-wait-for-waves-near-a-rocky-coastline-MA0nBwOmuwQ?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText)*
 
 I think what my journey through these waves and my life with the ghosts of my past has taught me, is that grief as deep as this is not just a wound or a scar; it’s you being reborn. While you may never go back to the past to experience what life was back then, you do have the chance to take all of this sadness and mold yourself into a version that your departed loved one can be proud of, living each day in their remembrance.
 

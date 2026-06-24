@@ -1,6 +1,5 @@
 ---
 // ThemeSwitcher.astro
-// Drop this anywhere in your nav layout, e.g. beside the nav-links
 ---
 
 <div class="theme-controls">
@@ -100,88 +99,119 @@
   </div>
 </div>
 
-
-
-
 <script>
-  // ── Helpers ───────────────────────────────────────────────────────────────
-  function hexToRgb(hex) {
+  // ── Helpers ─────────────────────────────────────────────────────────────────
+  function hexToRgb(hex: string) {
     const r = parseInt(hex.slice(1, 3), 16);
     const g = parseInt(hex.slice(3, 5), 16);
     const b = parseInt(hex.slice(5, 7), 16);
     return `${r}, ${g}, ${b}`;
   }
 
-  function applyTheme(primary, accent) {
+  function applyTheme(primary: string, accent: string) {
     const root = document.documentElement;
     root.style.setProperty("--primary", primary);
     root.style.setProperty("--accent", accent);
     root.style.setProperty("--primary-rgb", hexToRgb(primary));
     root.style.setProperty("--accent-rgb", hexToRgb(accent));
-
-    // Update glow/dim variants so existing CSS still works
     root.style.setProperty("--primary-dim", `rgba(${hexToRgb(primary)}, 0.1)`);
     root.style.setProperty("--primary-glow", `rgba(${hexToRgb(primary)}, 0.4)`);
     root.style.setProperty("--accent-dim", `rgba(${hexToRgb(accent)}, 0.1)`);
     root.style.setProperty("--accent-glow", `rgba(${hexToRgb(accent)}, 0.4)`);
   }
 
-  function savePrefs(primary, accent, dark) {
+  function savePrefs(primary: string, accent: string, dark: boolean) {
     localStorage.setItem("theme-primary", primary);
     localStorage.setItem("theme-accent", accent);
-    localStorage.setItem("theme-dark", dark);
+    localStorage.setItem("theme-dark", String(dark));
   }
 
-  // ── Init from saved prefs ─────────────────────────────────────────────────
-  const savedPrimary = localStorage.getItem("theme-primary");
-  const savedAccent = localStorage.getItem("theme-accent");
-  const savedDark = localStorage.getItem("theme-dark");
+  // ── Preserve theme across SPA navigations ────────────────────────────────────
+  // astro:before-swap fires before the old DOM is replaced with the new page.
+  // We copy our inline style properties from the outgoing <html> onto the
+  // incoming <html> so the new page never flashes unstyled.
+  document.addEventListener("astro:before-swap", (e: Event) => {
+    const swap = e as TransitionBeforeSwapEvent;
+    const outgoing = document.documentElement;
+    const incoming = swap.newDocument.documentElement;
 
-  if (savedPrimary && savedAccent) applyTheme(savedPrimary, savedAccent);
-  if (savedDark === "false") document.documentElement.classList.add("light");
-
-  // ── DOM refs ──────────────────────────────────────────────────────────────
-  const darkToggle = document.getElementById("dark-toggle");
-  const colorTrigger = document.getElementById("color-trigger");
-  const dropdown = document.getElementById("color-dropdown");
-  const items = dropdown.querySelectorAll(".dropdown-item");
-
-  // Mark active item from storage
-  if (savedPrimary) {
-    items.forEach((item) => {
-      item.classList.toggle("active", item.dataset.primary === savedPrimary);
+    const props = [
+      "--primary", "--accent",
+      "--primary-rgb", "--accent-rgb",
+      "--primary-dim", "--primary-glow",
+      "--accent-dim", "--accent-glow",
+    ];
+    props.forEach((prop) => {
+      const val = outgoing.style.getPropertyValue(prop);
+      if (val) incoming.style.setProperty(prop, val);
     });
-  }
 
-  // ── Dark mode toggle ──────────────────────────────────────────────────────
-  let isDark = savedDark !== "false";
-
-  darkToggle.addEventListener("click", () => {
-    isDark = !isDark;
-    document.documentElement.classList.toggle("light", !isDark);
-    const primary =
-      document.documentElement.style.getPropertyValue("--primary") || "#0fd28c";
-    const accent =
-      document.documentElement.style.getPropertyValue("--accent") || "#f40bf4";
-    savePrefs(primary, accent, isDark);
+    // Carry over light-mode class
+    if (outgoing.classList.contains("light")) {
+      incoming.classList.add("light");
+    }
   });
 
-  // ── Color dropdown ────────────────────────────────────────────────────────
-  colorTrigger.addEventListener("click", (e) => {
-    e.stopPropagation();
-    dropdown.classList.toggle("open");
-  });
+  // ── Init / re-init on every page load ────────────────────────────────────────
+  // Runs on hard load AND after every SPA navigation, re-attaching listeners
+  // to the freshly rendered ThemeSwitcher markup in the nav.
+  function initThemeSwitcher() {
+    const savedPrimary = localStorage.getItem("theme-primary");
+    const savedAccent = localStorage.getItem("theme-accent");
+    const savedDark = localStorage.getItem("theme-dark");
 
-  document.addEventListener("click", () => dropdown.classList.remove("open"));
+    // Apply saved colours (the before-swap handler already did this for
+    // navigations, but this covers hard loads and keeps the switcher in sync).
+    if (savedPrimary && savedAccent) applyTheme(savedPrimary, savedAccent);
+    if (savedDark === "false") document.documentElement.classList.add("light");
 
-  items.forEach((item) => {
-    item.addEventListener("click", () => {
-      const { primary, accent } = item.dataset;
-      applyTheme(primary, accent);
-      items.forEach((i) => i.classList.remove("active"));
-      item.classList.add("active");
+    const darkToggle = document.getElementById("dark-toggle");
+    const colorTrigger = document.getElementById("color-trigger");
+    const dropdown = document.getElementById("color-dropdown");
+    if (!darkToggle || !colorTrigger || !dropdown) return;
+
+    const items = dropdown.querySelectorAll<HTMLElement>(".dropdown-item");
+
+    // Mark active item from storage
+    if (savedPrimary) {
+      items.forEach((item) => {
+        item.classList.toggle("active", item.dataset.primary === savedPrimary);
+      });
+    }
+
+    // Dark mode toggle
+    let isDark = savedDark !== "false";
+
+    darkToggle.addEventListener("click", () => {
+      isDark = !isDark;
+      document.documentElement.classList.toggle("light", !isDark);
+      const primary =
+        document.documentElement.style.getPropertyValue("--primary") || "#0fd28c";
+      const accent =
+        document.documentElement.style.getPropertyValue("--accent") || "#f40bf4";
       savePrefs(primary, accent, isDark);
-      dropdown.classList.remove("open");
     });
-  });
+
+    // Color dropdown open/close
+    colorTrigger.addEventListener("click", (e) => {
+      e.stopPropagation();
+      dropdown.classList.toggle("open");
+    });
+
+    document.addEventListener("click", () => dropdown.classList.remove("open"));
+
+    // Color preset selection
+    items.forEach((item) => {
+      item.addEventListener("click", () => {
+        const { primary, accent } = item.dataset as { primary: string; accent: string };
+        applyTheme(primary, accent);
+        items.forEach((i) => i.classList.remove("active"));
+        item.classList.add("active");
+        savePrefs(primary, accent, isDark);
+        dropdown.classList.remove("open");
+      });
+    });
+  }
+
+  document.addEventListener("astro:page-load", initThemeSwitcher);
 </script>
