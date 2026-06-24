@@ -2293,7 +2293,108 @@ footer {
     display: none !important;
   }
 }
+.nav-wrapper {
+  position: relative;
+  z-index: 100;
+}
 
+.nav-hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: transparent;
+  border: 1px solid rgba(var(--primary-rgb), 0.4);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.nav-hamburger span {
+  display: block;
+  width: 18px;
+  height: 1.5px;
+  background: var(--primary);
+  transition: all 0.3s ease;
+  transform-origin: center;
+}
+
+.nav-hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+.nav-hamburger.open span:nth-child(2) { opacity: 0; }
+.nav-hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+:root.light .nav-hamburger {
+  border-color: rgba(var(--accent-rgb), 0.4);
+}
+
+:root.light .nav-hamburger span {
+  background: var(--accent);
+}
+
+.nav-drawer {
+  position: fixed;
+  top: var(--nav-height);
+  left: 0;
+  right: 0;
+  background: var(--bg-nav);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border-bottom: 1px solid rgba(var(--primary-rgb), 0.3);
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+  z-index: 99;
+}
+
+.nav-drawer.open {
+  max-height: 400px;
+}
+
+.nav-drawer ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.nav-drawer ul li a {
+  display: block;
+  padding: 0.9rem 1.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(var(--primary-rgb), 0.08);
+  transition: color 0.2s, background 0.2s;
+}
+
+.nav-drawer ul li a:hover {
+  color: var(--primary);
+  background: rgba(var(--primary-rgb), 0.05);
+}
+
+:root.light .nav-drawer {
+  border-bottom-color: rgba(var(--accent-rgb), 0.3);
+}
+
+:root.light .nav-drawer ul li a:hover {
+  color: var(--accent);
+  background: rgba(var(--accent-rgb), 0.05);
+}
+
+@media (max-width: 1024px) {
+  .nav-links {
+    display: none;
+  }
+
+  .nav-hamburger {
+    display: flex;
+  }
+}
 
 /* ==========================================================================
    RESPONSIVE — max-width: 1024px

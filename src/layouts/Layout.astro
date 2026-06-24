@@ -8,6 +8,7 @@ import SpeedInsights from "@vercel/speed-insights/astro";
 import ThemeSwitcher from "../components/ThemeSwitcher.astro";
 const { title = "Akif Zahin" } = Astro.props;
 ---
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -80,25 +81,62 @@ const { title = "Akif Zahin" } = Astro.props;
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   </head>
   <body>
-    <nav>
-      <div class="nav-left">
-        <a href="/" class="logo font-display">
-          <span class="logo-a">A</span><span class="logo-z">Z</span>
-        </a>
-        <ThemeSwitcher />
+    <div class="nav-wrapper">
+      <nav>
+        <div class="nav-left">
+          <a href="/" class="logo font-display">
+            <span class="logo-a">A</span><span class="logo-z">Z</span>
+          </a>
+          <ThemeSwitcher />
+        </div>
+        <ul class="nav-links">
+          <li><a href="/#work">Work</a></li>
+          <li><a href="/#skills">Skills</a></li>
+          <li><a href="/#experience">Experience</a></li>
+          <li><a href="/blog">Blog</a></li>
+          <li><a href="/#about">About</a></li>
+          <li><a href="/#contact">Contact</a></li>
+        </ul>
+        <button
+          class="nav-hamburger"
+          id="nav-hamburger"
+          aria-label="Toggle menu"
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </nav>
+      <div class="nav-drawer" id="nav-drawer">
+        <ul>
+          <li><a href="/#work">Work</a></li>
+          <li><a href="/#skills">Skills</a></li>
+          <li><a href="/#experience">Experience</a></li>
+          <li><a href="/blog">Blog</a></li>
+          <li><a href="/#about">About</a></li>
+          <li><a href="/#contact">Contact</a></li>
+        </ul>
       </div>
-      <ul class="nav-links">
-        <li><a href="/#work">Work</a></li>
-        <li><a href="/#skills">Skills</a></li>
-        <li><a href="/#experience">Experience</a></li>
-        <li><a href="/blog">Blog</a></li>
-        <li><a href="/#about">About</a></li>
-        <li><a href="/#contact">Contact</a></li>
-      </ul>
-    </nav>
+    </div>
     <slot />
     <Analytics />
     <SpeedInsights />
-    
   </body>
+  <script>
+    const hamburger = document.getElementById("nav-hamburger");
+    const drawer = document.getElementById("nav-drawer");
+
+    hamburger?.addEventListener("click", () => {
+      hamburger.classList.toggle("open");
+      drawer?.classList.toggle("open");
+    });
+
+    // close drawer when a link is clicked
+    drawer?.querySelectorAll("a").forEach((link) => {
+      link.addEventListener("click", () => {
+        hamburger?.classList.remove("open");
+        drawer?.classList.remove("open");
+      });
+    });
+  </script>
 </html>
