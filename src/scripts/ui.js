@@ -6,9 +6,13 @@ document.body.appendChild(progressBar);
 // ── Back to Top Button ──
 const backToTop = document.createElement("button");
 backToTop.id = "back-to-top";
-backToTop.innerHTML = "↑";
+
+// Insert your custom SVG here instead of the text arrow
+backToTop.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-square-arrow-up-icon lucide-square-arrow-up"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="m16 12-4-4-4 4"/><path d="M12 16V8"/></svg>`;
+
 backToTop.setAttribute("aria-label", "Back to top");
 document.body.appendChild(backToTop);
+
 
 backToTop.addEventListener("click", () =>
   window.scrollTo({ top: 0, behavior: "smooth" })

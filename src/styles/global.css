@@ -35,6 +35,7 @@
   --t-fast: 0.2s ease;
   --t-base: 0.3s ease;
   --t-slow: 0.6s ease;
+  --nav-height: 72px;
 }
 
 /* ==========================================================================
@@ -375,7 +376,6 @@ body::after {
   font-family: var(--font-display);
 }
 
-
 /* ==========================================================================
    NAVIGATION
    ========================================================================== */
@@ -388,7 +388,8 @@ nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1.5rem 3rem;
+  height: 72px;
+  padding: 0 3rem;
   background: var(--bg-nav);
   border-bottom: 1.3px solid var(--primary);
   -webkit-backdrop-filter: blur(18px);
@@ -404,7 +405,6 @@ nav {
   align-items: center;
   gap: 0.75rem;
   flex-shrink: 0;
-  /* never squishes */
 }
 
 .logo {
@@ -442,6 +442,7 @@ nav {
 :root.light .nav-links a.active {
   color: var(--accent);
 }
+
 
 
 /* ==========================================================================
@@ -1441,6 +1442,8 @@ nav {
   color: var(--text);
 }
 
+
+
 .blog-post-inner {
   max-width: 720px;
   margin: 0 auto;
@@ -1519,6 +1522,14 @@ nav {
   font-size: 1.05rem;
   line-height: 1.85;
   color: var(--text);
+}
+
+.post-content img {
+  width: 100%;
+  height: auto;
+  display: block;
+  max-width: 100%;
+  object-fit: cover;
 }
 
 .post-content h2,
@@ -1858,74 +1869,95 @@ footer {
   transition: width 0.1s linear;
 }
 
-#back-to-top {
-  position: fixed;
-  bottom: 2rem;
-  right: 2rem;
+/* ==========================================================================
+   1. SHARED BASE STYLES
+   ========================================================================== */
+#back-to-top,
+#back-button {
   width: 40px;
   height: 40px;
-  background: transparent;
-  border: 2px solid var(--primary);
+  background: rgba(var(--bg-rgb), 0.4);
   color: var(--primary);
-  font-size: 1.2rem;
-  z-index: 999;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity var(--t-base), box-shadow var(--t-fast);
-  -webkit-backdrop-filter: blur(18px);
-  backdrop-filter: blur(18px);
-}
-
-#back-to-top:hover {
-  box-shadow: 0 0 16px var(--primary);
-}
-
-:root.light #back-to-top:hover {
-  box-shadow: 0 0 16px var(--accent);
-}
-
-:root.light #back-to-top {
-  border: 2px solid var(--accent);
-  color: var(--accent);
-}
-
-#back-button {
-  bottom: 2rem;
-  left: 2rem;
-  width: 50px;
-  height: 30px;
-  margin: 1.5rem 0 0 1rem;
-  background: transparent;
-  color: var(--primary);
-  font-size: 1.2rem;
   z-index: 999;
   display: flex;
   align-items: center;
   justify-content: center;
   text-decoration: none;
-  transition: opacity var(--t-base), box-shadow var(--t-fast);
-
-
+  border: 1px solid rgba(var(--primary-rgb), 0.3);
+  cursor: pointer;
+  border-radius: 2px;
+  transition:
+    opacity var(--t-base),
+    border-color var(--t-fast),
+    box-shadow var(--t-fast),
+    background var(--t-fast);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  backdrop-filter: blur(24px) saturate(180%);
 }
 
+#back-to-top:hover,
+#back-button:hover {
+  background: rgba(var(--primary-rgb), 0.08);
+  border-color: rgba(var(--primary-rgb), 0.7);
+  box-shadow:
+    0 0 12px rgba(var(--primary-rgb), 0.25),
+    inset 0 0 12px rgba(var(--primary-rgb), 0.05);
+}
+
+/* Light Theme */
+:root.light #back-to-top,
 :root.light #back-button {
-
   color: var(--accent);
+  background: rgba(var(--bg-rgb), 0.5);
+  border-color: rgba(var(--accent-rgb), 0.3);
 }
 
+:root.light #back-to-top:hover,
+:root.light #back-button:hover {
+  background: rgba(var(--accent-rgb), 0.08);
+  border-color: rgba(var(--accent-rgb), 0.7);
+  box-shadow:
+    0 0 12px rgba(var(--accent-rgb), 0.25),
+    inset 0 0 12px rgba(var(--accent-rgb), 0.05);
+}
+
+/* ==========================================================================
+   2. SVG
+   ========================================================================== */
+#back-to-top svg,
+#back-button svg {
+  width: 16px;
+  height: 16px;
+  transition: transform var(--t-fast), filter var(--t-fast);
+}
+
+#back-to-top:hover svg,
 #back-button:hover svg {
-  /* Combine multiple filters on one line, and use transform for scaling */
-  filter: drop-shadow(0 0 16px var(--primary));
-  transform: scale(1.5);
-  transition: transform var(--t-slow);
-  /* Keeps the scaling smooth */
-
+  filter: drop-shadow(0 0 6px rgba(var(--primary-rgb), 0.8));
+  transform: scale(1.15);
 }
 
+:root.light #back-to-top:hover svg,
 :root.light #back-button:hover svg {
-  filter: drop-shadow(0 0 16px var(--accent));
-  transform: scale(1.5);
-  transition: transform var(--t-slow);
+  filter: drop-shadow(0 0 6px rgba(var(--accent-rgb), 0.8));
+  transform: scale(1.15);
+}
+
+/* ==========================================================================
+   3. POSITIONING & VISIBILITY
+   ========================================================================== */
+#back-to-top {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  opacity: 0;
+  pointer-events: none;
+}
+
+#back-button {
+  position: fixed;
+  top: 5rem;
+  left: 1.5rem;
 }
 
 
@@ -2268,6 +2300,15 @@ footer {
    ========================================================================== */
 @media (max-width: 1024px) {
 
+
+  
+  #back-button {
+    top: calc(var(--nav-height) + 1rem);
+    left: 1rem;
+    width: 34px;
+    height: 34px;
+  }
+
   .post-card-content {
     flex-direction: column-reverse;
   }
@@ -2277,11 +2318,17 @@ footer {
     aspect-ratio: 16 / 9;
   }
 
+  .nav-links a {
+    font-size: 0.85rem;
+    letter-spacing: 0.08em;
+  }
+
   html,
   body {
     overflow-x: hidden;
     max-width: 100%;
   }
+
 
   .page-btn {
     min-width: 36px;
@@ -2289,29 +2336,14 @@ footer {
     font-size: 0.78rem;
   }
 
-  /* Navigation */
-  nav {
-    padding: 1rem 1.5rem;
-    flex-wrap: wrap;
-    gap: 1rem;
-    justify-content: center;
-    -webkit-backdrop-filter: blur(18px);
-    backdrop-filter: blur(18px);
-    background: var(--bg-nav) !important;
-  }
+
 
   .logo {
     width: 100%;
     text-align: center;
   }
 
-  .nav-links {
-    gap: 1rem;
-    flex-wrap: wrap;
-    font-size: 0.65rem;
-    justify-content: center;
-    padding-left: 0;
-  }
+
 
   /* Hero */
   .hero {
