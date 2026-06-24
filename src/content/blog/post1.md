@@ -2,15 +2,9 @@
 title: "When the Wave Becomes a Tsunami: Learning to Live With Grief"
 date: 2025-10-14
 description: "I'm tired of hearing the same line over and over again — \"Grief comes in waves and it'll pass\". It's not a wave, it's a tsunami."
-tags: ["personal", "mental health"]
+tags: ["Personal", "Mental Health"]
+image: "/images/post1-waves.webp"
 ---
-
-I’m tired of hearing the same line over and over again — “Grief comes in waves and it’ll pass”. It’s not a wave, it’s a tsunami.
-
----
-
-### When the Wave Becomes a Tsunami: Learning to Live With Grief
-
 ![man sitting on surfboard over vast cyan ocean](https://cdn-images-1.medium.com/max/1200/1*qUXexM6j4QyCv6jk9VAgQQ.jpeg)
 
 Photo by [Felipe Coelho](https://unsplash.com/@ofelipecoelho?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText) on [Unsplash](https://unsplash.com/photos/surfer-is-paddling-alone-in-the-vast-ocean--otamb-hEPM?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText)
@@ -88,9 +82,3 @@ This was another aspect I wasn’t prepared for; grief can also change the way w
 Maybe the waves will exist throughout our lives. Maybe they will turn into giant world-ending tsunamis that will surely engulf and drown us. Maybe the ghosts of our past will never stop haunting us as long as we are alive.
 
 **But we sure as hell can face them with compassion for ourselves, because sometimes surviving is still the bravest thing we can do.**
-
-By [Akif Zahin](https://medium.com/@akifzahin) on [October 14, 2025](https://medium.com/p/96b3fffbaae9).
-
-[Canonical link](https://medium.com/@akifzahin/when-the-wave-becomes-a-tsunami-learning-to-live-with-grief-96b3fffbaae9)
-
-Exported from [Medium](https://medium.com) on June 22, 2026.

@@ -1,14 +1,10 @@
 ---
 title: "Lessons I've Learned, Standing in the Middle of Loss and Death"
-date: 2026-19-01
+date: 2026-01-19
 description: "What I've learned watching my father slowly die."
-tags: ["personal", "grief"]
+tags: ["Personal", "Grief"]
+image: "/images/post2-dad.webp"
 ---
-
-### Lessons I’ve learned, standing in the middle of loss and death.
-
-#### What I’ve learned watching my father slowly die.
-
 ![](https://cdn-images-1.medium.com/max/800/0*v9cLJC3Mf5EK40uh)
 
 Singapore, 2018. A year before his terminal cancer diagnosis.
@@ -60,9 +56,3 @@ I think I’m starting to understand what this life truly is. A brief flash of e
 > When we are no longer able to change a situation, we are challenged to change ourselves.
 
 My dad used to tell me, “If you can be one thing today, be kind.” and I’m going to make sure I follow his advice, as long as I exist.
-
-By [Akif Zahin](https://medium.com/@akifzahin) on [January 19, 2026](https://medium.com/p/9697c3fdb4fa).
-
-[Canonical link](https://medium.com/@akifzahin/lessons-ive-learned-standing-in-the-middle-of-loss-and-death-9697c3fdb4fa)
-
-Exported from [Medium](https://medium.com) on June 22, 2026.

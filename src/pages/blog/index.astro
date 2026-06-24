@@ -1,39 +1,95 @@
 ---
-import { getCollection } from 'astro:content';
-import Layout from '../../layouts/Layout.astro';
+import { getCollection } from "astro:content";
+import Layout from "../../layouts/Layout.astro";
+import BackButton from "../../components/BackButton.astro";
 
-const posts = (await getCollection('blog')).sort(
+const POSTS_PER_PAGE = 5;
+
+const allPosts = (await getCollection("blog")).sort(
   (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
 );
+
+const url = new URL(Astro.request.url);
+const currentPage = Number(url.searchParams.get("page") || 1);
+const totalPages = Math.ceil(allPosts.length / POSTS_PER_PAGE);
+const posts = allPosts.slice(
+  (currentPage - 1) * POSTS_PER_PAGE,
+  currentPage * POSTS_PER_PAGE
+);
+
+const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1);
+const prevHref = "?page=" + (currentPage - 1);
+const nextHref = "?page=" + (currentPage + 1);
+
+function pageHref(n: number) { return "?page=" + n; }
+function pageClass(n: number) { return n === currentPage ? "page-btn active" : "page-btn"; }
 ---
 
 <Layout title="Blog — Akif Zahin">
   <main class="blog-index">
-    <div class="blog-index-inner">
-      <h1 class="blog-heading font-display">Blog</h1>
-      <p class="blog-subheading font-mono">— thoughts, lessons, observations</p>
-
-      <ul class="post-list">
-        {posts.map(post => (
-          <li class="post-card">
-            <a href={`/blog/${post.id}`}>
-              <span class="post-date font-mono">
-                {post.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}
-              </span>
-              <h2 class="post-title">{post.data.title}</h2>
-              <p class="post-desc">{post.data.description}</p>
-              {post.data.tags && (
-                <div class="post-tags">
-                  {post.data.tags.map(tag => <span class="tag font-mono">#{tag}</span>)}
+    <BackButton />
+    <div class="blog-body">
+      <div class="blog-index-inner">
+        <h1 class="blog-heading font-display">
+          <span class="name-outline">Bl</span><span class="name-glow">og</span>
+        </h1>
+        <p class="blog-subheading font-mono">
+          — thoughts, lessons, observations
+        </p>
+        <ul class="post-list">
+          {posts.map((post) => (
+            <li class="post-card">
+              <a href={"/blog/" + post.id}>
+                <div class="post-card-content">
+                  <div class="post-card-text">
+                    <span class="post-date font-mono">
+                      {post.data.date.toLocaleDateString("en-US", {
+                        year: "numeric",
+                        month: "short",
+                        day: "numeric",
+                      })}
+                    </span>
+                    <h2 class="post-title">{post.data.title}</h2>
+                    <p class="post-desc">{post.data.description}</p>
+                    {post.data.tags && (
+                      <div class="post-tags">
+                        {post.data.tags.map((tag) => (
+                          <span class="tag font-mono">{tag}</span>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                  {post.data.image && (
+                    <div class="post-card-image">
+                      <img src={post.data.image} alt={post.data.title} />
+                    </div>
+                  )}
                 </div>
-              )}
-            </a>
-          </li>
-        ))}
-      </ul>
+              </a>
+            </li>
+          ))}
+        </ul>
+
+        {totalPages > 1 && (
+          <nav class="pagination font-mono">
+            {currentPage > 1 && (
+              <a href={prevHref} class="page-btn">← Prev</a>
+            )}
+            <div class="page-numbers">
+              {pageNumbers.map((n) => (
+                <a href={pageHref(n)} class={pageClass(n)}>{n}</a>
+              ))}
+            </div>
+            {currentPage < totalPages && (
+              <a href={nextHref} class="page-btn">Next →</a>
+            )}
+          </nav>
+        )}
+
+      </div>
     </div>
   </main>
-    <!-- FOOTER -->
+
   <footer>
     <p class="footer-copy font-mono">© 2026 Akif Zahin</p>
   </footer>

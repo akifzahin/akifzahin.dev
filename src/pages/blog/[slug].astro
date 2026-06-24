@@ -27,7 +27,7 @@ const { Content } = await render(post);
         <p class="post-desc">{post.data.description}</p>
         {post.data.tags && (
           <div class="post-tags">
-            {post.data.tags.map(tag => <span class="tag font-mono">#{tag}</span>)}
+            {post.data.tags.map(tag => <span class="tag font-mono">{tag}</span>)}
           </div>
         )}
       </header>
