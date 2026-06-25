@@ -70,7 +70,6 @@
   box-shadow: 0 0 10px rgba(var(--primary-rgb, 15, 210, 140), 0.3);
 }
 
-/* Dropdown wrapper */
 /* ==========================================================================
    THEME CONTROLS — SHARED
    ========================================================================== */
@@ -78,13 +77,13 @@
   position: relative;
 }
 
-/* swatch dots — shared between both layouts */
 .swatch {
   display: inline-flex;
   flex-shrink: 0;
   gap: 3px;
   align-items: center;
 }
+
 .swatch::before,
 .swatch::after {
   content: '';
@@ -93,10 +92,12 @@
   height: 9px;
   border-radius: 50%;
 }
+
 .swatch::before {
   background: var(--a);
   box-shadow: 0 0 5px var(--a);
 }
+
 .swatch::after {
   background: var(--b);
   box-shadow: 0 0 5px var(--b);
@@ -107,6 +108,7 @@
   color: var(--accent);
   border: 1px solid var(--accent);
 }
+
 :root.light #color-trigger {
   background: var(--bg-surface);
   color: var(--accent);
@@ -114,37 +116,80 @@
 }
 
 /* ==========================================================================
-   DESKTOP — OPTION B (HOLOGRAPHIC PANELS)
+   DROPDOWN — OPTION B (HOLOGRAPHIC PANELS) — DESKTOP + MOBILE
    ========================================================================== */
 .color-dropdown {
   display: none;
   position: absolute;
-  top: calc(100% + 8px);
-  right: 0;
+  top: calc(100% + 10px);
+  left: 0;
   list-style: none;
-  min-width: 200px;
+  min-width: 210px;
   z-index: 999;
-  background: rgba(4, 4, 12, 0.98);
+  background: var(--bg);
   border: 1px solid rgba(var(--primary-rgb), 0.25);
-  -webkit-backdrop-filter: blur(24px);
-  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  backdrop-filter: blur(24px) saturate(180%);
   overflow: hidden;
+  /* arrow pointer */
+  margin-top: 4px;
+}
+
+.trigger-swatch {
+  display: flex;
+  gap: 3px;
+  align-items: center;
+}
+
+.trigger-dot {
+  display: block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  transition: background 0.3s, box-shadow 0.3s;
+}
+
+/* small triangle pointing up toward the trigger */
+.color-dropdown::before {
+  content: '';
+  position: absolute;
+  top: -5px;
+  left: 15px;
+  width: 8px;
+  height: 8px;
+  background: rgba(4, 4, 12, 0.98);
+  border-top: 1px solid rgba(var(--primary-rgb), 0.25);
+  border-left: 1px solid rgba(var(--primary-rgb), 0.25);
+  transform: rotate(45deg);
 }
 
 .color-dropdown.open {
   display: block;
+  animation: dropdownFade 0.2s ease;
+}
+
+@keyframes dropdownFade {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .dropdown-item {
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  padding: 0.6rem 0.9rem;
+  padding: 0.65rem 0.9rem;
   font-family: var(--font-mono);
   font-size: 0.72rem;
   letter-spacing: 0.15em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.45);
+  color: rgba(224, 223, 223, 0.7);
   cursor: pointer;
   position: relative;
   border-top: 1px solid rgba(255, 255, 255, 0.04);
@@ -152,7 +197,11 @@
   overflow: hidden;
 }
 
-/* left accent bar */
+.dropdown-item:first-child {
+  border-top: none;
+}
+
+/* left color bar using the item's own swatch colors */
 .dropdown-item::before {
   content: '';
   position: absolute;
@@ -165,18 +214,22 @@
   transition: opacity 0.2s;
 }
 
-/* background glow */
+/* background wash */
 .dropdown-item::after {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(90deg, rgba(var(--primary-rgb), 0.07), transparent);
+  background: linear-gradient(90deg, rgba(var(--primary-rgb), 0.06), transparent 60%);
   opacity: 0;
   transition: opacity 0.3s;
   pointer-events: none;
 }
 
-.dropdown-item:hover,
+.dropdown-item:hover {
+  color: rgba(255, 255, 255, 0.85);
+  background: rgba(255, 255, 255, 0.02);
+}
+
 .dropdown-item.active {
   color: #fff;
   background: rgba(255, 255, 255, 0.03);
@@ -192,99 +245,58 @@
   opacity: 1;
 }
 
+/* light mode */
 :root.light .color-dropdown {
-  background: rgba(200, 200, 216, 0.97);
-  border-color: rgba(var(--accent-rgb), 0.3);
+  background: var(--bg);
+  border-color: rgba(var(--accent-rgb), 0.25);
+}
+
+:root.light .color-dropdown::before {
+  background: var(--bg-rgb);
+  border-color: rgba(var(--accent-rgb), 0.25);
 }
 
 :root.light .dropdown-item {
-  color: rgba(26, 26, 46, 0.5);
-  border-top-color: rgba(0, 0, 0, 0.06);
+  color: rgba(26, 26, 46, 0.45);
+  border-top-color: rgba(0, 0, 0, 0.05);
 }
 
-:root.light .dropdown-item:hover,
+:root.light .dropdown-item:hover {
+  color: rgba(26, 26, 46, 0.85);
+  background: rgba(0, 0, 0, 0.03);
+}
+
 :root.light .dropdown-item.active {
   color: var(--accent);
   background: rgba(var(--accent-rgb), 0.05);
 }
 
+:root.light .dropdown-item::after {
+  background: linear-gradient(90deg, rgba(var(--accent-rgb), 0.06), transparent 60%);
+}
+
 /* ==========================================================================
-   MOBILE — OPTION D (SLIDING DRAWER)
+   MOBILE ADJUSTMENTS
    ========================================================================== */
 @media (max-width: 1024px) {
   .color-dropdown {
-    position: fixed;
-    top: 0;
-    right: -260px;
-    bottom: 0;
-    min-width: 220px;
-    width: 220px;
-    display: block;
-    border: none;
-    border-left: 1px solid rgba(var(--primary-rgb), 0.3);
-    background: rgba(4, 4, 12, 0.99);
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
-    transition: right 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-    z-index: 998;
-    padding-top: var(--nav-height);
-    overflow-y: auto;
-  }
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 0;
 
-  .color-dropdown.open {
-    right: 0;
-    display: block;
+    min-width: 200px;
+    max-width: calc(100vw - 2rem);
   }
 
   .color-dropdown::before {
-    content: '// SELECT THEME';
-    display: block;
-    font-family: var(--font-mono);
-    font-size: 0.6rem;
-    letter-spacing: 0.3em;
-    color: rgba(var(--primary-rgb), 0.4);
-    padding: 1rem 1rem 0.75rem;
-    border-bottom: 1px solid rgba(var(--primary-rgb), 0.1);
+    right: 10px;
   }
 
   .dropdown-item {
-    padding: 0.85rem 1rem;
-    border-left: 2px solid transparent;
-    border-top: 1px solid rgba(255, 255, 255, 0.04);
+    padding: 0.8rem 0.9rem;
     font-size: 0.75rem;
   }
-
-  .dropdown-item::before {
-    display: none;
-  }
-
-  .dropdown-item.active {
-    border-left-color: var(--primary);
-    background: rgba(var(--primary-rgb), 0.07);
-    color: var(--primary);
-  }
-
-  .dropdown-item:hover {
-    background: rgba(var(--primary-rgb), 0.04);
-    color: var(--primary);
-  }
-
-  :root.light .color-dropdown {
-    border-left-color: rgba(var(--accent-rgb), 0.3);
-  }
-
-  :root.light .dropdown-item.active {
-    border-left-color: var(--accent);
-    color: var(--accent);
-    background: rgba(var(--accent-rgb), 0.07);
-  }
-
-  :root.light .color-dropdown::before {
-    color: rgba(var(--accent-rgb), 0.4);
-    border-bottom-color: rgba(var(--accent-rgb), 0.1);
-  }
 }
-
 
 /* Smooth color swap when JS changes CSS vars */
 html.color-transitioning *,
@@ -306,10 +318,10 @@ html.color-transitioning body::before {
 
 /* Light mode overrides */
 :root.light {
-  --bg: rgb(228, 221, 209);
+  --bg: rgb(192, 190, 190);
   --bg-rgb: 228, 221, 209;
-  --bg-surface: rgba(228, 221, 209, 0.75);
-  --bg-nav: rgba(228, 221, 209, 0.95);
+  --bg-surface: rgba(192, 190, 190, 0.75);
+  --bg-nav: rgba(192, 190, 190, 0.95);
   --text: #1a1a2e;
   --text-muted: #4a4a6a;
   --text-subtle: #71719a;
@@ -386,6 +398,24 @@ textarea {
 /* ==========================================================================
    BACKGROUND — 3D Grid
    ========================================================================== */
+/* ==========================================================================
+   THE INFINITE FLOOR ANIMATION
+   This slides the background image exactly one grid square (50px) 
+   over and over at a steady (linear) speed.
+   ========================================================================== */
+@keyframes scrollFloor {
+  0% {
+    background-position: center 0px;
+  }
+
+  100% {
+    background-position: center 50px;
+  }
+}
+
+/* ==========================================================================
+   BODY STYLING
+   ========================================================================== */
 body::before {
   content: '';
   position: fixed;
@@ -403,7 +433,8 @@ body::before {
   mask-image: linear-gradient(to bottom, transparent 0%, black 8vh, black calc(100vh - 15%), transparent 100%);
   pointer-events: none;
   z-index: -1;
-  animation: gridDrift 7s ease-in-out infinite;
+  /* CHANGED: Now using scrollFloor instead of gridDrift */
+  animation: scrollFloor 2s infinite linear;
 }
 
 :root.light body::before {
@@ -428,6 +459,9 @@ body::after {
   /* animation: scanMove 5s linear infinite; */
 }
 
+/* ==========================================================================
+   BLOG BODY STYLING (Identical to normal body)
+   ========================================================================== */
 .blog-body::before {
   content: '';
   position: fixed;
@@ -445,7 +479,8 @@ body::after {
   mask-image: linear-gradient(to bottom, transparent 0%, black 8vh, black calc(100vh - 15%), transparent 100%);
   pointer-events: none;
   z-index: -1;
-  animation: gridDrift 7s ease-in-out infinite;
+  /* CHANGED: Now using scrollFloor instead of gridDrift */
+  animation: scrollFloor 2s infinite linear;
 }
 
 :root.light .blog-body::before {
@@ -469,7 +504,6 @@ body::after {
   z-index: 1;
   /* animation: scanMove 5s linear infinite; */
 }
-
 
 /* ==========================================================================
    TYPOGRAPHY UTILITIES
@@ -622,7 +656,7 @@ nav {
    ========================================================================== */
 .hero {
   position: relative;
-  z-index: 5;
+  z-index: 15;
   min-height: 90vh;
   display: flex;
   align-items: center;
@@ -979,6 +1013,32 @@ nav {
     border-color: rgba(var(--primary-rgb), 0.3);
     box-shadow: 0 0 0px transparent;
     color: rgba(var(--primary-rgb), 0.6);
+  }
+}
+
+@keyframes glitchSocialLight {
+  0% {
+    border-color: rgba(var(--accent-rgb), 0.3);
+    box-shadow: 0 0 0px transparent;
+    color: rgba(var(--accent-rgb), 0.6);
+  }
+
+  40% {
+    border-color: var(--accent);
+    box-shadow: 0 0 10px rgba(var(--accent-rgb), 0.4);
+    color: var(--accent);
+  }
+
+  60% {
+    border-color: var(--primary);
+    box-shadow: 0 0 10px rgba(var(--primary-rgb), 0.4);
+    color: var(--primary);
+  }
+
+  100% {
+    border-color: rgba(var(--accent-rgb), 0.3);
+    box-shadow: 0 0 0px transparent;
+    color: rgba(var(--accent-rgb), 0.6);
   }
 }
 
@@ -1392,19 +1452,37 @@ nav {
   grid-template-columns: 1fr 1.2fr;
   gap: 4rem;
   align-items: start;
-  background: var(--bg-surface);
-  -webkit-backdrop-filter: blur(18px);
-  backdrop-filter: blur(18px);
+  /* background: var(--bg-surface); */
+
   padding: 1rem;
-  border: 2.3px solid rgba(var(--primary-rgb), 0.3);
+  /* border: 2.3px solid rgba(var(--primary-rgb), 0.3); */
   will-change: transform;
   transition: background var(--t-fast), backdrop-filter var(--t-fast), transform var(--t-slow);
 
 }
 
-.contact-grid:hover {
+/* .contact-grid:hover {
   animation: glitchCard 6s ease-in-out infinite;
   transform: scale(1.02)
+} */
+
+.contact-left {
+  padding: 1rem;
+  border: 2.3px solid rgba(var(--primary-rgb), 0.3);
+  will-change: transform;
+  transition: background var(--t-fast), backdrop-filter var(--t-fast), transform var(--t-slow);
+  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(18px);
+}
+
+.contact-left:hover {
+  animation: glitchCard 6s ease-in-out infinite;
+  transform: scale(1.02)
+}
+
+:root.light .contact-left {
+  border: 2.3px solid rgba(var(--accent-rgb), 0.3);
+
 }
 
 .contact-heading {
@@ -1931,6 +2009,7 @@ nav {
   border-radius: 16px;
   padding: 2.5rem;
   background: rgba(var(--primary-rgb), 0.02);
+  -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
   transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
@@ -2550,8 +2629,13 @@ footer {
 :root.light .about-text:hover,
 :root.light .timeline-item:hover,
 :root.light .skill-tags:hover,
-:root.light .project-card:hover {
+:root.light .project-card:hover,
+:root.light .contact-left:hover {
   animation-name: glitchCardLight;
+}
+
+:root.light .social-link:hover {
+  animation-name: glitchSocialLight;
 }
 
 @keyframes inputPulse {

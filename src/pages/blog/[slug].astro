@@ -109,4 +109,15 @@ const randomPost = otherPosts[Math.floor(Math.random() * otherPosts.length)];
       </nav>
     </footer>
   </main>
+  <style is:global>
+  /* This hides the 3D grid on this page only */
+  body::before {
+    display: none !important;
+  }
+  
+  /* This hides the moving scanline on this page only */
+  body::after {
+    display: none !important;
+  }
+</style>
 </Layout>
