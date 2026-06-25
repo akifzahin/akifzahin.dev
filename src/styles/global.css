@@ -2383,57 +2383,48 @@ footer {
 
 
 
-
-/* ==========================================================================
-   CUSTOM CURSOR
-   ========================================================================== */
-#cursor {
+#cursor-blob {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 32px;
-  height: 32px;
-  margin-left: -16px;
-  margin-top: -16px;
-  border: 1px solid var(--primary);
   pointer-events: none;
-  z-index: 99999;
-  box-shadow: 0 0 6px rgba(var(--primary-rgb), 0.3);
-  will-change: transform;
-  transition: border-color 0.1s ease, width 0.2s ease, height 0.2s ease, box-shadow 0.2s ease;
+  z-index: 99998;
+  width: 36px;
+  height: 36px;
+  margin-left: -18px;
+  margin-top: -18px;
+  border-radius: 50%;
+  border: 1px solid rgba(var(--primary-rgb), 0.35);
+  background: rgba(var(--primary-rgb), 0.04);
+  transition: width 0.35s ease, height 0.35s ease, margin 0.35s ease,
+              border-color 0.35s ease, background 0.35s ease;
 }
 
-#cursor.cursor-hover {
-  width: 48px;
-  height: 48px;
-  margin-left: -24px;
-  margin-top: -24px;
-  border-color: var(--accent);
-  box-shadow: 0 0 12px rgba(var(--accent-rgb), 0.5);
+#cursor-blob.cursor-hover {
+  width: 56px;
+  height: 56px;
+  margin-left: -28px;
+  margin-top: -28px;
+  border-color: rgba(var(--accent-rgb), 0.6);
+  background: rgba(var(--accent-rgb), 0.04);
 }
 
 #cursor-dot {
   position: fixed;
-  top: 0;
-  left: 0;
+  pointer-events: none;
+  z-index: 99999;
   width: 4px;
   height: 4px;
   margin-left: -2px;
   margin-top: -2px;
+  border-radius: 50%;
   background: var(--primary);
-  pointer-events: none;
-  z-index: 99999;
   box-shadow: 0 0 6px var(--primary);
-  will-change: transform;
+  transition: background 0.3s, box-shadow 0.3s;
 }
 
-#cursor-canvas {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 9998;
+#cursor-dot.cursor-hover {
+  background: var(--accent);
+  box-shadow: 0 0 8px var(--accent);
 }
-
 
 /* ==========================================================================
    KEYFRAMES

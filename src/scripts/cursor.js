@@ -1,114 +1,57 @@
-// ── cursor.js ───────────────────────────────────────────────────────────────
-// Runs once on hard load. ClientRouter keeps <body> alive between navigations
-// so this file never re-executes — no duplicate guard needed for the DOM
-// elements. The only thing that must re-run after each navigation is the
-// hover listener binding (new page = new <a> and <button> elements).
+// cursor.js — replaces cursor-canvas entirely, no blur
+const TRAIL_COUNT = 8;
+const LERP_BLOB  = 0.10; // blob lag (lower = more lag)
+const LERP_TRAIL = 0.30; // trail tightness
 
-// ── Create cursor elements (once) ───────────────────────────────────────────
-const cursor = document.createElement("div");
-cursor.id = "cursor";
-const cursorDot = document.createElement("div");
-cursorDot.id = "cursor-dot";
-document.body.appendChild(cursor);
-document.body.appendChild(cursorDot);
+const blob  = document.getElementById('cursor-blob');
+const dot   = document.getElementById('cursor-dot');
 
-// ── CSS variable helpers ─────────────────────────────────────────────────────
-const getPrimary = () =>
-  getComputedStyle(document.documentElement).getPropertyValue("--primary").trim();
-const getAccent = () =>
-  getComputedStyle(document.documentElement).getPropertyValue("--accent").trim();
-
-// ── Mouse tracking ───────────────────────────────────────────────────────────
-let mouseX = 0,
-  mouseY = 0;
-let cursorX = 0,
-  cursorY = 0;
-let moveTimeout;
-
-window.addEventListener("mousemove", (e) => {
-  mouseX = e.clientX;
-  mouseY = e.clientY;
-  cursorDot.style.transform = `translate(${mouseX}px, ${mouseY}px)`;
-
-  const accent = getAccent();
-  cursor.style.borderColor = accent;
-  cursor.style.boxShadow = `0 0 12px ${accent}`;
-  cursorDot.style.background = accent;
-  cursorDot.style.boxShadow = `0 0 6px ${accent}`;
-
-  clearTimeout(moveTimeout);
-  moveTimeout = setTimeout(() => {
-    const primary = getPrimary();
-    cursor.style.borderColor = primary;
-    cursor.style.boxShadow = `0 0 6px ${primary}`;
-    cursorDot.style.background = primary;
-    cursorDot.style.boxShadow = `0 0 6px ${primary}`;
-  }, 50);
+// Build trail dots
+const trail = Array.from({ length: TRAIL_COUNT }, (_, i) => {
+  const el = document.createElement('div');
+  const size = Math.max(1, 5 - i * 0.5);
+  el.className = 'cursor-trail';
+  el.style.cssText = `width:${size}px;height:${size}px;
+    margin-left:-${size/2}px;margin-top:-${size/2}px;
+    opacity:${(1 - i / TRAIL_COUNT).toFixed(2)}`;
+  document.body.appendChild(el);
+  return { el, x: 0, y: 0 };
 });
 
-document.addEventListener("mousedown", () => {
-  cursor.style.transform = `translate(${cursorX + (Math.random() - 0.5) * 10}px, ${cursorY + (Math.random() - 0.5) * 10}px)`;
-  const accent = getAccent();
-  cursor.style.borderColor = accent;
-  cursor.style.boxShadow = `0 0 16px ${accent}`;
-  setTimeout(() => {
-    const primary = getPrimary();
-    cursor.style.borderColor = primary;
-    cursor.style.boxShadow = `0 0 6px ${primary}`;
-  }, 150);
+let mx = 0, my = 0, bx = 0, by = 0;
+
+document.addEventListener('mousemove', e => {
+  mx = e.clientX; my = e.clientY;
+  dot.style.left = mx + 'px';
+  dot.style.top  = my + 'px';
 });
 
-// ── Trail squares (created once) ─────────────────────────────────────────────
-const trail = [];
-for (let i = 0; i < 8; i++) {
-  const sq = document.createElement("div");
-  const primary = getPrimary();
-  sq.style.cssText = `position:fixed;pointer-events:none;z-index:99990;border:1px solid ${primary};width:${6 + i * 3}px;height:${6 + i * 3}px;opacity:0;will-change:transform;margin-left:-${3 + i * 1.5}px;margin-top:-${3 + i * 1.5}px;`;
-  document.body.appendChild(sq);
-  trail.push({ el: sq, x: 0, y: 0 });
-}
-
-function updateTrailColors() {
-  const primary = getPrimary();
-  trail.forEach((t) => (t.el.style.borderColor = primary));
-}
-
-// Re-color trail whenever the theme class or data-theme attribute changes
-const themeObserver = new MutationObserver(updateTrailColors);
-themeObserver.observe(document.documentElement, {
-  attributes: true,
-  attributeFilter: ["class", "data-theme"],
+document.querySelectorAll('a, button, [data-hover]').forEach(el => {
+  el.addEventListener('mouseenter', () => {
+    blob.classList.add('cursor-hover');
+    dot.classList.add('cursor-hover');
+  });
+  el.addEventListener('mouseleave', () => {
+    blob.classList.remove('cursor-hover');
+    dot.classList.remove('cursor-hover');
+  });
 });
 
-// ── Animation loop (runs forever, started once) ───────────────────────────────
-function animateCursor() {
-  cursorX += (mouseX - cursorX) * 0.12;
-  cursorY += (mouseY - cursorY) * 0.12;
-  cursor.style.transform = `translate(${cursorX}px, ${cursorY}px)`;
+(function tick() {
+  bx += (mx - bx) * LERP_BLOB;
+  by += (my - by) * LERP_BLOB;
+  blob.style.left = bx + 'px';
+  blob.style.top  = by + 'px';
 
-  trail[0].x = mouseX;
-  trail[0].y = mouseY;
-  for (let i = 1; i < 8; i++) {
-    trail[i].x += (trail[i - 1].x - trail[i].x) * 0.35;
-    trail[i].y += (trail[i - 1].y - trail[i].y) * 0.35;
+  trail[0].x += (mx - trail[0].x) * LERP_TRAIL;
+  trail[0].y += (my - trail[0].y) * LERP_TRAIL;
+  for (let i = 1; i < TRAIL_COUNT; i++) {
+    trail[i].x += (trail[i-1].x - trail[i].x) * LERP_TRAIL;
+    trail[i].y += (trail[i-1].y - trail[i].y) * LERP_TRAIL;
   }
-  trail.forEach((t, i) => {
-    t.el.style.transform = `translate(${t.x}px,${t.y}px)`;
-    t.el.style.opacity = (((8 - i) / 8) * 0.25).toFixed(2);
+  trail.forEach(d => {
+    d.el.style.left = d.x + 'px';
+    d.el.style.top  = d.y + 'px';
   });
-
-  requestAnimationFrame(animateCursor);
-}
-animateCursor();
-
-// ── Hover expand — re-bound on every page load ────────────────────────────────
-// After a SPA navigation the old <a>/<button> elements are replaced with new
-// ones, so we re-query and re-attach on each astro:page-load.
-function bindCursorHover() {
-  document.querySelectorAll("a, button").forEach((el) => {
-    el.addEventListener("mouseenter", () => cursor.classList.add("cursor-hover"));
-    el.addEventListener("mouseleave", () => cursor.classList.remove("cursor-hover"));
-  });
-}
-
-document.addEventListener("astro:page-load", bindCursorHover);
+  requestAnimationFrame(tick);
+})();
