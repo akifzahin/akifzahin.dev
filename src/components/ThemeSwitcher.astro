@@ -3,97 +3,49 @@
 ---
 
 <div class="theme-controls">
-  <!-- Dark / Light toggle -->
-  <button
-    id="dark-toggle"
-    class="theme-btn"
-    aria-label="Toggle dark mode"
-    title="Toggle dark mode"
-  >
-    <span class="icon-dark">◑</span>
+  <button id="dark-toggle" class="theme-btn" aria-label="Toggle dark mode" title="Toggle dark mode">
+    <svg id="icon-moon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
+    </svg>
+    <svg id="icon-sun" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:none">
+      <circle cx="12" cy="12" r="4"/>
+      <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
+    </svg>
   </button>
 
-  <!-- Color preset dropdown -->
   <div class="color-picker-wrapper">
-    <button
-      id="color-trigger"
-      class="theme-btn"
-      aria-label="Color theme"
-      title="Color theme"
-    >
-      <span class="icon-palette">◈</span>
+    <button id="color-trigger" class="theme-btn" aria-label="Color theme" title="Color theme">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"/>
+        <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+        <path d="M2 12h20"/>
+      </svg>
     </button>
+
     <ul class="color-dropdown" id="color-dropdown" role="listbox">
-      <!-- 1. Default — neon green + pink -->
-      <li
-        class="dropdown-item active"
-        role="option"
-        data-primary="#0fd28c"
-        data-accent="#f40bf4"
-        data-name="Default"
-      >
-        <span class="swatch" style="--a: #0fd28c; --b: #f40bf4"></span>
-        <span>Default</span>
+      <li class="dropdown-item active" role="option" data-primary="#0fd28c" data-accent="#f40bf4" data-image="/images/city.png" data-name="Cyberpunk">
+        <span class="swatch" style="--a:#0fd28c; --b:#f40bf4"></span>
+        <span>Cyberpunk</span>
       </li>
-
-      <!-- 2. Atompunk — crisp white + bold crimson red -->
-      <li
-        class="dropdown-item"
-        role="option"
-        data-primary="#ffffff"
-        data-accent="#e11d48"
-        data-name="Atompunk"
-      >
-        <span class="swatch" style="--a: #ffffff; --b: #e11d48"></span>
-        <span>Atompunk</span>
+      <li class="dropdown-item" role="option" data-primary="#ffd000" data-accent="#0066ff" data-image="/images/volt.jpg" data-name="Voltpunk">
+        <span class="swatch" style="--a:#ffd000; --b:#0066ff"></span>
+        <span>Voltpunk</span>
       </li>
-
-      <!-- 3. Cassette Futurism — dark industrial matte black + hazard yellow -->
-      <li
-        class="dropdown-item"
-        role="option"
-        data-primary="#111827"
-        data-accent="#facc15"
-        data-name="Cassette Futurism"
-      >
-        <span class="swatch" style="--a: #111827; --b: #facc15"></span>
+      <li class="dropdown-item" role="option" data-primary="#f4f0db" data-accent="#E60000" data-image="/images/ray.jpg" data-name="Raypunk">
+        <span class="swatch" style="--a:#f4f0db; --b:#E60000"></span>
+        <span>Raypunk</span>
+      </li>
+      <li class="dropdown-item" role="option" data-primary="#6A0DAD" data-accent="#FFD700" data-image="/images/myth.jpg" data-name="Mythpunk">
+        <span class="swatch" style="--a:#6A0DAD; --b:#FFD700"></span>
+        <span>Mythpunk</span>
+      </li>
+      <li class="dropdown-item" role="option" data-primary="#74baf2" data-accent="#996bdb" data-image="/images/dream.jpg" data-name="Dreamcore">
+        <span class="swatch" style="--a:#74baf2; --b:#996bdb"></span>
+        <span>Dreamcore</span>
+      </li>
+      <li class="dropdown-item" role="option" data-primary="#D8C3A5" data-accent="#F97316" data-image="/images/cassette.jpg" data-name="Cassette Futurism">
+        <span class="swatch" style="--a:#D8C3A5; --b:#F97316"></span>
         <span>Cassette Futurism</span>
-      </li>
-
-      <!-- 4. Biopunk — sterile deep navy + glowing electric cyan -->
-      <li
-        class="dropdown-item"
-        role="option"
-        data-primary="#0f172a"
-        data-accent="#06b6d4"
-        data-name="Biopunk"
-      >
-        <span class="swatch" style="--a: #0f172a; --b: #06b6d4"></span>
-        <span>Biopunk</span>
-      </li>
-
-      <!-- 5. Steampunk — warm antique brass + deep leather sepia -->
-      <li
-        class="dropdown-item"
-        role="option"
-        data-primary="#d97706"
-        data-accent="#451a03"
-        data-name="Steampunk"
-      >
-        <span class="swatch" style="--a: #d97706; --b: #451a03"></span>
-        <span>Steampunk</span>
-      </li>
-
-      <!-- 6. Solar Flare — gold + electric blue -->
-      <li
-        class="dropdown-item"
-        role="option"
-        data-primary="#ffd000"
-        data-accent="#0066ff"
-        data-name="Solar Flare"
-      >
-        <span class="swatch" style="--a: #ffd000; --b: #0066ff"></span>
-        <span>Solar Flare</span>
       </li>
     </ul>
   </div>
