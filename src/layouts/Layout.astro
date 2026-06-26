@@ -22,14 +22,26 @@ const { title = "Akif Zahin", showBack = false } = Astro.props;
       content="I build AI-powered apps, full-stack tools, and solutions for real-world problems. Based in Dhaka, Bangladesh. Open to freelance and collaborations."
     />
     <meta name="author" content="Akif Zahin" />
-    <meta property="og:title" content="Akif Zahin — Full-stack Developer & AI Builder in Dhaka" />
-    <meta property="og:description" content="I build AI-powered apps, full-stack tools, and solutions for real-world problems. Based in Dhaka, Bangladesh. Open to freelance and collaborations." />
+    <meta
+      property="og:title"
+      content="Akif Zahin — Full-stack Developer & AI Builder in Dhaka"
+    />
+    <meta
+      property="og:description"
+      content="I build AI-powered apps, full-stack tools, and solutions for real-world problems. Based in Dhaka, Bangladesh. Open to freelance and collaborations."
+    />
     <meta property="og:image" content="https://akifzahin.dev/og.png" />
     <meta property="og:url" content="https://akifzahin.dev" />
     <meta property="og:type" content="website" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Akif Zahin — Full-stack Developer & AI Builder in Dhaka" />
-    <meta name="twitter:description" content="I build AI-powered apps, full-stack tools, and solutions for real-world problems. Based in Dhaka, Bangladesh. Open to freelance and collaborations." />
+    <meta
+      name="twitter:title"
+      content="Akif Zahin — Full-stack Developer & AI Builder in Dhaka"
+    />
+    <meta
+      name="twitter:description"
+      content="I build AI-powered apps, full-stack tools, and solutions for real-world problems. Based in Dhaka, Bangladesh. Open to freelance and collaborations."
+    />
     <meta name="twitter:image" content="https://akifzahin.dev/og.png" />
     <link rel="canonical" href="https://akifzahin.dev" />
     <script
@@ -40,7 +52,11 @@ const { title = "Akif Zahin", showBack = false } = Astro.props;
         name: "Akif Zahin",
         url: "https://akifzahin.dev",
         jobTitle: "Full-stack Developer",
-        address: { "@type": "PostalAddress", addressLocality: "Dhaka", addressCountry: "BD" },
+        address: {
+          "@type": "PostalAddress",
+          addressLocality: "Dhaka",
+          addressCountry: "BD",
+        },
         sameAs: [
           "https://github.com/akifzahin",
           "https://linkedin.com/in/akifzahin",
@@ -63,17 +79,30 @@ const { title = "Akif Zahin", showBack = false } = Astro.props;
         var dark = localStorage.getItem("theme-dark");
         if (p && a) {
           var toRgb = function (hex) {
-            return [1, 3, 5].map(function (o) { return parseInt(hex.slice(o, o + 2), 16); }).join(", ");
+            return [1, 3, 5]
+              .map(function (o) {
+                return parseInt(hex.slice(o, o + 2), 16);
+              })
+              .join(", ");
           };
           var root = document.documentElement;
           root.style.setProperty("--primary", p);
           root.style.setProperty("--accent", a);
           root.style.setProperty("--primary-rgb", toRgb(p));
           root.style.setProperty("--accent-rgb", toRgb(a));
-          root.style.setProperty("--primary-dim", "rgba(" + toRgb(p) + ", 0.1)");
-          root.style.setProperty("--primary-glow", "rgba(" + toRgb(p) + ", 0.4)");
+          root.style.setProperty(
+            "--primary-dim",
+            "rgba(" + toRgb(p) + ", 0.1)",
+          );
+          root.style.setProperty(
+            "--primary-glow",
+            "rgba(" + toRgb(p) + ", 0.4)",
+          );
           root.style.setProperty("--accent-dim", "rgba(" + toRgb(a) + ", 0.1)");
-          root.style.setProperty("--accent-glow", "rgba(" + toRgb(a) + ", 0.4)");
+          root.style.setProperty(
+            "--accent-glow",
+            "rgba(" + toRgb(a) + ", 0.4)",
+          );
         }
         if (dark === "false") document.documentElement.classList.add("light");
       })();
@@ -82,12 +111,19 @@ const { title = "Akif Zahin", showBack = false } = Astro.props;
     <title>{title}</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&family=Inter:wght@300;400&display=swap" rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&family=Inter:wght@300;400&display=swap"
+      rel="stylesheet"
+    />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
     <link rel="manifest" href="/site.webmanifest" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css"
+    />
   </head>
   <body>
     <div class="nav-wrapper">
@@ -107,7 +143,11 @@ const { title = "Akif Zahin", showBack = false } = Astro.props;
           <li><a href="/#contact">Contact</a></li>
           <li><a href="/blog">Blog</a></li>
         </ul>
-        <button class="nav-hamburger" id="nav-hamburger" aria-label="Toggle menu">
+        <button
+          class="nav-hamburger"
+          id="nav-hamburger"
+          aria-label="Toggle menu"
+        >
           <span></span><span></span><span></span>
         </button>
       </nav>
@@ -127,10 +167,7 @@ const { title = "Akif Zahin", showBack = false } = Astro.props;
 
     <Analytics />
     <SpeedInsights />
-  </body>
-
-  <!-- ── All persistent UI — recreated on every page-load ──────────────── -->
-  <!--
+  </body><!-- ── All persistent UI — recreated on every page-load ──────────────── --><!--
     The body is fully swapped on each SPA navigation, so any elements
     appended to document.body are wiped. We recreate them all inside
     astro:page-load, which fires on hard load AND after every navigation.
@@ -153,83 +190,99 @@ const { title = "Akif Zahin", showBack = false } = Astro.props;
         });
       });
 
-// ── Cursor + trail ──────────────────────────────────────────────────
-if (window.matchMedia("(hover: none) and (pointer: coarse)").matches) return;
-const cursorBlob = document.createElement("div");
-cursorBlob.id = "cursor-blob";
-const cursorDot = document.createElement("div");
-cursorDot.id = "cursor-dot";
-document.body.appendChild(cursorBlob);
-document.body.appendChild(cursorDot);
+      // ── Cursor + trail ──────────────────────────────────────────────────
+      if (window.matchMedia("(hover: none) and (pointer: coarse)").matches)
+        return;
+      const cursorBlob = document.createElement("div");
+      cursorBlob.id = "cursor-blob";
+      const cursorDot = document.createElement("div");
+      cursorDot.id = "cursor-dot";
+      document.body.appendChild(cursorBlob);
+      document.body.appendChild(cursorDot);
 
-const TRAIL_COUNT = 8;
-const LERP_BLOB   = 0.10;
-const LERP_TRAIL  = 0.30;
+      const TRAIL_COUNT = 8;
+      const LERP_BLOB = 0.1;
+      const LERP_TRAIL = 0.3;
 
-const getPrimary = () =>
-  getComputedStyle(document.documentElement).getPropertyValue("--primary").trim();
-const getAccent = () =>
-  getComputedStyle(document.documentElement).getPropertyValue("--accent").trim();
+      const getPrimary = () =>
+        getComputedStyle(document.documentElement)
+          .getPropertyValue("--primary")
+          .trim();
+      const getAccent = () =>
+        getComputedStyle(document.documentElement)
+          .getPropertyValue("--accent")
+          .trim();
 
-const trail = Array.from({ length: TRAIL_COUNT }, (_, i) => {
-  const el = document.createElement("div");
-  const size = Math.max(1, 5 - i * 0.5);
-  const color = i < TRAIL_COUNT / 2 ? getPrimary() : getAccent();
-  el.style.cssText = `position:fixed;pointer-events:none;z-index:99997;border-radius:50%;width:${size}px;height:${size}px;margin-left:-${size / 2}px;margin-top:-${size / 2}px;opacity:${(1 - i / TRAIL_COUNT).toFixed(2)};background:${color};`;
-  document.body.appendChild(el);
-  return { el, x: 0, y: 0 };
-});
+      const trail = Array.from({ length: TRAIL_COUNT }, (_, i) => {
+        const el = document.createElement("div");
+        const size = Math.max(1, 5 - i * 0.5);
+        const color = i < TRAIL_COUNT / 2 ? getPrimary() : getAccent();
+        el.style.cssText = `position:fixed;pointer-events:none;z-index:99997;border-radius:50%;width:${size}px;height:${size}px;margin-left:-${size / 2}px;margin-top:-${size / 2}px;opacity:${(1 - i / TRAIL_COUNT).toFixed(2)};background:${color};`;
+        document.body.appendChild(el);
+        return { el, x: 0, y: 0 };
+      });
 
+      let mx = 0,
+        my = 0,
+        bx = 0,
+        by = 0;
+      let alive = true;
 
+      const onMove = (e) => {
+        mx = e.clientX;
+        my = e.clientY;
+        cursorDot.style.left = mx + "px";
+        cursorDot.style.top = my + "px";
+      };
+      window.addEventListener("mousemove", onMove);
+      document.addEventListener(
+        "astro:before-swap",
+        () => window.removeEventListener("mousemove", onMove),
+        { once: true },
+      );
 
-let mx = 0, my = 0, bx = 0, by = 0;
-let alive = true;
+      document.querySelectorAll("a, button, [data-hover]").forEach((el) => {
+        el.addEventListener("mouseenter", () => {
+          cursorBlob.classList.add("cursor-hover");
+          cursorDot.classList.add("cursor-hover");
+        });
+        el.addEventListener("mouseleave", () => {
+          cursorBlob.classList.remove("cursor-hover");
+          cursorDot.classList.remove("cursor-hover");
+        });
+      });
 
-const onMove = (e) => {
-  mx = e.clientX;
-  my = e.clientY;
-  cursorDot.style.left = mx + "px";
-  cursorDot.style.top  = my + "px";
-};
-window.addEventListener("mousemove", onMove);
-document.addEventListener("astro:before-swap", () => window.removeEventListener("mousemove", onMove), { once: true });
+      (function tick() {
+        if (!alive) return;
+        bx += (mx - bx) * LERP_BLOB;
+        by += (my - by) * LERP_BLOB;
+        cursorBlob.style.left = bx + "px";
+        cursorBlob.style.top = by + "px";
 
-document.querySelectorAll("a, button, [data-hover]").forEach((el) => {
-  el.addEventListener("mouseenter", () => {
-    cursorBlob.classList.add("cursor-hover");
-    cursorDot.classList.add("cursor-hover");
-  });
-  el.addEventListener("mouseleave", () => {
-    cursorBlob.classList.remove("cursor-hover");
-    cursorDot.classList.remove("cursor-hover");
-  });
-});
+        trail[0].x += (mx - trail[0].x) * LERP_TRAIL;
+        trail[0].y += (my - trail[0].y) * LERP_TRAIL;
+        for (let i = 1; i < TRAIL_COUNT; i++) {
+          trail[i].x += (trail[i - 1].x - trail[i].x) * LERP_TRAIL;
+          trail[i].y += (trail[i - 1].y - trail[i].y) * LERP_TRAIL;
+        }
 
-(function tick() {
-  if (!alive) return;
-  bx += (mx - bx) * LERP_BLOB;
-  by += (my - by) * LERP_BLOB;
-  cursorBlob.style.left = bx + "px";
-  cursorBlob.style.top  = by + "px";
+        const primary = getPrimary();
+        const accent = getAccent();
+        trail.forEach((d, i) => {
+          d.el.style.left = d.x + "px";
+          d.el.style.top = d.y + "px";
+          d.el.style.background = i < TRAIL_COUNT / 2 ? primary : accent;
+        });
+        requestAnimationFrame(tick);
+      })();
 
-  trail[0].x += (mx - trail[0].x) * LERP_TRAIL;
-  trail[0].y += (my - trail[0].y) * LERP_TRAIL;
-  for (let i = 1; i < TRAIL_COUNT; i++) {
-    trail[i].x += (trail[i - 1].x - trail[i].x) * LERP_TRAIL;
-    trail[i].y += (trail[i - 1].y - trail[i].y) * LERP_TRAIL;
-  }
-
-  const primary = getPrimary();
-  const accent = getAccent();
-  trail.forEach((d, i) => {
-    d.el.style.left = d.x + "px";
-    d.el.style.top  = d.y + "px";
-    d.el.style.background = i < TRAIL_COUNT / 2 ? primary : accent;
-  });
-  requestAnimationFrame(tick);
-})();
-
-document.addEventListener("astro:before-swap", () => { alive = false; }, { once: true });
+      document.addEventListener(
+        "astro:before-swap",
+        () => {
+          alive = false;
+        },
+        { once: true },
+      );
 
       // ── Progress bar ────────────────────────────────────────────────────
       const progressBar = document.createElement("div");
@@ -243,12 +296,13 @@ document.addEventListener("astro:before-swap", () => { alive = false; }, { once:
       backToTop.setAttribute("aria-label", "Back to top");
       document.body.appendChild(backToTop);
       backToTop.addEventListener("click", () =>
-        window.scrollTo({ top: 0, behavior: "smooth" })
+        window.scrollTo({ top: 0, behavior: "smooth" }),
       );
 
       const onScroll = () => {
         const scrollTop = window.scrollY;
-        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const docHeight =
+          document.documentElement.scrollHeight - window.innerHeight;
         const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
         progressBar.style.width = `${progress}%`;
         progressBar.style.boxShadow =
@@ -257,34 +311,46 @@ document.addEventListener("astro:before-swap", () => { alive = false; }, { once:
         backToTop.style.pointerEvents = scrollTop > 300 ? "auto" : "none";
       };
       window.addEventListener("scroll", onScroll);
-      document.addEventListener("astro:before-swap", () => window.removeEventListener("scroll", onScroll), { once: true });
+      document.addEventListener(
+        "astro:before-swap",
+        () => window.removeEventListener("scroll", onScroll),
+        { once: true },
+      );
 
       // ── Nav scramble ────────────────────────────────────────────────────
       const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%";
-      document.querySelectorAll(".nav-links a, .nav-drawer ul li a").forEach((link) => {
-        const original = link.textContent.trim();
-        let interval;
-        const scramble = () => {
-          let iterations = 0;
-          clearInterval(interval);
-          interval = setInterval(() => {
-            link.textContent = original.split("").map((char, i) => {
-              if (char === " ") return " ";
-              if (i < iterations) return original[i];
-              return chars[Math.floor(Math.random() * chars.length)];
-            }).join("");
-            iterations += 0.5;
-            if (iterations >= original.length) {
-              clearInterval(interval);
-              link.textContent = original;
-            }
-          }, 55);
-        };
-        const reset = () => { clearInterval(interval); link.textContent = original; };
-        link.addEventListener("mouseenter", scramble);
-        link.addEventListener("mouseleave", reset);
-        link.addEventListener("touchstart", scramble, { passive: true });
-      });
+      document
+        .querySelectorAll(".nav-links a, .nav-drawer ul li a")
+        .forEach((link) => {
+          const original = link.textContent.trim();
+          let interval;
+          const scramble = () => {
+            let iterations = 0;
+            clearInterval(interval);
+            interval = setInterval(() => {
+              link.textContent = original
+                .split("")
+                .map((char, i) => {
+                  if (char === " ") return " ";
+                  if (i < iterations) return original[i];
+                  return chars[Math.floor(Math.random() * chars.length)];
+                })
+                .join("");
+              iterations += 0.5;
+              if (iterations >= original.length) {
+                clearInterval(interval);
+                link.textContent = original;
+              }
+            }, 55);
+          };
+          const reset = () => {
+            clearInterval(interval);
+            link.textContent = original;
+          };
+          link.addEventListener("mouseenter", scramble);
+          link.addEventListener("mouseleave", reset);
+          link.addEventListener("touchstart", scramble, { passive: true });
+        });
     }
 
     document.addEventListener("astro:page-load", initPersistentUI);
