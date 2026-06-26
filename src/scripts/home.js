@@ -3,18 +3,13 @@ let sectionObserver = null;
 let fadeObserver = null;
 
 document.addEventListener("astro:page-load", () => {
-
   // ── Hero Ready ──────────────────────────────────────────────────────────────
   const hero = document.querySelector(".hero");
   if (hero) hero.classList.add("ready");
-const img = document.querySelector(".hero-img");
-if (img) {
-  if (img.complete) {
-    requestAnimationFrame(() => img.classList.add("loaded"));
-  } else {
-    img.addEventListener("load", () => img.classList.add("loaded"));
-  }
-}
+
+  // ── Preload theme images ────────────────────────────────────────────────────
+  ['/images/city.webp','/images/cyber.webp','/images/ray.webp','/images/myth.webp','/images/dream.webp','/images/cassette.webp']
+    .forEach(src => { new Image().src = src; });
   // ── Cat Touch ───────────────────────────────────────────────────────────────
   const catContainer = document.querySelector(".cat-container");
   if (catContainer) {
