@@ -7,6 +7,15 @@ document.addEventListener("astro:page-load", () => {
   // ── Hero Ready ──────────────────────────────────────────────────────────────
   const hero = document.querySelector(".hero");
   if (hero) hero.classList.add("ready");
+  // ── Hero Image Fade ─────────────────────────────────────────────────────────
+  const img = document.querySelector(".hero-img");
+  if (img) {
+    if (img.complete) {
+      img.classList.add("loaded");
+    } else {
+      img.addEventListener("load", () => img.classList.add("loaded"));
+    }
+  }
 
   // ── Cat Touch ───────────────────────────────────────────────────────────────
   const catContainer = document.querySelector(".cat-container");

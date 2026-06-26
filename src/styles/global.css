@@ -668,7 +668,13 @@ nav {
   opacity: 0;
   transition: opacity var(--t-base);
 }
-
+.hero-img {
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+.hero-img.loaded {
+  opacity: 1;
+}
 .hero.ready {
   opacity: 1;
   border-bottom: 1.3px solid var(--primary);
