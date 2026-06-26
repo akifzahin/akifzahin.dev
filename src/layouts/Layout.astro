@@ -154,6 +154,7 @@ const { title = "Akif Zahin", showBack = false } = Astro.props;
       });
 
 // ── Cursor + trail ──────────────────────────────────────────────────
+if (window.matchMedia("(hover: none) and (pointer: coarse)").matches) return;
 const cursorBlob = document.createElement("div");
 cursorBlob.id = "cursor-blob";
 const cursorDot = document.createElement("div");

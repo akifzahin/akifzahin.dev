@@ -17,7 +17,7 @@
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      stroke-width="1.5"
+      stroke-width="3"
       stroke-linecap="round"
       stroke-linejoin="round"
     >
@@ -31,13 +31,15 @@
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      stroke-width="1.5"
+      stroke-width="3"
       stroke-linecap="round"
       stroke-linejoin="round"
       style="display:none"
     >
       <circle cx="12" cy="12" r="4"></circle>
-      <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"></path>
+      <path
+        d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"
+      ></path>
     </svg>
   </button>
 
@@ -58,12 +60,12 @@
       <li
         class="dropdown-item active"
         role="option"
-        data-primary="#0fd28c"
-        data-accent="#f40bf4"
+        data-primary="#f40bf4"
+        data-accent="#0fd28c"
         data-image="/images/city.webp"
         data-name="Cyberpunk"
       >
-        <span class="swatch" style="--a:#0fd28c; --b:#f40bf4"></span>
+        <span class="swatch" style="--a:#f40bf4; --b:#0fd28c"></span>
         <span>Cyberpunk</span>
       </li>
       <li
@@ -114,11 +116,11 @@
         class="dropdown-item"
         role="option"
         data-primary="#D8C3A5"
-        data-accent="#F97316"
+        data-accent="#e85d04"
         data-image="/images/cassette.webp"
         data-name="Cassette Futurism"
       >
-        <span class="swatch" style="--a:#D8C3A5; --b:#F97316"></span>
+        <span class="swatch" style="--a:#D8C3A5; --b:#e85d04"></span>
         <span>Cassette Futurism</span>
       </li>
     </ul>
@@ -149,7 +151,12 @@
     if (image) root.style.setProperty("--hero-image", `url('${image}')`);
   }
 
-  function savePrefs(primary: string, accent: string, dark: boolean, image?: string) {
+  function savePrefs(
+    primary: string,
+    accent: string,
+    dark: boolean,
+    image?: string,
+  ) {
     localStorage.setItem("theme-primary", primary.trim());
     localStorage.setItem("theme-accent", accent.trim());
     localStorage.setItem("theme-dark", String(dark));
@@ -184,10 +191,14 @@
     const incoming = swap.newDocument.documentElement;
 
     const props = [
-      "--primary", "--accent",
-      "--primary-rgb", "--accent-rgb",
-      "--primary-dim", "--primary-glow",
-      "--accent-dim", "--accent-glow",
+      "--primary",
+      "--accent",
+      "--primary-rgb",
+      "--accent-rgb",
+      "--primary-dim",
+      "--primary-glow",
+      "--accent-dim",
+      "--accent-glow",
       "--hero-image",
     ];
     props.forEach((prop) => {
@@ -223,7 +234,10 @@
 
     if (savedPrimary) {
       items.forEach((item) => {
-        item.classList.toggle("active", item.dataset.primary?.trim() === savedPrimary);
+        item.classList.toggle(
+          "active",
+          item.dataset.primary?.trim() === savedPrimary,
+        );
       });
     }
 
@@ -235,8 +249,12 @@
       isDark = !isDark;
       document.documentElement.classList.toggle("light", !isDark);
       syncIcons(isDark);
-      const primary = document.documentElement.style.getPropertyValue("--primary") || "#0fd28c";
-      const accent = document.documentElement.style.getPropertyValue("--accent") || "#f40bf4";
+      const primary =
+        document.documentElement.style.getPropertyValue("--primary") ||
+        "#0fd28c";
+      const accent =
+        document.documentElement.style.getPropertyValue("--accent") ||
+        "#f40bf4";
       const image = localStorage.getItem("theme-image") ?? undefined;
       savePrefs(primary, accent, isDark, image);
       syncTrigger(primary, accent);
@@ -263,7 +281,15 @@
           accent: string;
           image: string;
         };
-        applyTheme(primary, accent, image);
+
+        const hero = document.querySelector(".hero");
+        hero?.classList.add("theme-switching");
+
+        setTimeout(() => {
+          applyTheme(primary, accent, image);
+          hero?.classList.remove("theme-switching");
+        }, 400);
+
         items.forEach((i) => i.classList.remove("active"));
         item.classList.add("active");
         savePrefs(primary, accent, isDark, image);
