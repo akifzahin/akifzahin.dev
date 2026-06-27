@@ -24,7 +24,7 @@
   /* Text */
   --text: #e0e0e0;
   --text-muted: #555;
-  --text-subtle: #908b8b;
+  --text-subtle: #5f5d5d;
 
   /* Typography */
   --font-sans: 'Inter', sans-serif;
@@ -1239,7 +1239,7 @@ nav {
 
 .about-text {
   font-size: 1rem;
-  color: var(--text)5;
+  color: var(--text-subtle);
   line-height: 1.8;
   max-width: 560px;
   background: var(--bg-surface);
@@ -1502,7 +1502,6 @@ nav {
 
 .timeline-desc {
   font-size: 1rem;
-  color: var(--text);
   color: var(--text-subtle);
   line-height: 1.6;
 }
