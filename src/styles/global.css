@@ -1537,7 +1537,7 @@ nav {
 }
 
 .contact-left:hover {
-  transform: scale(1.02);
+
   animation: glitchCard 6s ease-in-out infinite;
 
 }
