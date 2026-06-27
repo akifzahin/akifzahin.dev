@@ -416,19 +416,18 @@ textarea {
 }
 
 /* ==========================================================================
-   BODY STYLING
+   BODY GRID BACKGROUND
    ========================================================================== */
 body::before {
   content: '';
   position: fixed;
   inset: 0;
   background-image:
-    linear-gradient(var(--primary) 1.5px, transparent 1.5px),
-    linear-gradient(90deg, var(--primary) 1.5px, transparent 1.5px);
+    linear-gradient(rgba(var(--primary-rgb), 0.28) 1.5px, transparent 1.5px),
+    linear-gradient(90deg, rgba(var(--primary-rgb), 0.28) 1.5px, transparent 1.5px);
   background-size: 25px 25px;
-  ;
   background-position: center top;
-  transform: perspective(250px) rotateX(75deg) translateY(-25%) scale(1) translateZ(0);
+  transform: perspective(250px) rotateX(75deg) translateY(-25%) translateZ(0);
   transform-origin: top center;
   will-change: transform;
   backface-visibility: hidden;
@@ -436,76 +435,21 @@ body::before {
   mask-image: linear-gradient(to bottom, transparent 0%, black 8vh, black calc(100vh - 15%), transparent 100%);
   pointer-events: none;
   z-index: -1;
-  /* CHANGED: Now using scrollFloor instead of gridDrift */
   animation: scrollFloor 2s infinite linear;
 }
 
 :root.light body::before {
   background-image:
-    linear-gradient(var(--accent) 1.5px, transparent 1.5px),
-    linear-gradient(90deg, var(--accent), 1.5px, transparent 1.5px);
-}
-
-/* Scan line — disabled by default, enable by uncommenting animation */
-body::after {
-  content: '';
-  position: fixed;
-  left: 0;
-  right: 0;
-  height: 40%;
-  background: linear-gradient(to bottom,
-      transparent 0%,
-      var(--primary), 50%,
-      transparent 100%);
-  pointer-events: none;
-  z-index: 1;
-  /* animation: scanMove 5s linear infinite; */
+    linear-gradient(rgba(var(--accent-rgb), 0.28) 1.5px, transparent 1.5px),
+    linear-gradient(90deg, rgba(var(--accent-rgb), 0.28) 1.5px, transparent 1.5px);
 }
 
 /* ==========================================================================
-   BLOG BODY STYLING (Identical to normal body)
+   BLOG BODY GRID (scoped override — inherits body::before, just targets
+   blog pages that add .blog-body to <body>)
    ========================================================================== */
 .blog-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background-image:
-    linear-gradient(var(--primary), 1.5px, transparent 1.5px),
-    linear-gradient(90deg, var(--primary), 1.5px, transparent 1.5px);
-  background-size: 25px 25px;
-  background-position: center top;
-  transform: perspective(250px) rotateX(75deg) translateY(-25%) scale(1) translateZ(0);
-  transform-origin: top center;
-  will-change: transform;
-  backface-visibility: hidden;
-  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 8vh, black calc(100vh - 15%), transparent 100%);
-  mask-image: linear-gradient(to bottom, transparent 0%, black 8vh, black calc(100vh - 15%), transparent 100%);
-  pointer-events: none;
-  z-index: -1;
-  /* CHANGED: Now using scrollFloor instead of gridDrift */
-  animation: scrollFloor 2s infinite linear;
-}
-
-:root.light .blog-body::before {
-  background-image:
-    linear-gradient(var(--accent), 1.5px, transparent 1.5px),
-    linear-gradient(90deg, var(--accent), 1.5px, transparent 1.5px);
-}
-
-/* Scan line — disabled by default, enable by uncommenting animation */
-.blog-body::after {
-  content: '';
-  position: fixed;
-  left: 0;
-  right: 0;
-  height: 40%;
-  background: linear-gradient(to bottom,
-      transparent 0%,
-      var(--primary) 50%,
-      transparent 100%);
-  pointer-events: none;
-  z-index: 1;
-  /* animation: scanMove 5s linear infinite; */
+  animation-duration: 1.5s;
 }
 
 /* ==========================================================================
