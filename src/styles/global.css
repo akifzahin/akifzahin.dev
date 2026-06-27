@@ -1772,7 +1772,106 @@ nav {
 :root.light .form-input:focus {
   animation-name: inputPulseLight;
 }
+/* Download button icon swap */
+.btn-download {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6em;
+}
 
+.btn-download .btn-icon {
+  position: relative;
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+}
+
+.btn-download .icon-default,
+.btn-download .icon-hover {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition: transform 0.3s ease, opacity 0.25s ease;
+}
+
+.btn-download .icon-hover {
+  transform: translateY(8px);
+  opacity: 0;
+}
+
+.btn-download:hover .icon-default {
+  transform: translateY(-8px);
+  opacity: 0;
+}
+
+.btn-download:hover .icon-hover {
+  transform: translateY(0);
+  opacity: 1;
+  animation: icon-bounce 0.4s ease forwards;
+}
+
+@keyframes icon-bounce {
+  0%   { transform: translateY(8px); }
+  60%  { transform: translateY(-3px); }
+  80%  { transform: translateY(2px); }
+  100% { transform: translateY(0); }
+}
+
+.btn-send {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6em;
+}
+
+.btn-send .btn-icon {
+  position: relative;
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+}
+
+.btn-send .icon-default,
+.btn-send .icon-hover {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition: transform 0.3s ease, opacity 0.25s ease;
+}
+
+.btn-send .icon-hover {
+  transform: translateY(8px);
+  opacity: 0;
+}
+
+.btn-send:hover .icon-default {
+  transform: translateY(-8px);
+  opacity: 0;
+}
+
+.btn-send:hover .icon-hover {
+  transform: translateY(0);
+  opacity: 1;
+  animation: icon-bounce 0.4s ease forwards;
+}
+
+/* success state */
+.btn-send.success .icon-default {
+  transform: translateY(-8px);
+  opacity: 0;
+}
+
+.btn-send.success .icon-hover {
+  transform: translateY(0);
+  opacity: 1;
+  filter: drop-shadow(0 0 6px rgb(var(--primary-rgb))) drop-shadow(0 0 14px rgba(var(--accent-rgb), 0.7));
+}
+
+.btn-send.success .btn-label {
+  color: rgb(var(--primary-rgb));
+}
 /* ==========================================================================
    BLOG POST
    ========================================================================== */

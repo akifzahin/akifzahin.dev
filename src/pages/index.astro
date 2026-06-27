@@ -20,7 +20,49 @@ import Layout from "../layouts/Layout.astro";
         below for any work opportunities. Thank you!
       </p>
       <div class="cta-row">
-        <a href="/resume.pdf" class="btn-primary" download>Download Resume</a>
+        <a href="/resume.pdf" class="btn-primary btn-download" download>
+          <span class="btn-label">Download Resume</span>
+          <span class="btn-icon">
+            <svg
+              class="icon-default"
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              ><path
+                d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
+              ></path><polyline points="14 2 14 8 20 8"></polyline><line
+                x1="16"
+                y1="13"
+                x2="8"
+                y2="13"></line><line x1="16" y1="17" x2="8" y2="17"
+              ></line><polyline points="10 9 9 9 8 9"></polyline></svg
+            >
+            <svg
+              class="icon-hover"
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              ><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"
+              ></path><polyline points="7 10 12 15 17 10"></polyline><line
+                x1="12"
+                y1="15"
+                x2="12"
+                y2="3"></line></svg
+            >
+          </span>
+        </a>
       </div>
 
       <!-- Social Icons -->
@@ -168,128 +210,312 @@ import Layout from "../layouts/Layout.astro";
     </svg>
   </section>
 
-<section class="section" id="work">
-  <p class="section-label">Selected work</p>
-  <div class="projects-grid">
+  <section class="section" id="work">
+    <p class="section-label">Selected work</p>
+    <div class="projects-grid">
+      <div class="project-card">
+        <div class="github-stats">
+          <svg
+            class="github-mark"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            width="14"
+            height="14"
+            ><path
+              d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"
+            ></path></svg
+          >
+          <span class="github-repo">akifzahin/TimeGaitNet</span>
+          <div class="github-meta">
+            <span class="github-stat">⭐ 1</span>
+            <span class="github-stat">🍴 1</span>
+            <span class="github-lang"
+              ><span class="lang-dot" style="background:#3572A5"
+              ></span>Python</span
+            >
+          </div>
+        </div>
+        <p class="project-num">001</p>
 
-    <div class="project-card">
-      <div class="github-stats">
-        <svg class="github-mark" viewBox="0 0 24 24" fill="currentColor" width="14" height="14"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
-        <span class="github-repo">akifzahin/TimeGaitNet</span>
-        <div class="github-meta">
-          <span class="github-stat">⭐ 1</span>
-          <span class="github-stat">🍴 1</span>
-          <span class="github-lang"><span class="lang-dot" style="background:#3572A5"></span>Python</span>
+        <a
+          href="https://github.com/akifzahin/TimeGaitNet"
+          target="_blank"
+          rel="noopener"
+          style="text-decoration: none; color: inherit;"
+        >
+          <h3 class="project-title font-display">TimeGaitNet</h3>
+        </a>
+
+        <p class="project-desc">
+          Deep learning framework analyzing wearable accelerometer data to
+          detect, forecast, and estimate the intensity of Freezing of Gait
+          episodes in Parkinson's patients.
+        </p>
+
+        <div class="project-tags">
+          <a
+            href="https://pytorch.org/"
+            target="_blank"
+            rel="noopener"
+            class="tag"><i class="devicon-pytorch-plain"></i> Pytorch</a
+          >
+          <a
+            href="https://www.tensorflow.org/"
+            target="_blank"
+            rel="noopener"
+            class="tag"
+            ><i class="devicon-tensorflow-original"></i> TensorFlow</a
+          >
+          <a
+            href="https://numpy.org/"
+            target="_blank"
+            rel="noopener"
+            class="tag"><i class="devicon-numpy-plain"></i> NumPy</a
+          >
         </div>
       </div>
-      <p class="project-num">001</p>
-      
-      <a href="https://github.com/akifzahin/TimeGaitNet" target="_blank" rel="noopener" style="text-decoration: none; color: inherit;">
-        <h3 class="project-title font-display">TimeGaitNet</h3>
-      </a>
-      
-      <p class="project-desc">Deep learning framework analyzing wearable accelerometer data to detect, forecast, and estimate the intensity of Freezing of Gait episodes in Parkinson's patients.</p>
-      
-      <div class="project-tags">
-        <a href="https://pytorch.org/" target="_blank" rel="noopener" class="tag"><i class="devicon-pytorch-plain"></i> Pytorch</a>
-        <a href="https://www.tensorflow.org/" target="_blank" rel="noopener" class="tag"><i class="devicon-tensorflow-original"></i> TensorFlow</a>
-        <a href="https://numpy.org/" target="_blank" rel="noopener" class="tag"><i class="devicon-numpy-plain"></i> NumPy</a>
-      </div>
-    </div>
 
-    <div class="project-card">
-      <div class="github-stats">
-        <svg class="github-mark" viewBox="0 0 24 24" fill="currentColor" width="14" height="14"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
-        <span class="github-repo">akifzahin/LM-FCIL</span>
-        <div class="github-meta">
-          <span class="github-stat">⭐ 1</span>
-          <span class="github-stat">🍴 1</span>
-          <span class="github-lang"><span class="lang-dot" style="background:#A97BFF"></span>Kotlin</span>
+      <div class="project-card">
+        <div class="github-stats">
+          <svg
+            class="github-mark"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            width="14"
+            height="14"
+            ><path
+              d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"
+            ></path></svg
+          >
+          <span class="github-repo">akifzahin/LM-FCIL</span>
+          <div class="github-meta">
+            <span class="github-stat">⭐ 1</span>
+            <span class="github-stat">🍴 1</span>
+            <span class="github-lang"
+              ><span class="lang-dot" style="background:#A97BFF"
+              ></span>Kotlin</span
+            >
+          </div>
+        </div>
+        <p class="project-num">002</p>
+
+        <a
+          href="https://github.com/akifzahin/LM-FCIL"
+          target="_blank"
+          rel="noopener"
+          style="text-decoration: none; color: inherit;"
+        >
+          <h3 class="project-title font-display">LM-FCIL</h3>
+        </a>
+
+        <p class="project-desc">
+          Federated Class Incremental Learning simulation for Handwriting
+          Identification using Dynamic Expanding Classifier.
+        </p>
+
+        <div class="project-tags">
+          <a
+            href="https://kotlinlang.org/"
+            target="_blank"
+            rel="noopener"
+            class="tag"><i class="devicon-kotlin-plain"></i> Kotlin</a
+          >
+          <a
+            href="https://www.tensorflow.org/lite"
+            target="_blank"
+            rel="noopener"
+            class="tag"><i class="devicon-tensorflow-original"></i> TFLite</a
+          >
+          <a
+            href="https://opencv.org/"
+            target="_blank"
+            rel="noopener"
+            class="tag"><i class="devicon-opencv-plain"></i> OpenCV</a
+          >
         </div>
       </div>
-      <p class="project-num">002</p>
-      
-      <a href="https://github.com/akifzahin/LM-FCIL" target="_blank" rel="noopener" style="text-decoration: none; color: inherit;">
-        <h3 class="project-title font-display">LM-FCIL</h3>
-      </a>
-      
-      <p class="project-desc">Federated Class Incremental Learning simulation for Handwriting Identification using Dynamic Expanding Classifier.</p>
-      
-      <div class="project-tags">
-        <a href="https://kotlinlang.org/" target="_blank" rel="noopener" class="tag"><i class="devicon-kotlin-plain"></i> Kotlin</a>
-        <a href="https://www.tensorflow.org/lite" target="_blank" rel="noopener" class="tag"><i class="devicon-tensorflow-original"></i> TFLite</a>
-        <a href="https://opencv.org/" target="_blank" rel="noopener" class="tag"><i class="devicon-opencv-plain"></i> OpenCV</a>
-      </div>
-    </div>
 
-    <div class="project-card">
-      <div class="github-stats">
-        <svg class="github-mark" viewBox="0 0 24 24" fill="currentColor" width="14" height="14"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.37 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
-        <span class="github-repo">t4niha/NewsLens</span>
-        <div class="github-meta">
-          <span class="github-stat">⭐ 1</span>
-          <span class="github-stat">🍴 1</span>
-          <span class="github-lang"><span class="lang-dot" style="background:#3572A5"></span>Python</span>
+      <div class="project-card">
+        <div class="github-stats">
+          <svg
+            class="github-mark"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            width="14"
+            height="14"
+            ><path
+              d="M12 0C5.37 0 0 5.37 0 12c0 5.37 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"
+            ></path></svg
+          >
+          <span class="github-repo">t4niha/NewsLens</span>
+          <div class="github-meta">
+            <span class="github-stat">⭐ 1</span>
+            <span class="github-stat">🍴 1</span>
+            <span class="github-lang"
+              ><span class="lang-dot" style="background:#3572A5"
+              ></span>Python</span
+            >
+          </div>
+        </div>
+        <p class="project-num">003</p>
+
+        <a
+          href="https://github.com/t4niha/NewsLens"
+          target="_blank"
+          rel="noopener"
+          style="text-decoration: none; color: inherit;"
+        >
+          <h3 class="project-title font-display">NewsLens</h3>
+        </a>
+
+        <p class="project-desc">
+          BERT-Based Detection of Political Bias in News Articles with Suggested
+          Readings.
+        </p>
+
+        <div class="project-tags">
+          <a
+            href="https://fastapi.tiangolo.com/"
+            target="_blank"
+            rel="noopener"
+            class="tag"><i class="devicon-fastapi-plain"></i> FastAPI</a
+          >
+          <a
+            href="https://nextjs.org/"
+            target="_blank"
+            rel="noopener"
+            class="tag"><i class="devicon-nextjs-plain"></i> NextJS</a
+          >
+          <a
+            href="https://en.wikipedia.org/wiki/Large_language_model"
+            target="_blank"
+            rel="noopener"
+            class="tag"><i class="devicon-python-plain"></i> LLMs</a
+          >
         </div>
       </div>
-      <p class="project-num">003</p>
-      
-      <a href="https://github.com/t4niha/NewsLens" target="_blank" rel="noopener" style="text-decoration: none; color: inherit;">
-        <h3 class="project-title font-display">NewsLens</h3>
-      </a>
-      
-      <p class="project-desc">BERT-Based Detection of Political Bias in News Articles with Suggested Readings.</p>
-      
-      <div class="project-tags">
-        <a href="https://fastapi.tiangolo.com/" target="_blank" rel="noopener" class="tag"><i class="devicon-fastapi-plain"></i> FastAPI</a>
-        <a href="https://nextjs.org/" target="_blank" rel="noopener" class="tag"><i class="devicon-nextjs-plain"></i> NextJS</a>
-        <a href="https://en.wikipedia.org/wiki/Large_language_model" target="_blank" rel="noopener" class="tag"><i class="devicon-python-plain"></i> LLMs</a>
+    </div>
+  </section>
+
+  <section class="section" id="skills">
+    <p class="section-label">Skills & Stack</p>
+    <div class="skills-grid">
+      <div class="skill-group">
+        <p class="skill-group-title font-mono">Languages</p>
+        <div class="skill-tags">
+          <a
+            href="https://www.python.org"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="tag"><i class="devicon-python-plain"></i> Python</a
+          >
+          <a
+            href="https://developer.mozilla.org/en-US/docs/Web/JavaScript"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="tag"><i class="devicon-javascript-plain"></i> JavaScript</a
+          >
+          <a
+            href="https://developer.mozilla.org/en-US/docs/Web/CSS"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="tag"><i class="devicon-css3-plain"></i> CSS</a
+          >
+          <a
+            href="https://www.typescriptlang.org"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="tag"><i class="devicon-typescript-plain"></i> TypeScript</a
+          >
+          <a
+            href="https://kotlinlang.org"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="tag"><i class="devicon-kotlin-plain"></i> Kotlin</a
+          >
+          <a
+            href="https://www.postgresql.org"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="tag"><i class="devicon-postgresql-plain"></i> SQL</a
+          >
+        </div>
+      </div>
+
+      <div class="skill-group">
+        <p class="skill-group-title font-mono">Frameworks</p>
+        <div class="skill-tags">
+          <a
+            href="https://nextjs.org"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="tag"><i class="devicon-nextjs-plain"></i> Next.js</a
+          >
+          <a
+            href="https://astro.build"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="tag"><i class="devicon-astro-plain"></i> Astro</a
+          >
+          <a
+            href="https://fastapi.tiangolo.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="tag"><i class="devicon-fastapi-plain"></i> FastAPI</a
+          >
+          <a
+            href="https://pytorch.org"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="tag"><i class="devicon-pytorch-plain"></i> PyTorch</a
+          >
+          <a
+            href="https://www.tensorflow.org"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="tag"
+            ><i class="devicon-tensorflow-original"></i> TensorFlow</a
+          >
+        </div>
+      </div>
+
+      <div class="skill-group">
+        <p class="skill-group-title font-mono">Tools & Platforms</p>
+        <div class="skill-tags">
+          <a
+            href="https://www.atlassian.com/software/jira"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="tag"><i class="devicon-jira-plain"></i> Jira</a
+          >
+          <a
+            href="https://git-scm.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="tag"><i class="devicon-git-plain"></i> Git</a
+          >
+          <a
+            href="https://www.docker.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="tag"><i class="devicon-docker-plain"></i> Docker</a
+          >
+          <a
+            href="https://opencv.org"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="tag"><i class="devicon-opencv-plain"></i> OpenCV</a
+          >
+          <a
+            href="https://www.tensorflow.org/lite"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="tag"><i class="devicon-tensorflow-original"></i> TFLite</a
+          >
+        </div>
       </div>
     </div>
-
-  </div>
-</section>
-
- <section class="section" id="skills">
-  <p class="section-label">Skills & Stack</p>
-  <div class="skills-grid">
-
-    <div class="skill-group">
-      <p class="skill-group-title font-mono">Languages</p>
-      <div class="skill-tags">
-        <a href="https://www.python.org" target="_blank" rel="noopener noreferrer" class="tag"><i class="devicon-python-plain"></i> Python</a>
-        <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank" rel="noopener noreferrer" class="tag"><i class="devicon-javascript-plain"></i> JavaScript</a>
-        <a href="https://developer.mozilla.org/en-US/docs/Web/CSS" target="_blank" rel="noopener noreferrer" class="tag"><i class="devicon-css3-plain"></i> CSS</a>
-        <a href="https://www.typescriptlang.org" target="_blank" rel="noopener noreferrer" class="tag"><i class="devicon-typescript-plain"></i> TypeScript</a>
-        <a href="https://kotlinlang.org" target="_blank" rel="noopener noreferrer" class="tag"><i class="devicon-kotlin-plain"></i> Kotlin</a>
-        <a href="https://www.postgresql.org" target="_blank" rel="noopener noreferrer" class="tag"><i class="devicon-postgresql-plain"></i> SQL</a>
-      </div>
-    </div>
-
-    <div class="skill-group">
-      <p class="skill-group-title font-mono">Frameworks</p>
-      <div class="skill-tags">
-        <a href="https://nextjs.org" target="_blank" rel="noopener noreferrer" class="tag"><i class="devicon-nextjs-plain"></i> Next.js</a>
-        <a href="https://astro.build" target="_blank" rel="noopener noreferrer" class="tag"><i class="devicon-astro-plain"></i> Astro</a>
-        <a href="https://fastapi.tiangolo.com" target="_blank" rel="noopener noreferrer" class="tag"><i class="devicon-fastapi-plain"></i> FastAPI</a>
-        <a href="https://pytorch.org" target="_blank" rel="noopener noreferrer" class="tag"><i class="devicon-pytorch-plain"></i> PyTorch</a>
-        <a href="https://www.tensorflow.org" target="_blank" rel="noopener noreferrer" class="tag"><i class="devicon-tensorflow-original"></i> TensorFlow</a>
-      </div>
-    </div>
-
-    <div class="skill-group">
-      <p class="skill-group-title font-mono">Tools & Platforms</p>
-      <div class="skill-tags">
-        <a href="https://www.atlassian.com/software/jira" target="_blank" rel="noopener noreferrer" class="tag"><i class="devicon-jira-plain"></i> Jira</a>
-        <a href="https://git-scm.com" target="_blank" rel="noopener noreferrer" class="tag"><i class="devicon-git-plain"></i> Git</a>
-        <a href="https://www.docker.com" target="_blank" rel="noopener noreferrer" class="tag"><i class="devicon-docker-plain"></i> Docker</a>
-        <a href="https://opencv.org" target="_blank" rel="noopener noreferrer" class="tag"><i class="devicon-opencv-plain"></i> OpenCV</a>
-        <a href="https://www.tensorflow.org/lite" target="_blank" rel="noopener noreferrer" class="tag"><i class="devicon-tensorflow-original"></i> TFLite</a>
-      </div>
-    </div>
-
-  </div>
-</section>
+  </section>
 
   <!-- EXPERIENCE -->
   <section class="section" id="experience">
@@ -518,10 +744,40 @@ import Layout from "../layouts/Layout.astro";
         </div>
         <button
           type="submit"
-          class="btn-primary"
+          class="btn-primary btn-send"
           style="width:100%; text-align:center; cursor:crosshair;"
-          >Send Message</button
         >
+          <span class="btn-label">Send Message</span>
+          <span class="btn-icon">
+            <svg
+              class="icon-default"
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              ><line x1="22" y1="2" x2="11" y2="13"></line><polygon
+                points="22 2 15 22 11 13 2 9 22 2"></polygon></svg
+            >
+            <svg
+              class="icon-hover"
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              ><polyline points="20 6 9 16 4 11"></polyline></svg
+            >
+          </span>
+        </button>
       </form>
     </div>
     <!-- closes .contact-grid -->
@@ -529,6 +785,43 @@ import Layout from "../layouts/Layout.astro";
   <!-- closes #contact -->
   <script>
     import "../scripts/home";
+
+    document.addEventListener("astro:page-load", () => {
+      const form = document.getElementById("contact-form") as HTMLFormElement;
+      if (!form) return;
+
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const data = Object.fromEntries(new FormData(form));
+
+        const res = await fetch("https://api.web3forms.com/submit", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
+        });
+
+        const result = await res.json();
+
+        if (result.success) {
+          form.reset();
+          const btn = form.querySelector("button[type='submit']");
+          btn.querySelector(".btn-label").textContent = "Message Deployed";
+          btn.querySelector(".icon-default").innerHTML =
+            `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 16 4 11"/></svg>`;
+          btn.classList.add("success");
+          btn.disabled = true;
+
+          setTimeout(() => {
+            btn.querySelector(".btn-label").textContent = "Send Message";
+            btn.querySelector(".icon-default").innerHTML =
+              `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>`;
+            btn.classList.remove("success");
+            btn.disabled = false;
+          }, 3000);
+        }
+      });
+    });
   </script>
 
   <!-- FOOTER -->
