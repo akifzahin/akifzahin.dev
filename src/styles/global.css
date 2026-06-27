@@ -24,7 +24,7 @@
   /* Text */
   --text: #e0e0e0;
   --text-muted: #555;
-  --text-subtle: #5f5d5d;
+  --text-subtle: #b2afaf;
 
   /* Typography */
   --font-sans: 'Inter', sans-serif;
@@ -324,7 +324,7 @@ html.color-transitioning body::before {
   --bg-nav: rgba(192, 190, 190, 0.95);
   --text: #1a1a2e;
   --text-muted: #4a4a6a;
-  --text-subtle: #71719a;
+  --text-subtle: #414141;
 }
 
 :root.light .project-card,
@@ -1242,7 +1242,6 @@ nav {
   color: var(--text-subtle);
   line-height: 1.8;
   max-width: 560px;
-  background: var(--bg-surface);
   background: var(--bg);
 
   padding: 1rem;
