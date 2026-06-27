@@ -1669,10 +1669,9 @@ nav {
 
 .form-input {
   width: 100%;
-  background: var(--bg-surface);
   background: var(--bg);
   border: 1px solid var(--primary);
-  color: var(--text);
+  color: var(--text-subtle);
   padding: 0.75rem 1rem;
   font-size: 1rem;
   font-family: var(--font-mono);
