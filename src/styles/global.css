@@ -1404,10 +1404,6 @@ nav {
   text-overflow: ellipsis;
 }
 
-:root.light .github-mark {
-
-  color: var(--text);
-}
 
 .github-meta {
   display: flex;
