@@ -318,10 +318,10 @@ html.color-transitioning body::before {
 
 /* Light mode overrides */
 :root.light {
-  --bg: rgb(192, 190, 190);
+  --bg: rgb(215, 215, 215);
   --bg-rgb: 192, 190, 190;
-  --bg-surface: rgba(192, 190, 190, 0.75);
-  --bg-nav: rgba(192, 190, 190, 0.95);
+  --bg-surface: rgba(215, 215, 215, 0.75);
+  --bg-nav: rgba(215, 215, 215, 0.95);
   --text: #1a1a2e;
   --text-muted: #4a4a6a;
   --text-subtle: #414141;
@@ -902,9 +902,17 @@ nav {
   animation: glitchSocial 3s ease-in-out infinite;
 }
 
-/* CTA row override */
 .cta-row .btn-primary {
   background: rgb(7, 7, 7, 0.3) !important;
+  padding: 1rem 0.11rem 1rem 2rem;        /* taller and wider tap target */
+  font-size: 1.3rem;              /* explicit, doesn't shrink on mobile */
+  min-height: 48px;             /* mobile tap target minimum (Apple/Google HIG) */
+  width: 100%;                  /* full width on small screens */
+  max-width: 320px;             /* but capped on desktop */
+}
+.cta-row .btn-primary svg {
+  width: 20px;
+  height: 20px;
 }
 
 
