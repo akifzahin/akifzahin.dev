@@ -904,12 +904,18 @@ nav {
 
 .cta-row .btn-primary {
   background: rgb(7, 7, 7, 0.3) !important;
-  padding: 1rem 0.11rem 1rem 2rem;        /* taller and wider tap target */
-  font-size: 1.3rem;              /* explicit, doesn't shrink on mobile */
-  min-height: 48px;             /* mobile tap target minimum (Apple/Google HIG) */
-  width: 100%;                  /* full width on small screens */
-  max-width: 320px;             /* but capped on desktop */
+  padding: 1rem 0.11rem 1rem 2rem;
+  /* taller and wider tap target */
+  font-size: 1.3rem;
+  /* explicit, doesn't shrink on mobile */
+  min-height: 48px;
+  /* mobile tap target minimum (Apple/Google HIG) */
+  width: 100%;
+  /* full width on small screens */
+  max-width: 320px;
+  /* but capped on desktop */
 }
+
 .cta-row .btn-primary svg {
   width: 20px;
   height: 20px;
@@ -1637,6 +1643,7 @@ nav {
   color: rgba(var(--accent-rgb), 0.45);
   animation: glitch1 3s steps(1) infinite;
   clip-path: polygon(0 20%, 100% 20%, 100% 40%, 0 40%);
+  text-shadow: -2px 0 var(--accent), 2px 0 var(--primary);
 }
 
 .name-outline::after,
@@ -1648,6 +1655,7 @@ nav {
   color: var(--primary);
   animation: glitch2 3s steps(1) infinite;
   clip-path: polygon(0 60%, 100% 60%, 100% 80%, 0 80%);
+  text-shadow: -2px 0 var(--accent), 2px 0 var(--primary);
   opacity: 0.7;
 }
 
@@ -1721,6 +1729,7 @@ nav {
 :root.light .form-input:focus {
   animation-name: inputPulseLight;
 }
+
 /* Download button icon swap */
 .btn-download {
   display: inline-flex;
@@ -1761,10 +1770,21 @@ nav {
 }
 
 @keyframes icon-bounce {
-  0%   { transform: translateY(8px); }
-  60%  { transform: translateY(-3px); }
-  80%  { transform: translateY(2px); }
-  100% { transform: translateY(0); }
+  0% {
+    transform: translateY(8px);
+  }
+
+  60% {
+    transform: translateY(-3px);
+  }
+
+  80% {
+    transform: translateY(2px);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
 }
 
 .btn-send {
@@ -1821,6 +1841,7 @@ nav {
 .btn-send.success .btn-label {
   color: rgb(var(--primary-rgb));
 }
+
 /* ==========================================================================
    BLOG POST
    ========================================================================== */
@@ -2920,23 +2941,27 @@ footer {
   0%,
   75%,
   100% {
+    clip-path: inset(50% 0 50% 0);
     transform: translate(0);
     opacity: 0;
   }
 
   76%,
   79% {
+    clip-path: inset(10% -6px 75% 0);
     transform: translate(-5px, 2px);
     opacity: 1;
   }
 
   80%,
   85% {
+    clip-path: inset(55% -6px 20% 0);
     transform: translate(5px, -1px);
     opacity: 1;
   }
 
   86% {
+    clip-path: inset(50% 0 50% 0);
     transform: translate(0);
     opacity: 0;
   }
@@ -2947,23 +2972,27 @@ footer {
   0%,
   78%,
   100% {
+    clip-path: inset(50% 0 50% 0);
     transform: translate(0);
     opacity: 0;
   }
 
   79%,
   82% {
+    clip-path: inset(30% -6px 60% 0);
     transform: translate(4px, 1px);
     opacity: 1;
   }
 
   83%,
   88% {
+    clip-path: inset(70% -6px 5% 0);
     transform: translate(-3px, -2px);
     opacity: 1;
   }
 
   89% {
+    clip-path: inset(50% 0 50% 0);
     transform: translate(0);
     opacity: 0;
   }
