@@ -64,6 +64,7 @@
         data-accent="#0fd28c"
         data-image="/images/city.webp"
         data-name="Cyberpunk"
+        data-vanta="none"
       >
         <span class="swatch" style="--a:#f40bf4; --b:#0fd28c"></span>
         <span>Cyberpunk</span>
@@ -75,6 +76,7 @@
         data-accent="#0066ff"
         data-image="/images/cyber.webp"
         data-name="Webcore"
+        data-vanta="NET"
       >
         <span class="swatch" style="--a:#ffde4d; --b:#0066ff"></span>
         <span>Webcore</span>
@@ -86,6 +88,7 @@
         data-accent="#E60000"
         data-image="/images/ray.webp"
         data-name="Retro Futurism"
+        data-vanta="WAVES"
       >
         <span class="swatch" style="--a:#f4f0db; --b:#E60000"></span>
         <span>Retro Futurism</span>
@@ -97,6 +100,7 @@
         data-accent="#6A0DAD"
         data-image="/images/myth.webp"
         data-name="Mythic Fiction"
+        data-vanta="FOG"
       >
         <span class="swatch" style="--a:#d3af37; --b:#6A0DAD"></span>
         <span>Mythic Fiction</span>
@@ -108,6 +112,7 @@
         data-accent="#996bdb"
         data-image="/images/dream.webp"
         data-name="Dreamcore"
+        data-vanta="CELLS"
       >
         <span class="swatch" style="--a:#74baf2; --b:#996bdb"></span>
         <span>Dreamcore</span>
@@ -119,11 +124,44 @@
         data-accent="#e85d04"
         data-image="/images/cassette.webp"
         data-name="Cassette Futurism"
+        data-vanta="TOPOLOGY"
       >
         <span class="swatch" style="--a:#D8C3A5; --b:#e85d04"></span>
         <span>Cassette Futurism</span>
       </li>
+      <li
+        class="dropdown-item dropdown-item--custom"
+        role="option"
+        data-primary="#00ffcc"
+        data-accent="#ff00aa"
+        data-name="Custom"
+        data-vanta="NET"
+      >
+        <span class="swatch" style="--a:#00ffcc; --b:#ff00aa"></span>
+        <span>Custom</span>
+      </li>
     </ul>
+
+    <!-- Custom color picker panel — shown when Custom theme is active -->
+    <div class="custom-color-panel" id="custom-color-panel" aria-hidden="true">
+      <div class="custom-color-panel__header">
+        <span>Custom Colors</span>
+      </div>
+      <div class="color-input-row">
+        <label for="custom-primary">Primary</label>
+        <div class="color-input-wrap">
+          <input type="color" id="custom-primary" value="#00ffcc" />
+          <span class="color-input-hex" id="custom-primary-hex">#00ffcc</span>
+        </div>
+      </div>
+      <div class="color-input-row">
+        <label for="custom-accent">Accent</label>
+        <div class="color-input-wrap">
+          <input type="color" id="custom-accent" value="#ff00aa" />
+          <span class="color-input-hex" id="custom-accent-hex">#ff00aa</span>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -151,15 +189,23 @@
     if (image) root.style.setProperty("--hero-image", `url('${image}')`);
   }
 
+  function dispatchThemeChange(name: string, primary: string, accent: string) {
+    document.dispatchEvent(new CustomEvent('theme-change', {
+      detail: { name, primary: primary.trim(), accent: accent.trim() }
+    }));
+  }
+
   function savePrefs(
     primary: string,
     accent: string,
     dark: boolean,
+    name: string,
     image?: string,
   ) {
     localStorage.setItem("theme-primary", primary.trim());
     localStorage.setItem("theme-accent", accent.trim());
     localStorage.setItem("theme-dark", String(dark));
+    localStorage.setItem("theme-name", name);
     if (image) localStorage.setItem("theme-image", image);
   }
 
@@ -183,6 +229,48 @@
       dotB.style.background = a;
       dotB.style.boxShadow = `0 0 5px ${a}`;
     }
+  }
+
+  function syncCustomPickers(primary: string, accent: string) {
+    const pInput = document.getElementById("custom-primary") as HTMLInputElement | null;
+    const aInput = document.getElementById("custom-accent") as HTMLInputElement | null;
+    const pHex   = document.getElementById("custom-primary-hex");
+    const aHex   = document.getElementById("custom-accent-hex");
+    const p = primary.trim();
+    const a = accent.trim();
+    if (pInput) pInput.value = p;
+    if (aInput) aInput.value = a;
+    if (pHex) pHex.textContent = p;
+    if (aHex) aHex.textContent = a;
+    // Also sync the Custom item's swatch in the dropdown
+    const customItem = document.querySelector<HTMLElement>('[data-name="Custom"]');
+    if (customItem) {
+      const swatch = customItem.querySelector<HTMLElement>('.swatch');
+      if (swatch) {
+        swatch.style.setProperty('--a', p);
+        swatch.style.setProperty('--b', a);
+      }
+      customItem.dataset.primary = p;
+      customItem.dataset.accent  = a;
+    }
+  }
+
+  function openCustomPanel() {
+    const panel = document.getElementById("custom-color-panel");
+    if (!panel) return;
+    panel.classList.add("open");
+    panel.setAttribute("aria-hidden", "false");
+    // Seed pickers from current CSS vars or saved custom colors
+    const savedP = localStorage.getItem("custom-primary") ?? localStorage.getItem("theme-primary") ?? "#00ffcc";
+    const savedA = localStorage.getItem("custom-accent")  ?? localStorage.getItem("theme-accent")  ?? "#ff00aa";
+    syncCustomPickers(savedP, savedA);
+  }
+
+  function closeCustomPanel() {
+    const panel = document.getElementById("custom-color-panel");
+    if (!panel) return;
+    panel.classList.remove("open");
+    panel.setAttribute("aria-hidden", "true");
   }
 
   document.addEventListener("astro:before-swap", (e: Event) => {
@@ -213,32 +301,36 @@
 
   function initThemeSwitcher() {
     const savedPrimary = localStorage.getItem("theme-primary");
-    const savedAccent = localStorage.getItem("theme-accent");
-    const savedDark = localStorage.getItem("theme-dark");
-    const savedImage = localStorage.getItem("theme-image");
+    const savedAccent  = localStorage.getItem("theme-accent");
+    const savedDark    = localStorage.getItem("theme-dark");
+    const savedImage   = localStorage.getItem("theme-image");
+    const savedName    = localStorage.getItem("theme-name") ?? "Cyberpunk";
 
     const initPrimary = savedPrimary ?? "#0fd28c";
-    const initAccent = savedAccent ?? "#f40bf4";
+    const initAccent  = savedAccent  ?? "#f40bf4";
 
     if (savedPrimary && savedAccent) {
       applyTheme(initPrimary, initAccent, savedImage ?? undefined);
     }
     if (savedDark === "false") document.documentElement.classList.add("light");
 
-    const darkToggle = document.getElementById("dark-toggle");
+    const darkToggle   = document.getElementById("dark-toggle");
     const colorTrigger = document.getElementById("color-trigger");
-    const dropdown = document.getElementById("color-dropdown");
+    const dropdown     = document.getElementById("color-dropdown");
     if (!darkToggle || !colorTrigger || !dropdown) return;
 
     const items = dropdown.querySelectorAll<HTMLElement>(".dropdown-item");
 
-    if (savedPrimary) {
-      items.forEach((item) => {
-        item.classList.toggle(
-          "active",
-          item.dataset.primary?.trim() === savedPrimary,
-        );
-      });
+    // Mark active item based on saved theme name (more reliable than color matching)
+    items.forEach((item) => {
+      item.classList.toggle("active", item.dataset.name === savedName);
+    });
+
+    // If Custom was saved, seed pickers and show panel
+    if (savedName === "Custom") {
+      const cp = localStorage.getItem("custom-primary") ?? initPrimary;
+      const ca = localStorage.getItem("custom-accent")  ?? initAccent;
+      syncCustomPickers(cp, ca);
     }
 
     let isDark = savedDark !== "false";
@@ -250,36 +342,51 @@
       document.documentElement.classList.toggle("light", !isDark);
       syncIcons(isDark);
       const primary =
-        document.documentElement.style.getPropertyValue("--primary") ||
-        "#0fd28c";
+        document.documentElement.style.getPropertyValue("--primary") || "#0fd28c";
       const accent =
-        document.documentElement.style.getPropertyValue("--accent") ||
-        "#f40bf4";
+        document.documentElement.style.getPropertyValue("--accent") || "#f40bf4";
       const image = localStorage.getItem("theme-image") ?? undefined;
-      savePrefs(primary, accent, isDark, image);
+      savePrefs(primary, accent, isDark, savedName, image);
       syncTrigger(primary, accent);
     });
 
     colorTrigger.addEventListener("click", (e) => {
       e.stopPropagation();
       dropdown.classList.toggle("open");
+      // Close custom panel if dropdown closes
+      if (!dropdown.classList.contains("open")) closeCustomPanel();
     });
 
     document.addEventListener("click", (e) => {
+      const panel = document.getElementById("custom-color-panel");
       if (
         !dropdown.contains(e.target as Node) &&
-        !colorTrigger.contains(e.target as Node)
+        !colorTrigger.contains(e.target as Node) &&
+        !panel?.contains(e.target as Node)
       ) {
         dropdown.classList.remove("open");
+        closeCustomPanel();
       }
     });
 
     items.forEach((item) => {
       item.addEventListener("click", () => {
-        const { primary, accent, image } = item.dataset as {
-          primary: string;
-          accent: string;
-          image: string;
+        const isCustom = item.dataset.name === "Custom";
+
+        if (isCustom) {
+          // Mark active, open picker panel — don't close dropdown
+          items.forEach((i) => i.classList.remove("active"));
+          item.classList.add("active");
+          openCustomPanel();
+          return;
+        }
+
+        // Regular theme
+        closeCustomPanel();
+        dropdown.classList.remove("open");
+
+        const { primary, accent, image, name } = item.dataset as {
+          primary: string; accent: string; image: string; name: string;
         };
 
         const hero = document.querySelector(".hero");
@@ -287,16 +394,40 @@
 
         setTimeout(() => {
           applyTheme(primary, accent, image);
+          dispatchThemeChange(name, primary, accent);
           hero?.classList.remove("theme-switching");
         }, 400);
 
         items.forEach((i) => i.classList.remove("active"));
         item.classList.add("active");
-        savePrefs(primary, accent, isDark, image);
+        savePrefs(primary, accent, isDark, name, image);
         syncTrigger(primary, accent);
-        dropdown.classList.remove("open");
       });
     });
+
+    // ── Custom color picker live input ───────────────────────────────────
+    const pInput = document.getElementById("custom-primary") as HTMLInputElement | null;
+    const aInput = document.getElementById("custom-accent")  as HTMLInputElement | null;
+    const pHex   = document.getElementById("custom-primary-hex");
+    const aHex   = document.getElementById("custom-accent-hex");
+
+    function applyCustomColors() {
+      const p = pInput?.value ?? "#00ffcc";
+      const a = aInput?.value ?? "#ff00aa";
+      if (pHex) pHex.textContent = p;
+      if (aHex) aHex.textContent = a;
+      syncCustomPickers(p, a);
+      applyTheme(p, a);
+      dispatchThemeChange("Custom", p, a);
+      syncTrigger(p, a);
+      // Persist custom picks separately so switching back restores them
+      localStorage.setItem("custom-primary", p);
+      localStorage.setItem("custom-accent", a);
+      savePrefs(p, a, isDark, "Custom");
+    }
+
+    pInput?.addEventListener("input", applyCustomColors);
+    aInput?.addEventListener("input", applyCustomColors);
   }
 
   document.addEventListener("astro:page-load", initThemeSwitcher);

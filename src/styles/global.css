@@ -298,6 +298,125 @@
   }
 }
 
+/* ==========================================================================
+   CUSTOM COLOR PICKER PANEL
+   ========================================================================== */
+.custom-color-panel {
+  display: none;
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 0;
+  min-width: 210px;
+  z-index: 1000;
+  background: var(--bg);
+  border: 1px solid rgba(var(--primary-rgb), 0.25);
+  padding: 0.75rem 0.9rem;
+  animation: dropdownFade 0.2s ease;
+}
+
+.custom-color-panel.open {
+  display: block;
+}
+
+.custom-color-panel__header {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--primary);
+  margin-bottom: 0.65rem;
+  opacity: 0.8;
+}
+
+.color-input-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+  padding: 0.45rem 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.color-input-row:first-of-type {
+  border-top: none;
+}
+
+.color-input-row label {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(224, 223, 223, 0.55);
+  flex-shrink: 0;
+}
+
+.color-input-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.color-input-hex {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.06em;
+  color: rgba(224, 223, 223, 0.45);
+  min-width: 52px;
+}
+
+input[type="color"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 28px;
+  height: 28px;
+  border: 1px solid rgba(var(--primary-rgb), 0.4);
+  background: transparent;
+  cursor: pointer;
+  padding: 2px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+input[type="color"]:hover {
+  border-color: var(--primary);
+  box-shadow: 0 0 8px rgba(var(--primary-rgb), 0.35);
+}
+
+input[type="color"]::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+
+input[type="color"]::-webkit-color-swatch {
+  border: none;
+}
+
+/* Light mode overrides */
+:root.light .custom-color-panel {
+  border-color: rgba(var(--accent-rgb), 0.25);
+}
+
+:root.light .color-input-row label {
+  color: rgba(26, 26, 46, 0.55);
+}
+
+:root.light .color-input-hex {
+  color: rgba(26, 26, 46, 0.45);
+}
+
+:root.light input[type="color"] {
+  border-color: rgba(var(--accent-rgb), 0.4);
+}
+
+:root.light input[type="color"]:hover {
+  border-color: var(--accent);
+  box-shadow: 0 0 8px rgba(var(--accent-rgb), 0.35);
+}
+
+/* Dropdown item custom variant — subtle bottom border separator */
+.dropdown-item--custom {
+  border-top: 1px solid rgba(var(--primary-rgb), 0.15) !important;
+  margin-top: 2px;
+}
+
 /* Smooth color swap when JS changes CSS vars */
 html.color-transitioning *,
 html.color-transitioning *::before,
@@ -413,6 +532,23 @@ textarea {
     /* Physically push the grid down by exactly one box size (25px) */
     transform: perspective(250px) rotateX(75deg) translateY(-25%) scale(1) translateY(25px);
   }
+}
+
+/* ==========================================================================
+   VANTA BACKGROUND MOUNT TARGET
+   Sits behind the CSS grid (z-index: -2). When a Vanta effect is active,
+   JS adds .has-vanta to <body> which hides the CSS grid via body::before.
+   ========================================================================== */
+#vanta-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+}
+
+/* Hide CSS grid when Vanta is active — Vanta provides the background */
+body.has-vanta::before {
+  display: none;
 }
 
 /* ==========================================================================

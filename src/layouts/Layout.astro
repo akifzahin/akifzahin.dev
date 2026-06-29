@@ -124,8 +124,25 @@ const { title = "Akif Zahin", showBack = false } = Astro.props;
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css"
     />
+    <!-- Three.js (required by Vanta) -->
+    <script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <!-- Vanta effects -->
+    <script is:inline src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js"></script>
+    <script is:inline src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.waves.min.js"></script>
+    <script is:inline src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.fog.min.js"></script>
+    <script is:inline src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.cells.min.js"></script>
+    <script is:inline src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.topology.min.js"></script>
+    <script is:inline src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.birds.min.js"></script>
+    <script is:inline src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.dots.min.js"></script>
+    <script is:inline src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.globe.min.js"></script>
+    <script is:inline src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.halo.min.js"></script>
+    <script is:inline src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.rings.min.js"></script>
+    <script is:inline src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.ripple.min.js"></script>
+    <script is:inline src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.trunk.min.js"></script>
   </head>
   <body>
+    <!-- Vanta.js mount target — sits behind CSS grid via z-index -->
+    <div id="vanta-bg"></div>
     <div class="nav-wrapper">
       <nav>
         <div class="nav-left">
@@ -175,7 +192,118 @@ const { title = "Akif Zahin", showBack = false } = Astro.props;
     once via a flag on window so they don't stack across navigations.
   -->
   <script>
-    function initPersistentUI() {
+    // ── Vanta background system ─────────────────────────────────────────────
+  let vantaInstance: any = null;
+
+  function hexToNum(hex: string): number {
+    return parseInt(hex.replace('#', ''), 16);
+  }
+
+  function getVantaConfig(themeName: string, primary: string, accent: string): { effect: string; options: Record<string, any> } | null {
+    const p = hexToNum(primary);
+    const a = hexToNum(accent);
+    const bg = isDark ? 0x0a0a0a : 0xd7d7d7; 
+    const base = { el: '#vanta-bg', THREE: (window as any).THREE, mouseControls: true, touchControls: true, gyroControls: false };
+
+    switch (themeName) {
+      case 'Cyberpunk':
+        // CSS grid handles Cyberpunk — no Vanta
+        return null;
+
+      case 'Webcore':
+        return {
+          effect: 'NET',
+          options: { ...base, color: p, backgroundColor: 0x0a0a1a, points: 9, maxDistance: 22, spacing: 18 }
+        };
+
+      case 'Retro Futurism':
+        return {
+          effect: 'RIPPLE',
+          options: { ...base, color: p, bgcolor: 0x0a0800, speed: 4, waveHeight: 25 }
+        };
+
+      case 'Mythic Fiction':
+        return {
+          effect: 'FOG',
+          options: { ...base, highlightColor: p, midtoneColor: a, lowlightColor: 0x0a0005, baseColor: 0x06000f, blurFactor: 0.6, speed: 1.2, zoom: 0.9 }
+        };
+
+      case 'Dreamcore':
+        return {
+          effect: 'CELLS',
+          options: { ...base, color1: p, color2: a, size: 2.5, speed: 1.2 }
+        };
+
+      case 'Cassette Futurism':
+        return {
+          effect: 'TRUNK',
+          options: { ...base, color: p, backgroundColor: 0x0f0a05, spacing: 1.5, chaos: 2 }
+        };
+
+      default:
+        // Custom or unknown — fallback to NET with user's colors
+        return null;
+    }
+  }
+
+  function destroyVanta() {
+    if (vantaInstance) {
+      try { vantaInstance.destroy(); } catch (_) {}
+      vantaInstance = null;
+    }
+    document.body.classList.remove('has-vanta');
+  }
+
+  function initVanta(themeName: string, primary: string, accent: string) {
+    destroyVanta();
+    const VANTA = (window as any).VANTA;
+
+    // Fallback: if Vanta hasn't loaded yet or effect missing, CSS grid takes over
+    if (!VANTA) {
+      console.warn('[vanta] VANTA not loaded — CSS grid fallback active');
+      return;
+    }
+
+    const config = getVantaConfig(themeName, primary, accent);
+
+    // Cyberpunk or unknown theme with no config → CSS grid stays, no Vanta
+    if (!config) return;
+
+    const effectFn = VANTA[config.effect];
+    if (!effectFn) {
+      console.warn(`[vanta] Effect VANTA.${config.effect} not found — CSS grid fallback active`);
+      return;
+    }
+
+    try {
+      vantaInstance = effectFn(config.options);
+      document.body.classList.add('has-vanta');
+    } catch (err) {
+      console.warn('[vanta] Failed to init effect — CSS grid fallback active', err);
+      destroyVanta();
+    }
+  }
+
+  function initVantaFromStorage() {
+    const themeName = localStorage.getItem('theme-name') ?? 'Cyberpunk';
+    const primary   = localStorage.getItem('theme-primary') ?? '#0fd28c';
+    const accent    = localStorage.getItem('theme-accent')  ?? '#f40bf4';
+    initVanta(themeName, primary, accent);
+  }
+
+  function initPersistentUI() {
+      // ── Vanta boot ──────────────────────────────────────────────────────
+      initVantaFromStorage();
+
+      // Re-register theme-change listener each page load (body is swapped by SPA)
+      document.addEventListener('theme-change', (e: Event) => {
+        const { name, primary, accent } = (e as CustomEvent).detail;
+        initVanta(name, primary, accent);
+      });
+
+      // Tear down before SPA swap (once per page)
+      document.addEventListener('astro:before-swap', destroyVanta, { once: true });
+
       // ── Hamburger / drawer ──────────────────────────────────────────────
       const hamburger = document.getElementById("nav-hamburger");
       const drawer = document.getElementById("nav-drawer");
