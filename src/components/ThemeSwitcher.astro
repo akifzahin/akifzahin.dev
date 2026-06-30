@@ -348,6 +348,7 @@
       const image = localStorage.getItem("theme-image") ?? undefined;
       savePrefs(primary, accent, isDark, savedName, image);
       syncTrigger(primary, accent);
+      dispatchThemeChange(savedName, primary, accent); // remounts Vanta with new bg
     });
 
     colorTrigger.addEventListener("click", (e) => {

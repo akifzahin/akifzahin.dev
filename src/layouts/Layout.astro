@@ -202,7 +202,8 @@ const { title = "Akif Zahin", showBack = false } = Astro.props;
   function getVantaConfig(themeName: string, primary: string, accent: string): { effect: string; options: Record<string, any> } | null {
     const p = hexToNum(primary);
     const a = hexToNum(accent);
-    const bg = isDark ? 0x0a0a0a : 0xd7d7d7; 
+    const isDark = !document.documentElement.classList.contains('light');
+    const bg = isDark ? 0x0a0a0a : 0xd7d7d7;
     const base = { el: '#vanta-bg', THREE: (window as any).THREE, mouseControls: true, touchControls: true, gyroControls: false };
 
     switch (themeName) {
@@ -213,31 +214,31 @@ const { title = "Akif Zahin", showBack = false } = Astro.props;
       case 'Webcore':
         return {
           effect: 'NET',
-          options: { ...base, color: p, backgroundColor: 0x0a0a1a, points: 9, maxDistance: 22, spacing: 18 }
+          options: { ...base, color: p, backgroundColor: bg, points: 9, maxDistance: 22, spacing: 18 }
         };
 
       case 'Retro Futurism':
         return {
           effect: 'RIPPLE',
-          options: { ...base, color: p, bgcolor: 0x0a0800, speed: 4, waveHeight: 25 }
+          options: { ...base, color: p, bgcolor: bg, speed: 4, waveHeight: 25 }
         };
 
       case 'Mythic Fiction':
         return {
           effect: 'FOG',
-          options: { ...base, highlightColor: p, midtoneColor: a, lowlightColor: 0x0a0005, baseColor: 0x06000f, blurFactor: 0.6, speed: 1.2, zoom: 0.9 }
+          options: { ...base, highlightColor: p, midtoneColor: a, lowlightColor: 0x0a0005, baseColor: bg, blurFactor: 0.6, speed: 1.2, zoom: 0.9 }
         };
 
       case 'Dreamcore':
         return {
           effect: 'CELLS',
-          options: { ...base, color1: p, color2: a, size: 2.5, speed: 1.2 }
+          options: { ...base, color1: p, color2: a, backgroundColor: bg, size: 2.5, speed: 1.2 }
         };
 
       case 'Cassette Futurism':
         return {
           effect: 'TRUNK',
-          options: { ...base, color: p, backgroundColor: 0x0f0a05, spacing: 1.5, chaos: 2 }
+          options: { ...base, color: p, backgroundColor: bg, spacing: 1.5, chaos: 2 }
         };
 
       default:
