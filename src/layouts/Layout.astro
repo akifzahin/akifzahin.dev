@@ -199,53 +199,40 @@ const { title = "Akif Zahin", showBack = false } = Astro.props;
     return parseInt(hex.replace('#', ''), 16);
   }
 
-  function getVantaConfig(themeName: string, primary: string, accent: string): { effect: string; options: Record<string, any> } | null {
-    const p = hexToNum(primary);
-    const a = hexToNum(accent);
-    const isDark = !document.documentElement.classList.contains('light');
-    const bg = isDark ? 0x0a0a0a : 0xd7d7d7;
-    const base = { el: '#vanta-bg', THREE: (window as any).THREE, mouseControls: true, touchControls: true, gyroControls: false };
+function getVantaConfig(themeName: string, primary: string, accent: string): { effect: string; options: Record<string, any> } | null {
+  const isDark = !document.documentElement.classList.contains('light');
+  const bg = isDark ? 0x0a0a0a : 0xd7d7d7;
 
-    switch (themeName) {
-      case 'Cyberpunk':
-        // CSS grid handles Cyberpunk — no Vanta
-        return null;
+  // Swap which color leads based on mode — matches the rest of the site,
+  // where light mode promotes --accent and dark mode keeps --primary.
+  const p = hexToNum(isDark ? primary : accent);
+  const a = hexToNum(isDark ? accent : primary);
 
-      case 'Webcore':
-        return {
-          effect: 'NET',
-          options: { ...base, color: p, backgroundColor: bg, points: 9, maxDistance: 22, spacing: 18 }
-        };
+  const base = { el: '#vanta-bg', THREE: (window as any).THREE, mouseControls: true, touchControls: true, gyroControls: false };
 
-      case 'Retro Futurism':
-        return {
-          effect: 'RIPPLE',
-          options: { ...base, color: p, bgcolor: bg, speed: 4, waveHeight: 25 }
-        };
+  switch (themeName) {
+    case 'Cyberpunk':
+      return null;
 
-      case 'Mythic Fiction':
-        return {
-          effect: 'FOG',
-          options: { ...base, highlightColor: p, midtoneColor: a, lowlightColor: 0x0a0005, baseColor: bg, blurFactor: 0.6, speed: 1.2, zoom: 0.9 }
-        };
+    case 'Webcore':
+      return { effect: 'NET', options: { ...base, color: p, backgroundColor: bg, points: 9, maxDistance: 22, spacing: 18 } };
 
-      case 'Dreamcore':
-        return {
-          effect: 'CELLS',
-          options: { ...base, color1: p, color2: a, backgroundColor: bg, size: 2.5, speed: 1.2 }
-        };
+    case 'Retro Futurism':
+      return { effect: 'RIPPLE', options: { ...base, color: p, bgcolor: bg, speed: 4, waveHeight: 25 } };
 
-      case 'Cassette Futurism':
-        return {
-          effect: 'TRUNK',
-          options: { ...base, color: p, backgroundColor: bg, spacing: 1.5, chaos: 2 }
-        };
+    case 'Mythic Fiction':
+      return { effect: 'FOG', options: { ...base, highlightColor: p, midtoneColor: a, lowlightColor: 0x0a0005, baseColor: bg, blurFactor: 0.6, speed: 1.2, zoom: 0.9 } };
 
-      default:
-        // Custom or unknown — fallback to NET with user's colors
-        return null;
-    }
+    case 'Dreamcore':
+      return { effect: 'CELLS', options: { ...base, color1: p, color2: a, backgroundColor: bg, size: 2.5, speed: 1.2 } };
+
+    case 'Cassette Futurism':
+      return { effect: 'TRUNK', options: { ...base, color: p, backgroundColor: bg, spacing: 1.5, chaos: 2 } };
+
+    default:
+      return null;
   }
+}
 
   function destroyVanta() {
     if (vantaInstance) {
