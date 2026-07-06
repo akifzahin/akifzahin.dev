@@ -1886,7 +1886,7 @@ nav {
   left: 0px;
   color: var(--accent);
   font-size: 13px;
-  font-weight: 300;
+  font-weight: 500;
   font-family: var(--font-mono);
   /* Or swap to var(--font-display) for Orbitron */
   text-transform: uppercase;
