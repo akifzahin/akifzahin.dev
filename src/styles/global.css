@@ -588,6 +588,10 @@ body::before {
   animation-duration: 1.5s;
 }
 
+.blog-body .name-outline, .blog-body .name-glow{
+  padding-left: 0;
+}
+
 /* ==========================================================================
    TYPOGRAPHY UTILITIES
    ========================================================================== */
