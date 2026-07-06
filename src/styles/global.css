@@ -924,6 +924,7 @@ nav {
   align-items: center;
   opacity: 0;
   animation: fadeUp 0.6s ease 1.3s forwards;
+  padding-left: 20px;
 }
 
 .social-row {
@@ -932,6 +933,7 @@ nav {
   gap: 0.75rem;
   align-items: center;
   opacity: 0;
+  padding-left: 20px;
   animation: fadeUp 0.6s ease 1.5s forwards;
 }
 
@@ -1046,18 +1048,20 @@ nav {
 
 .cta-row .btn-primary {
   background: rgb(7, 7, 7, 0.3) !important;
-  padding: 1rem 0.11rem 1rem 2rem;
-  /* taller and wider tap target */
   font-size: 1.3rem;
-  /* explicit, doesn't shrink on mobile */
   min-height: 48px;
-  /* mobile tap target minimum (Apple/Google HIG) */
   width: 100%;
-  /* full width on small screens */
   max-width: 320px;
-  /* but capped on desktop */
-}
 
+  /* 1. Force the layout to use Flexbox */
+  display: flex;
+  align-items: center;     /* Centers text & icon vertically */
+  justify-content: center;  /* Centers text & icon horizontally */
+  gap: 0.6em;               /* Keeps the spacing between text and icon */
+
+  /* 2. Fix the uneven padding so it centers perfectly */
+  padding: 1rem; 
+}
 .cta-row .btn-primary svg {
   width: 20px;
   height: 20px;
@@ -2117,7 +2121,7 @@ nav {
   display: inline-flex;
   align-items: center;
   gap: 0.6em;
-
+  width:fit-content;
   /* 1. Prevent the button text from wrapping onto multiple lines */
   white-space: nowrap;
 }
