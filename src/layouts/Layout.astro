@@ -124,8 +124,10 @@ const { title = "Akif Zahin", showBack = false } = Astro.props;
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css"
     />
-    <!-- Three.js (required by Vanta) -->
+    <!-- Three.js (required by most Vanta effects) -->
     <script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <!-- p5.js (required specifically by Vanta TRUNK and TOPOLOGY) -->
+    <script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.1.9/p5.min.js"></script>
     <!-- Vanta effects -->
     <script is:inline src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js"></script>
     <script is:inline src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.waves.min.js"></script>
@@ -199,14 +201,161 @@ const { title = "Akif Zahin", showBack = false } = Astro.props;
     return parseInt(hex.replace('#', ''), 16);
   }
 
+  // ── Matrix rain (custom canvas effect for Webcore) ──────────────────────
+  // Not a Vanta effect — Vanta has no matrix-rain preset, so this is a
+  // hand-rolled canvas animation that plugs into the exact same
+  // init/destroy/theme-change lifecycle as the Vanta effects below.
+  let matrixRafId: number | null = null;
+  let matrixAlive = false;
+  let matrixResizeHandler: (() => void) | null = null;
+
+  function hexToTriplet(hex: string): [number, number, number] {
+    const clean = hex.replace('#', '');
+    return [
+      parseInt(clean.slice(0, 2), 16),
+      parseInt(clean.slice(2, 4), 16),
+      parseInt(clean.slice(4, 6), 16),
+    ];
+  }
+
+  function stopMatrixRain() {
+    matrixAlive = false;
+    if (matrixRafId !== null) {
+      cancelAnimationFrame(matrixRafId);
+      matrixRafId = null;
+    }
+    if (matrixResizeHandler) {
+      window.removeEventListener('resize', matrixResizeHandler);
+      matrixResizeHandler = null;
+    }
+    document.getElementById('matrix-rain-canvas')?.remove();
+  }
+
+  function startMatrixRain(primaryHex: string, accentHex: string) {
+    stopMatrixRain(); // safety: never double-mount
+
+    const mount = document.getElementById('vanta-bg');
+    if (!mount) return;
+
+    const canvas = document.createElement('canvas');
+    canvas.id = 'matrix-rain-canvas';
+    canvas.style.cssText = 'position:absolute; inset:0; width:100%; height:100%; display:block;';
+    mount.appendChild(canvas);
+
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    const inc = 26;
+    let width = 0, height = 0, cols = 0, rows = 0;
+    let streaks: Streak[] = [];
+
+    const [pr, pg, pb] = hexToTriplet(primaryHex);
+    const [ar, ag, ab] = hexToTriplet(accentHex);
+
+    function randomChar(): string {
+      const r = Math.random();
+      if (r < 0.6) return String.fromCharCode(0x30a0 + Math.round(Math.random() * 96));
+      if (r < 0.9) return String.fromCharCode(0x50d0 + Math.round(Math.random() * 222));
+      return String(Math.round(Math.random() * 9));
+    }
+
+    class Cell {
+      x: number; y: number; l: number; tip: boolean; b: number; val: string;
+      constructor(x: number, y: number, l: number, tip: boolean) {
+        this.x = x; this.y = y; this.l = l; this.tip = tip;
+        this.b = 55;
+        this.val = randomChar();
+      }
+      update() {
+        if (this.b > 55) {
+          if (Math.random() < 0.1) this.val = randomChar();
+          this.b -= this.l;
+        } else this.b = 55;
+      }
+      show() {
+        const frac = Math.max(0, Math.min(1, this.b / 255));
+        if (this.tip && this.b === 255) {
+          ctx!.fillStyle = `rgb(${ar}, ${ag}, ${ab})`;
+        } else {
+          ctx!.fillStyle = `rgba(${pr}, ${pg}, ${pb}, ${frac})`;
+        }
+        ctx!.fillText(this.val, this.x, this.y);
+      }
+    }
+
+    class Streak {
+      t: Cell[] = [];
+      del: number; time = 0; done = false; interval: number; count = 0;
+constructor(xIndex: number) {
+  // Slows down brightness decay so characters stay lit longer
+  const l = Math.random() * 20 + 15; 
+  
+  const tip = Math.random() < 0.4;
+  for (let i = 0; i < rows; i++) {
+    this.t[i] = new Cell(xIndex * inc + inc / 2, i * inc + inc, l, tip);
+  }
+  
+  this.del = Math.random() * 140 + 10;
+  
+  // Increases frames between steps so the streak falls slower
+  this.interval = Math.round(Math.random() * 3 + 4); 
+}
+      run() {
+        if (!this.done) {
+          if (this.time < this.del) this.time++;
+          else { this.t[0].b = 255; this.done = true; }
+        }
+        for (let i = rows - 1; i >= 0; i--) this.t[i].show();
+        this.count++;
+        if (this.count > this.interval) {
+          this.count = 0;
+          for (let i = rows - 1; i >= 0; i--) {
+            if (this.t[i].b === 255) {
+              if (i < rows - 1) this.t[i + 1].b = 255;
+              else this.t[0].b = 255;
+            }
+            this.t[i].update();
+          }
+        }
+      }
+    }
+
+    function build() {
+      width = canvas.width = mount!.clientWidth;
+      height = canvas.height = mount!.clientHeight;
+      cols = Math.ceil(width / inc);
+      rows = Math.ceil(height / inc);
+      ctx!.font = `${inc}px monospace`;
+      ctx!.textAlign = 'center';
+      streaks = [];
+      for (let i = 0; i < cols; i++) streaks[i] = new Streak(i);
+    }
+
+    build();
+
+    matrixAlive = true;
+    function frame() {
+      if (!matrixAlive) return;
+      ctx!.clearRect(0, 0, width, height);
+      for (let i = 0; i < cols; i++) streaks[i].run();
+      matrixRafId = requestAnimationFrame(frame);
+    }
+    frame();
+
+    matrixResizeHandler = () => build();
+    window.addEventListener('resize', matrixResizeHandler);
+  }
+
 function getVantaConfig(themeName: string, primary: string, accent: string): { effect: string; options: Record<string, any> } | null {
   const isDark = !document.documentElement.classList.contains('light');
   const bg = isDark ? 0x0a0a0a : 0xd7d7d7;
 
   // Swap which color leads based on mode — matches the rest of the site,
   // where light mode promotes --accent and dark mode keeps --primary.
-  const p = hexToNum(isDark ? primary : accent);
-  const a = hexToNum(isDark ? accent : primary);
+  const primaryHex = isDark ? primary : accent;
+  const accentHex  = isDark ? accent : primary;
+  const p = hexToNum(primaryHex);
+  const a = hexToNum(accentHex);
 
   const base = { el: '#vanta-bg', THREE: (window as any).THREE, mouseControls: true, touchControls: true, gyroControls: false };
 
@@ -215,10 +364,11 @@ function getVantaConfig(themeName: string, primary: string, accent: string): { e
       return null;
 
     case 'Webcore':
-      return { effect: 'NET', options: { ...base, color: p, backgroundColor: bg, points: 9, maxDistance: 22, spacing: 18 } };
+      // Custom matrix-rain canvas, not a Vanta preset — handled specially in initVanta.
+      return { effect: 'MATRIX', options: { primaryHex, accentHex } };
 
     case 'Retro Futurism':
-      return { effect: 'RIPPLE', options: { ...base, color: p, bgcolor: bg, speed: 4, waveHeight: 25 } };
+      return { effect: 'TOPOLOGY', options: { ...base, color: p, backgroundColor: bg, minHeight: 200.00, minWidth: 200.00, scale: 1.00, scaleMobile: 1.00 } };
 
     case 'Mythic Fiction':
       return { effect: 'FOG', options: { ...base, highlightColor: p, midtoneColor: a, lowlightColor: 0x0a0005, baseColor: bg, blurFactor: 0.6, speed: 1.2, zoom: 0.9 } };
@@ -226,24 +376,57 @@ function getVantaConfig(themeName: string, primary: string, accent: string): { e
     case 'Dreamcore':
       return { effect: 'CELLS', options: { ...base, color1: p, color2: a, backgroundColor: bg, size: 2.5, speed: 1.2 } };
 
-    case 'Cassette Futurism':
-      return { effect: 'TRUNK', options: { ...base, color: p, backgroundColor: bg, spacing: 1.5, chaos: 2 } };
+  case 'Cassette Futurism':
+    return { 
+      effect: 'TRUNK', 
+      options: { 
+        ...base, 
+        color: p, 
+        backgroundColor: bg, 
+        minHeight: 200.00, 
+        minWidth: 200.00, 
+        // ── The Performance Fixes ──────────────────────────────────────
+        scale: 2.00,        // Scales up the coordinate grid (fewer calculations)
+        scaleMobile: 3.00,  // Scale up even more on mobile to save the GPU
+        spacing: 20.00,     // Doubled spacing = roughly half the lines to draw
+        chaos: 0.30         // Lower chaos reduces complex directional changes
+      } 
+    };
 
-    default:
-      return null;
+      default:
+        return null;
+    }
   }
-}
 
   function destroyVanta() {
     if (vantaInstance) {
       try { vantaInstance.destroy(); } catch (_) {}
       vantaInstance = null;
     }
+    stopMatrixRain();
+    // Vanta's destroy() doesn't always strip its own <canvas> out of the
+    // container on every version — force-clear so a leftover canvas from
+    // the previous effect can never sit on top of whatever comes next.
+    const mount = document.getElementById('vanta-bg');
+    if (mount) mount.innerHTML = '';
     document.body.classList.remove('has-vanta');
   }
 
   function initVanta(themeName: string, primary: string, accent: string) {
     destroyVanta();
+
+    const config = getVantaConfig(themeName, primary, accent);
+
+    // Cyberpunk or unknown theme with no config → CSS grid stays, no effect
+    if (!config) return;
+
+    // Matrix rain is a hand-rolled canvas effect, not Vanta — short-circuit here.
+    if (config.effect === 'MATRIX') {
+      startMatrixRain(config.options.primaryHex, config.options.accentHex);
+      document.body.classList.add('has-vanta');
+      return;
+    }
+
     const VANTA = (window as any).VANTA;
 
     // Fallback: if Vanta hasn't loaded yet or effect missing, CSS grid takes over
@@ -251,11 +434,6 @@ function getVantaConfig(themeName: string, primary: string, accent: string): { e
       console.warn('[vanta] VANTA not loaded — CSS grid fallback active');
       return;
     }
-
-    const config = getVantaConfig(themeName, primary, accent);
-
-    // Cyberpunk or unknown theme with no config → CSS grid stays, no Vanta
-    if (!config) return;
 
     const effectFn = VANTA[config.effect];
     if (!effectFn) {
@@ -306,13 +484,24 @@ function getVantaConfig(themeName: string, primary: string, accent: string): { e
         });
       });
 
-      // ── Cursor + trail ──────────────────────────────────────────────────
-      if (window.matchMedia("(hover: none) and (pointer: coarse)").matches)
-        return;
+    // ── Cursor + trail ──────────────────────────────────────────────────
+    const isOn = false; // Set to false to turn off custom cursor, true to turn it on
+
+    if (!isOn) {
+      // Remove the class so the default cursor shows up
+      document.body.classList.remove("has-custom-cursor");
+    } else if (!window.matchMedia("(hover: none) and (pointer: coarse)").matches) {
+      // Add the class so the CSS hides the default cursor
+      document.body.classList.add("has-custom-cursor");
+
       const cursorBlob = document.createElement("div");
       cursorBlob.id = "cursor-blob";
       const cursorDot = document.createElement("div");
       cursorDot.id = "cursor-dot";
+
+      cursorBlob.style.cssText = "position:fixed; top:0; left:0; will-change:transform; pointer-events:none; z-index:99998;";
+      cursorDot.style.cssText = "position:fixed; top:0; left:0; will-change:transform; pointer-events:none; z-index:99999;";
+
       document.body.appendChild(cursorBlob);
       document.body.appendChild(cursorDot);
 
@@ -320,42 +509,30 @@ function getVantaConfig(themeName: string, primary: string, accent: string): { e
       const LERP_BLOB = 0.1;
       const LERP_TRAIL = 0.3;
 
-      const getPrimary = () =>
-        getComputedStyle(document.documentElement)
-          .getPropertyValue("--primary")
-          .trim();
-      const getAccent = () =>
-        getComputedStyle(document.documentElement)
-          .getPropertyValue("--accent")
-          .trim();
+      const rootStyles = getComputedStyle(document.documentElement);
+      const primaryColor = rootStyles.getPropertyValue("--primary").trim();
+      const accentColor = rootStyles.getPropertyValue("--accent").trim();
 
       const trail = Array.from({ length: TRAIL_COUNT }, (_, i) => {
         const el = document.createElement("div");
         const size = Math.max(1, 5 - i * 0.5);
-        const color = i < TRAIL_COUNT / 2 ? getPrimary() : getAccent();
-        el.style.cssText = `position:fixed;pointer-events:none;z-index:99997;border-radius:50%;width:${size}px;height:${size}px;margin-left:-${size / 2}px;margin-top:-${size / 2}px;opacity:${(1 - i / TRAIL_COUNT).toFixed(2)};background:${color};`;
+        const color = i < TRAIL_COUNT / 2 ? primaryColor : accentColor;
+        
+        el.style.cssText = `position:fixed;top:0;left:0;pointer-events:none;z-index:99997;border-radius:50%;width:${size}px;height:${size}px;margin-left:-${size / 2}px;margin-top:-${size / 2}px;opacity:${(1 - i / TRAIL_COUNT).toFixed(2)};background:${color};will-change:transform;`;
         document.body.appendChild(el);
+        
         return { el, x: 0, y: 0 };
       });
 
-      let mx = 0,
-        my = 0,
-        bx = 0,
-        by = 0;
+      let mx = 0, my = 0, bx = 0, by = 0;
       let alive = true;
 
       const onMove = (e) => {
         mx = e.clientX;
         my = e.clientY;
-        cursorDot.style.left = mx + "px";
-        cursorDot.style.top = my + "px";
       };
-      window.addEventListener("mousemove", onMove);
-      document.addEventListener(
-        "astro:before-swap",
-        () => window.removeEventListener("mousemove", onMove),
-        { once: true },
-      );
+
+      window.addEventListener("mousemove", onMove, { passive: true });
 
       document.querySelectorAll("a, button, [data-hover]").forEach((el) => {
         el.addEventListener("mouseenter", () => {
@@ -370,10 +547,9 @@ function getVantaConfig(themeName: string, primary: string, accent: string): { e
 
       (function tick() {
         if (!alive) return;
+        
         bx += (mx - bx) * LERP_BLOB;
         by += (my - by) * LERP_BLOB;
-        cursorBlob.style.left = bx + "px";
-        cursorBlob.style.top = by + "px";
 
         trail[0].x += (mx - trail[0].x) * LERP_TRAIL;
         trail[0].y += (my - trail[0].y) * LERP_TRAIL;
@@ -382,24 +558,21 @@ function getVantaConfig(themeName: string, primary: string, accent: string): { e
           trail[i].y += (trail[i - 1].y - trail[i].y) * LERP_TRAIL;
         }
 
-        const primary = getPrimary();
-        const accent = getAccent();
-        trail.forEach((d, i) => {
-          d.el.style.left = d.x + "px";
-          d.el.style.top = d.y + "px";
-          d.el.style.background = i < TRAIL_COUNT / 2 ? primary : accent;
-        });
+        cursorDot.style.transform = `translate3d(${mx}px, ${my}px, 0)`;
+        cursorBlob.style.transform = `translate3d(${bx}px, ${by}px, 0)`;
+
+        for (let i = 0; i < TRAIL_COUNT; i++) {
+          trail[i].el.style.transform = `translate3d(${trail[i].x}px, ${trail[i].y}px, 0)`;
+        }
+        
         requestAnimationFrame(tick);
       })();
 
-      document.addEventListener(
-        "astro:before-swap",
-        () => {
-          alive = false;
-        },
-        { once: true },
-      );
-
+      document.addEventListener("astro:before-swap", () => {
+        alive = false;
+        window.removeEventListener("mousemove", onMove);
+      }, { once: true });
+    }
       // ── Progress bar ────────────────────────────────────────────────────
       const progressBar = document.createElement("div");
       progressBar.id = "progress-bar";

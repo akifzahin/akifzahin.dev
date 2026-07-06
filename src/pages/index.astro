@@ -834,88 +834,108 @@ import Layout from "../layouts/Layout.astro";
           </a>
         </div>
       </div>
-      <form class="contact-form" id="contact-form" method="POST">
-        <input
-          type="hidden"
-          name="access_key"
-          value="9639b915-15ef-49cb-b06d-fa51f8f30ae7"
-        />
-        <input
-          type="hidden"
-          name="subject"
-          value="New message from your portfolio"
-        />
+<form class="contact-form" id="contact-form" method="POST">
+  <input
+    type="hidden"
+    name="access_key"
+    value="9639b915-15ef-49cb-b06d-fa51f8f30ae7"
+  />
+  <input
+    type="hidden"
+    name="subject"
+    value="New message from your portfolio"
+  />
 
-        <div class="form-group">
-          <label class="form-label font-mono" for="name">Name</label>
-          <input
-            class="form-input font-mono"
-            type="text"
-            id="name"
-            name="name"
-            placeholder="Your name"
-            required
-          />
-        </div>
-        <div class="form-group">
-          <label class="form-label font-mono" for="email">Email</label>
-          <input
-            class="form-input font-mono"
-            type="email"
-            id="email"
-            name="email"
-            placeholder="your@email.com"
-            required
-          />
-          <input type="checkbox" name="botcheck" style="display:none" />
-        </div>
-        <div class="form-group">
-          <label class="form-label font-mono" for="message">Message</label>
-          <textarea
-            class="form-input font-mono"
-            id="message"
-            name="message"
-            rows="5"
-            placeholder="What's on your mind?"
-            required></textarea>
-        </div>
-        <button
-          type="submit"
-          class="btn-primary btn-send"
-          style="width:100%; text-align:center; cursor:crosshair;"
-        >
-          <span class="btn-label">Send Message</span>
-          <span class="btn-icon">
-            <svg
-              class="icon-default"
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              ><line x1="22" y1="2" x2="11" y2="13"></line><polygon
-                points="22 2 15 22 11 13 2 9 22 2"></polygon></svg
-            >
-            <svg
-              class="icon-hover"
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              ><polyline points="20 6 9 16 4 11"></polyline></svg
-            >
-          </span>
-        </button>
-      </form>
+  <!-- ── 1. Name Input Field ── -->
+  <div class="editor-field editor-field__textbox">
+    <div class="editor-field__label-container">
+      <label class="editor-field__label font-mono" for="name">Name</label>
+    </div>
+    <div class="editor-field__container">
+      <input
+        class="editor-field__input form-input font-mono"
+        type="text"
+        id="name"
+        name="name"
+        placeholder="Your name"
+        required
+      />
+    </div>
+    <span class="editor-field__bottom"></span>
+  </div>
+
+  <!-- ── 2. Email Input Field ── -->
+  <div class="editor-field editor-field__textbox">
+    <div class="editor-field__label-container">
+      <label class="editor-field__label font-mono" for="email">Email</label>
+    </div>
+    <div class="editor-field__container">
+      <input
+        class="editor-field__input form-input font-mono"
+        type="email"
+        id="email"
+        name="email"
+        placeholder="your@email.com"
+        required
+      />
+    </div>
+    <span class="editor-field__bottom"></span>
+    <input type="checkbox" name="botcheck" style="display:none" />
+  </div>
+
+  <!-- ── 3. Message Textarea Field ── -->
+  <div class="editor-field editor-field__textarea">
+    <div class="editor-field__label-container">
+      <label class="editor-field__label font-mono" for="message">Message</label>
+    </div>
+    <div class="editor-field__container">
+      <textarea
+        class="editor-field__input form-input font-mono"
+        id="message"
+        name="message"
+        rows="5"
+        placeholder="What's on your mind?"
+        required></textarea>
+    </div>
+    <span class="editor-field__bottom"></span>
+  </div>
+
+  <!-- ── 4. Your Button (Kept Exactly As Is) ── -->
+  <button
+    type="submit"
+    class="btn-primary btn-send"
+    style="width:100%; text-align:center; cursor:crosshair;"
+  >
+    <span class="btn-label">Send Message</span>
+    <span class="btn-icon">
+      <svg
+        class="icon-default"
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      ><line x1="22" y1="2" x2="11" y2="13"></line><polygon
+        points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+      <svg
+        class="icon-hover"
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      ><polyline points="20 6 9 16 4 11"></polyline></svg>
+    </span>
+  </button>
+</form>
     </div>
     <!-- closes .contact-grid -->
   </section>

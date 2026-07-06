@@ -504,15 +504,15 @@ a {
   text-decoration: none;
 }
 
-body,
-a,
-button,
-input,
-select,
-textarea {
+/* Only hide the default cursor when the custom JS cursor is explicitly turned ON */
+body.has-custom-cursor,
+body.has-custom-cursor a,
+body.has-custom-cursor button,
+body.has-custom-cursor input,
+body.has-custom-cursor select,
+body.has-custom-cursor textarea {
   cursor: none !important;
 }
-
 
 /* ==========================================================================
    BACKGROUND — 3D Grid
@@ -850,6 +850,7 @@ nav {
 .name-glow {
   display: block;
   position: relative;
+  padding-left: 17px;
 }
 
 .blog-heading .name-outline {
@@ -878,6 +879,8 @@ nav {
   position: absolute;
   top: 0;
   left: 0;
+  left: 17px;
+  /* Change this from 0 to match your 17px padding-left */
   width: 100%;
   height: 100%;
 }
@@ -888,6 +891,8 @@ nav {
   position: absolute;
   top: 0;
   left: 0;
+  left: 17px;
+  /* Change this from 0 to match your 17px padding-left */
   width: 100%;
   height: 100%;
 }
@@ -1110,11 +1115,7 @@ nav {
 }
 
 
-:root.light .form-label {
 
-  color: var(--accent);
-  text-shadow: 0 0 2px var(--accent);
-}
 
 @keyframes glitchSocial {
   0% {
@@ -1195,6 +1196,10 @@ nav {
   margin-bottom: 3rem;
   text-shadow: 0 0 2px var(--primary);
   opacity: 0.9;
+  background: var(--bg);
+
+  /* Forces the div to exactly fit the text width */
+  width: fit-content;
 }
 
 .section-label::before {
@@ -1488,6 +1493,9 @@ nav {
   text-transform: uppercase;
   margin-bottom: 1rem;
   opacity: 0.9;
+  width: fit-content;
+  background: var(--bg);
+
 }
 
 .skill-tags {
@@ -1626,7 +1634,7 @@ nav {
 
 .timeline-date {
   font-size: 0.85rem;
-  color: var(--text);
+  color: var(--text-subtle);
   letter-spacing: 0.1em;
   padding-top: 0.2rem;
 }
@@ -1801,8 +1809,248 @@ nav {
 /* ==========================================================================
    FORMS
    ========================================================================== */
+
+/* ── Base Structural Layout ── */
+.editor-field {
+  width: 100%;
+  max-width: 100%;
+  height: 64px;
+  position: relative;
+  margin: 14px 0 24px 0;
+}
+
+/* ── FIXED: Textarea Height, Gap Reduction & Resizing ── */
+.editor-field.editor-field__textarea {
+  height: 128px;
+  /* Reduced wrapper height from 144px to close the gap */
+}
+
+.editor-field.editor-field__textarea .editor-field__container {
+  height: 115px;
+  /* Reduced box height from 114px to align closer to the label */
+  bottom: 0px;
+  /* Pushed the main box up closer to the text label */
+}
+
+.editor-field.editor-field__textarea textarea.editor-field__input {
+  resize: vertical;
+  /* FIXED: Restores your ability to resize the textbox up and down */
+  min-height: 100%;
+  padding-top: 10px;
+}
+
+/* ── The Slanted Label Block ── */
+.editor-field__label-container {
+  position: absolute;
+  top: 0px;
+  z-index: 5;
+}
+
+.editor-field__label-container::after {
+  position: absolute;
+  content: "";
+  display: block;
+  height: 2px;
+  width: 32px;
+  background: var(--primary);
+  right: -29px;
+  clip-path: polygon(0 0, calc(100% - 2px) 0%, 100% 100%, 0% 100%);
+  bottom: 2px;
+  transition: background 0.2s ease;
+}
+
+:root.light .editor-field__label-container::after {
+  position: absolute;
+  content: "";
+  display: block;
+  height: 2px;
+  width: 32px;
+  background: var(--accent);
+  right: -29px;
+  clip-path: polygon(0 0, calc(100% - 2px) 0%, 100% 100%, 0% 100%);
+  bottom: 2px;
+  transition: background 0.2s ease;
+}
+
+.editor-field__label {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 16px;
+  width: auto;
+  background: var(--primary);
+  left: 0px;
+  color: var(--accent);
+  font-size: 13px;
+  font-weight: 300;
+  font-family: var(--font-mono);
+  /* Or swap to var(--font-display) for Orbitron */
+  text-transform: uppercase;
+  letter-spacing: 1.25px;
+  padding: 0 24px 0 16px;
+  clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 100%, 0% 100%);
+  transition: background 0.2s ease;
+}
+
+:root.light .editor-field__label {
+  color: var(--primary);
+  background: var(--accent);
+}
+
+/* ── The Geometric Framed Box ── */
+.editor-field__container {
+  position: absolute;
+  bottom: 2px;
+  width: 100%;
+  height: 48px;
+  border: 1.5px solid var(--primary);
+  background: transparent;
+  transition: border-color 0.2s ease;
+
+  clip-path: polygon(0% 0%,
+      calc(100% - 8px) 0,
+      100% 8px,
+      100% 100%,
+      95% 100%,
+      calc(0% + 8px) 100%,
+      0% calc(100% - 8px),
+      0% calc(100% + 8px));
+}
+
+:root.light .editor-field__container {
+  border: 2px solid var(--accent);
+
+}
+
+
+/* Tech corners style decorations */
+.editor-field__container::before,
+.editor-field__container::after {
+  content: "";
+  height: 2px;
+  width: 11.5px;
+  background: var(--primary);
+  display: block;
+  position: absolute;
+  z-index: 1;
+  transform: rotate(45deg);
+  transition: background 0.2s ease;
+}
+
+:root.light .editor-field__container::before,
+:root.light .editor-field__container::after {
+  background: var(--accent);
+}
+
+.editor-field__container::before {
+  right: -3.1px;
+  top: 1.6px;
+}
+
+.editor-field__container::after {
+  left: -3.1px;
+  bottom: 1.6px;
+}
+
+/* ── FIXED: Core Native Input Typography ── */
+.editor-field__input {
+  width: 100%;
+  height: 100%;
+  border: 1.5px solid var(--primary);
+  outline: none;
+  background: transparent;
+  color: inherit;
+
+  /* Explicitly enforces your premium monospace portfolio typography */
+  font-family: "Share Tech Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 14px;
+
+  padding: 8px 16px;
+  letter-spacing: 0.2px;
+}
+
+/* ── Technical Bottom Slash Accent ── */
+.editor-field__bottom {
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+  display: block;
+  height: 2px;
+  width: 30%;
+  background: var(--primary);
+  clip-path: polygon(0 0, 100% 0%, 100% 100%, calc(0% + 2px) 100%);
+  transition: background 0.2s ease;
+}
+
+:root.light .editor-field__bottom {
+  background: var(--accent);
+}
+
+/* ── Native CSS Theme Active Focus Routing ── */
+.editor-field:focus-within .editor-field__bottom {
+  background: var(--accent);
+  color: var(--primary)
+}
+
+.editor-field:focus-within .editor-field__container {
+  background: var(--accent);
+  color: var(--primary)
+}
+
+.editor-field:focus-within .editor-field__container::after,
+.editor-field:focus-within .editor-field__container::before {
+  background: var(--accent);
+  color: var(--primary)
+}
+
+.editor-field:focus-within .editor-field__label-container::after {
+  background: var(--accent);
+  color: var(--primary)
+}
+
+.editor-field:focus-within .editor-field__label {
+  background: var(--accent);
+  color: var(--primary)
+}
+
+/* ── Light Mode Active Focus Routing (html.light) ── */
+:root.light .editor-field:focus-within .editor-field__bottom {
+  background: var(--primary);
+  color: var(--accent)
+}
+
+:root.light .editor-field:focus-within .editor-field__container {
+  background: var(--primary);
+  color: var(--accent)
+}
+
+:root.light .editor-field:focus-within .editor-field__container::after,
+:root.light .editor-field:focus-within .editor-field__container::before {
+  background: var(--primary);
+  color: var(--accent)
+}
+
+:root.light .editor-field:focus-within .editor-field__label-container::after {
+  background: var(--primary);
+  color: var(--accent)
+}
+
+:root.light .editor-field:focus-within .editor-field__label {
+  background: var(--primary);
+  color: var(--accent)
+}
+
+
+/* OLD FORM */
+
 .form-group {
   margin-bottom: 1.25rem;
+}
+
+:root.light .form-label {
+
+  color: var(--accent);
+  text-shadow: 0 0 2px var(--accent);
 }
 
 .form-label {
@@ -1819,7 +2067,7 @@ nav {
 .form-input {
   width: 100%;
   background: var(--bg);
-  border: 1px solid var(--primary);
+  border: 2px solid var(--primary);
   color: var(--text-subtle);
   padding: 0.75rem 1rem;
   font-size: 1rem;
@@ -1864,10 +2112,14 @@ nav {
 }
 
 /* Download button icon swap */
+/* Download button icon swap */
 .btn-download {
   display: inline-flex;
   align-items: center;
   gap: 0.6em;
+
+  /* 1. Prevent the button text from wrapping onto multiple lines */
+  white-space: nowrap;
 }
 
 .btn-download .btn-icon {
@@ -1876,6 +2128,9 @@ nav {
   height: 16px;
   display: flex;
   align-items: center;
+
+  /* 2. Stop the icon box from shrinking if the container gets tight */
+  flex-shrink: 0;
 }
 
 .btn-download .icon-default,
@@ -1883,6 +2138,11 @@ nav {
   position: absolute;
   top: 0;
   left: 0;
+
+  /* 3. Force the internal SVGs to match the 16px frame box exactly */
+  width: 100%;
+  height: 100%;
+
   transition: transform 0.3s ease, opacity 0.25s ease;
 }
 
