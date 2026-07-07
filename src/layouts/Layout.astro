@@ -378,22 +378,22 @@ function getVantaConfig(themeName: string, primary: string, accent: string): { e
     case 'Dreamcore':
       return { effect: 'CELLS', options: { ...base, color1: p, color2: a, backgroundColor: bg, size: 5, speed: 1.2 } };
 
-    case 'Cassette Futurism':
-      return { 
-        effect: 'TRUNK', 
-        options: { 
-          ...base, 
-          color: p, 
-          backgroundColor: bg, 
-          minHeight: 200.00, 
-          minWidth: 200.00, 
-          // ── The Performance Fixes ──────────────────────────────────────
-          scale: 5.00,        // Scales up the coordinate grid (fewer calculations)
-          scaleMobile: 5.00,  // Scale up even more on mobile to save the GPU
-          spacing: 75.00,     // Doubled spacing = roughly half the lines to draw
-          chaos: 2.60         // Lower chaos reduces complex directional changes
-        } 
-      };
+  case 'Cassette Futurism':
+    return { 
+      effect: 'TRUNK', 
+      options: { 
+        ...base, 
+        color: p, 
+        backgroundColor: bg, 
+        minHeight: 200.00, 
+        minWidth: 200.00, 
+        // ── The Performance Fixes ──────────────────────────────────────
+        scale: 2.00,        // Scales up the coordinate grid (fewer calculations)
+        scaleMobile: 3.00,  // Scale up even more on mobile to save the GPU
+        spacing: 76.00,     // Doubled spacing = roughly half the lines to draw
+        chaos: 0.80         // Lower chaos reduces complex directional changes
+      } 
+    };
 
         default:
           return null;
