@@ -36,6 +36,7 @@
   --t-base: 0.3s ease;
   --t-slow: 0.6s ease;
   --nav-height: 72px;
+  color-scheme: light dark;
 }
 
 /* ==========================================================================
@@ -588,7 +589,8 @@ body::before {
   animation-duration: 1.5s;
 }
 
-.blog-body .name-outline, .blog-body .name-glow{
+.blog-body .name-outline,
+.blog-body .name-glow {
   padding-left: 0;
 }
 
@@ -760,7 +762,7 @@ nav {
   align-items: center;
   justify-content: center;
   gap: 10rem;
-  padding: 8rem 3rem 4rem;
+  padding: 8rem 1.75rem 4rem;
   overflow: hidden;
   background-color: var(--bg);
   opacity: 0;
@@ -815,16 +817,17 @@ nav {
 
 .hero-content {
   width: max-content;
-  max-width: 550px;
+  /* max-width: 550px; */
   position: relative;
   z-index: 2;
 }
 
 .hero-eyebrow {
   font-size: 1.3rem;
+  font-weight: 400;
   color: var(--primary);
   letter-spacing: 0.3em;
-  text-transform: uppercase;
+  text-transform: lowercase;
   margin-bottom: 1.5rem;
   overflow: hidden;
   white-space: nowrap;
@@ -931,16 +934,29 @@ nav {
   padding-left: 20px;
 }
 
+@media (max-width: 768px) {
+  .cta-row {
+    justify-content: center;
+    padding-left: 0;
+
+  }
+
+  .social-row {
+    justify-content: center;
+    padding-left: 0 !important;
+
+  }
+
+}
+
 .social-row {
   margin-top: 2rem;
   display: flex;
   gap: 0.75rem;
   align-items: center;
-  opacity: 0;
   padding-left: 20px;
-  animation: fadeUp 0.6s ease 1.5s forwards;
-}
 
+}
 
 /* ==========================================================================
    HERO — Profile
@@ -1059,13 +1075,17 @@ nav {
 
   /* 1. Force the layout to use Flexbox */
   display: flex;
-  align-items: center;     /* Centers text & icon vertically */
-  justify-content: center;  /* Centers text & icon horizontally */
-  gap: 0.6em;               /* Keeps the spacing between text and icon */
+  align-items: center;
+  /* Centers text & icon vertically */
+  justify-content: center;
+  /* Centers text & icon horizontally */
+  gap: 0.6em;
+  /* Keeps the spacing between text and icon */
 
   /* 2. Fix the uneven padding so it centers perfectly */
-  padding: 1rem; 
+  padding: 1rem;
 }
+
 .cta-row .btn-primary svg {
   width: 20px;
   height: 20px;
@@ -1679,7 +1699,7 @@ nav {
   align-items: start;
   /* background: var(--bg-surface); */
 
-  padding: 1rem;
+  /* padding: 1rem; */
   /* border: 2.3px solid rgba(var(--primary-rgb), 0.3); */
   will-change: transform;
   transition: background var(--t-fast), transform var(--t-slow);
@@ -1695,12 +1715,12 @@ nav {
   padding: 1rem;
   border: 2.3px solid rgba(var(--primary-rgb), 0.3);
   will-change: transform;
-  transition: transform var(--t-slow), box-shadow var(--t-fast);
+  transition: background var(--t-fast), transform var(--t-slow);
   background: var(--bg);
 }
 
 .contact-left:hover {
-
+  transform: scale(1);
   animation: glitchCard 6s ease-in-out infinite;
 
 }
@@ -1709,7 +1729,7 @@ nav {
 .contact-left:hover .contact-glow1::after,
 .contact-left:hover .contact-glow2::before,
 .contact-left:hover .contact-glow2::after {
-  animation: none;
+  /* animation: none; */
   transform: translate(0);
   opacity: 0;
 }
@@ -2125,7 +2145,7 @@ nav {
   display: inline-flex;
   align-items: center;
   gap: 0.6em;
-  width:fit-content;
+  width: fit-content;
   /* 1. Prevent the button text from wrapping onto multiple lines */
   white-space: nowrap;
 }
@@ -2414,6 +2434,140 @@ nav {
   border: none;
   border-top: 1px solid rgba(var(--primary-rgb), 0.2);
   margin: 2.5rem 0;
+}
+
+/* ==========================================================================
+   GAMES I LOVE
+   ========================================================================== */
+.games-grid {
+  display: grid;
+
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+
+  gap: 2.5rem;
+}
+
+.game-card {
+  position: relative;
+  background: var(--bg);
+  padding: 1.5rem;
+  border: 2px solid rgba(var(--primary-rgb), 0.3);
+  display: block;
+  color: inherit;
+  overflow: hidden;
+  transition: background var(--t-fast), transform var(--t-slow);
+}
+
+:root.light .game-card {
+  border: 2px solid rgba(var(--accent-rgb), 0.3);
+
+
+}
+
+:root.light .game-card:hover {
+
+  animation: glitchCardLight 6s ease-in-out infinite;
+
+}
+
+.game-card:hover {
+  animation: glitchCard 6s ease-in-out infinite;
+  transform: scale(1.02);
+  transition: background var(--t-fast), transform var(--t-slow);
+
+}
+
+/* Corner Brackets on Hover */
+.game-card::before,
+.game-card::after {
+  content: '';
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  opacity: 0;
+  transition: opacity var(--t-fast);
+  display: none;
+}
+
+.game-card::before {
+  top: 8px;
+  left: 8px;
+  border-top: 1px solid var(--primary);
+  border-left: 1px solid var(--primary);
+}
+
+.game-card::after {
+  bottom: 8px;
+  right: 8px;
+  border-bottom: 1px solid var(--primary);
+  border-right: 1px solid var(--primary);
+}
+
+.game-card:hover::before,
+.game-card:hover::after {
+  opacity: 1;
+}
+
+/* Card Image Styles */
+.game-card-image {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  /* Forces a portrait/vertical aspect ratio */
+  overflow: hidden;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.game-card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* Fills the new vertical container perfectly */
+  object-position: center;
+  display: block;
+  filter: saturate(0.8);
+  transition: filter var(--t-base), transform var(--t-base);
+}
+
+.game-card:hover .game-card-image img {
+  filter: saturate(1.1) contrast(1.1);
+  transform: scale(1.01);
+  transition: background var(--t-fast), transform var(--t-slow);
+
+}
+
+/* Typography & Content Spacing */
+.game-genre {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--text-subtle);
+  letter-spacing: 0.1em;
+  margin-bottom: 1rem;
+  /* Matched to project-num spacing */
+}
+
+.game-title {
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: 0.75rem;
+  letter-spacing: 0.05em;
+}
+
+:root.light .game-title {
+  color: var(--accent);
+}
+
+.game-desc {
+  font-size: 1rem;
+  color: var(--text-subtle);
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+  /* Matched to project-desc spacing */
 }
 
 /* ==========================================================================
@@ -2871,8 +3025,14 @@ footer {
   z-index: 5;
   padding: 2rem 3rem;
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  /* Stacks the elements vertically */
+  justify-content: center;
+  /* Centers them vertically if height is applied */
   align-items: center;
+  /* Centers them horizontally */
+  gap: 1rem;
+  /* Adds space if you have links later */
   background: var(--bg);
   border-top: 1.3px solid var(--primary);
 }
@@ -2900,6 +3060,7 @@ footer {
   font-family: var(--font-mono);
   font-size: 0.8rem;
   color: var(--primary);
+  text-align: center;
   letter-spacing: 0.1em;
 }
 

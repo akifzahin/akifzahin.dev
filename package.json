@@ -18,5 +18,9 @@
     "@vercel/speed-insights": "^2.0.0",
     "astro": "^6.3.2",
     "rss-parser": "^3.13.0"
+  },
+  "devDependencies": {
+    "prettier": "^3.9.4",
+    "prettier-plugin-astro": "^0.14.1"
   }
 }

@@ -6,9 +6,7 @@ import Layout from "../layouts/Layout.astro";
   <!-- HERO -->
   <section class="hero">
     <div class="hero-content">
-      <p class="hero-eyebrow font-mono">
-        — Python · ML/DL · Web
-      </p>
+      <p class="hero-eyebrow font-mono">— Python · ML/DL · Web</p>
       <h1 class="hero-name font-display">
         <div class="name-outline">Akif</div>
         <div class="name-glow">Zahin</div>
@@ -19,6 +17,7 @@ import Layout from "../layouts/Layout.astro";
         full-stack tools that solve real problems. Scroll down to see my work,
         or reach out if you want to build something together.
       </p>
+      
       <div class="cta-row">
         <a href="/resume.pdf" class="btn-primary btn-download" download>
           <span class="btn-label">Download Resume</span>
@@ -209,7 +208,7 @@ import Layout from "../layouts/Layout.astro";
       <circle cx="150" cy="150" r="4" fill="#0fd28c"></circle>
     </svg>
   </section>
-
+<!-- PROJECTS -->
   <section class="section" id="work">
     <p class="section-label">Selected work</p>
     <div class="projects-grid">
@@ -496,7 +495,7 @@ import Layout from "../layouts/Layout.astro";
       </div>
     </div>
   </section>
-
+<!-- SKILLS -->
   <section class="section" id="skills">
     <p class="section-label">Skills & Stack</p>
     <div class="skills-grid">
@@ -521,7 +520,7 @@ import Layout from "../layouts/Layout.astro";
             rel="noopener noreferrer"
             class="tag"><i class="devicon-css3-plain"></i> CSS</a
           >
-                    <a
+          <a
             href="https://tailwindcss.com/"
             target="_blank"
             rel="noopener"
@@ -718,11 +717,7 @@ import Layout from "../layouts/Layout.astro";
     <p class="section-label">About</p>
     <div class="about-grid">
       <p class="about-text">
-        Born and raised in Dhaka — I've spent most of my life tinkering with
-        tech, games, and musical instruments. Now I build software at the
-        intersection of AI and full-stack development, with a focus on
-        efficiency and sustainability. Also, I have two very cute cats. Here's a
-        picture of them.
+Born and raised in Dhaka, I've spent most of my life tinkering with technology, games, and musical instruments. That curiosity now shapes how I build software — I focus on the intersection of AI and full-stack development, with an emphasis on efficiency and sustainable design. Outside of engineering, I'm equally invested in creative pursuits: designing well-crafted websites, training AI models, and gaming (you'll find the games that define me below). And yes — I have two very cute cats. Here's a picture of them.
       </p>
       <div class="cat-img-wrapper">
         <div class="cat-container">
@@ -739,6 +734,99 @@ import Layout from "../layouts/Layout.astro";
             class="cat-paw cat-paw--br"
           />
         </div>
+      </div>
+    </div>
+  </section>
+  <!-- GAMES -->
+  <section class="section" id="games">
+    <p class="section-label">Games That Define Me</p>
+    <div class="games-grid">
+      <!-- MAX PAYNE 3 -->
+      <div class="game-card">
+        <div class="game-card-image">
+          <img
+            src="/games/max-payne-3.webp"
+            alt="Max Payne 3 cover art"
+            loading="lazy"
+          />
+        </div>
+
+        
+
+        <a
+          href="https://store.steampowered.com/app/204100/Max_Payne_3/"
+          style="text-decoration: none; color: inherit;"
+          target="_blank"
+          rel="noopener"
+        >
+          <h3 class="game-title">Max Payne 3</h3>
+        </a>
+
+        <p class="game-desc">
+          A linear third-person shooter following the cynical ex-cop Max Payne through Brazil. I love this game due to its slow-motion physics, detailed gunplay, and intense story.
+        </p>
+
+                <div class="post-tags">
+          <a class="tag">Third Person Shooter</a>
+          <a class="tag">Crime Thriller</a>
+                </div>
+        
+      </div>
+
+      <!-- INFAMOUS SECOND SON -->
+      <div class="game-card">
+        <div class="game-card-image">
+          <img
+            src="/games/infamous-second-son.webp"
+            alt="Infamous Second Son cover art"
+            loading="lazy"
+          />
+        </div>
+
+        
+
+        <a
+          href="https://www.playstation.com/en-us/games/infamous-second-son/"
+          style="text-decoration: none; color: inherit;"
+                    target="_blank"
+          rel="noopener"
+        >
+          <h3 class="game-title">Infamous: Second Son</h3>
+        </a>
+
+        <p class="game-desc">An open-world action game following the rebellious Delsin Rowe liberating Seattle. I love this game due to its fluid parkour, gorgeous neon effects, and satisfying powers.</p>
+                      <div class="post-tags">
+          <a class="tag">Open World</a>
+          <a class="tag">Superpower</a>
+                </div>
+      </div>
+
+      <!-- PERSONA 5 ROYAL -->
+      <div class="game-card">
+        <div class="game-card-image">
+          <img
+            src="/games/persona-5-royal.webp"
+            alt="Persona 5 Royal cover art"
+            loading="lazy"
+          />
+        </div>
+
+        
+
+        <a
+          href="https://store.steampowered.com/app/1687950/Persona_5_Royal/"
+          style="text-decoration: none; color: inherit;"
+                    target="_blank"
+          rel="noopener"
+        >
+          <h3 class="game-title">Persona 5 Royal</h3>
+        </a>
+
+        <p class="game-desc">A turn-based Japanese RPG following Joker and his high school Phantom Thieves. I love this game due to its stylish aesthetic, addictive social loop, and deep strategy.</p>
+                            <div class="post-tags">
+          <a class="tag">JRPG</a>
+          <a class="tag">Turn Based</a>
+                </div>
       </div>
     </div>
   </section>
@@ -834,108 +922,114 @@ import Layout from "../layouts/Layout.astro";
           </a>
         </div>
       </div>
-<form class="contact-form" id="contact-form" method="POST">
-  <input
-    type="hidden"
-    name="access_key"
-    value="9639b915-15ef-49cb-b06d-fa51f8f30ae7"
-  />
-  <input
-    type="hidden"
-    name="subject"
-    value="New message from your portfolio"
-  />
+      <form class="contact-form" id="contact-form" method="POST">
+        <input
+          type="hidden"
+          name="access_key"
+          value="9639b915-15ef-49cb-b06d-fa51f8f30ae7"
+        />
+        <input
+          type="hidden"
+          name="subject"
+          value="New message from your portfolio"
+        />
 
-  <!-- ── 1. Name Input Field ── -->
-  <div class="editor-field editor-field__textbox">
-    <div class="editor-field__label-container">
-      <label class="editor-field__label font-mono" for="name">Name</label>
-    </div>
-    <div class="editor-field__container">
-      <input
-        class="editor-field__input form-input font-mono"
-        type="text"
-        id="name"
-        name="name"
-        placeholder="Your name"
-        required
-      />
-    </div>
-    <span class="editor-field__bottom"></span>
-  </div>
+        <!-- ── 1. Name Input Field ── -->
+        <div class="editor-field editor-field__textbox">
+          <div class="editor-field__label-container">
+            <label class="editor-field__label font-mono" for="name">Name</label>
+          </div>
+          <div class="editor-field__container">
+            <input
+              class="editor-field__input form-input font-mono"
+              type="text"
+              id="name"
+              name="name"
+              placeholder="Your name"
+              required
+            />
+          </div>
+          <span class="editor-field__bottom"></span>
+        </div>
 
-  <!-- ── 2. Email Input Field ── -->
-  <div class="editor-field editor-field__textbox">
-    <div class="editor-field__label-container">
-      <label class="editor-field__label font-mono" for="email">Email</label>
-    </div>
-    <div class="editor-field__container">
-      <input
-        class="editor-field__input form-input font-mono"
-        type="email"
-        id="email"
-        name="email"
-        placeholder="your@email.com"
-        required
-      />
-    </div>
-    <span class="editor-field__bottom"></span>
-    <input type="checkbox" name="botcheck" style="display:none" />
-  </div>
+        <!-- ── 2. Email Input Field ── -->
+        <div class="editor-field editor-field__textbox">
+          <div class="editor-field__label-container">
+            <label class="editor-field__label font-mono" for="email"
+              >Email</label
+            >
+          </div>
+          <div class="editor-field__container">
+            <input
+              class="editor-field__input form-input font-mono"
+              type="email"
+              id="email"
+              name="email"
+              placeholder="your@email.com"
+              required
+            />
+          </div>
+          <span class="editor-field__bottom"></span>
+          <input type="checkbox" name="botcheck" style="display:none" />
+        </div>
 
-  <!-- ── 3. Message Textarea Field ── -->
-  <div class="editor-field editor-field__textarea">
-    <div class="editor-field__label-container">
-      <label class="editor-field__label font-mono" for="message">Message</label>
-    </div>
-    <div class="editor-field__container">
-      <textarea
-        class="editor-field__input form-input font-mono"
-        id="message"
-        name="message"
-        rows="5"
-        placeholder="What's on your mind?"
-        required></textarea>
-    </div>
-    <span class="editor-field__bottom"></span>
-  </div>
+        <!-- ── 3. Message Textarea Field ── -->
+        <div class="editor-field editor-field__textarea">
+          <div class="editor-field__label-container">
+            <label class="editor-field__label font-mono" for="message"
+              >Message</label
+            >
+          </div>
+          <div class="editor-field__container">
+            <textarea
+              class="editor-field__input form-input font-mono"
+              id="message"
+              name="message"
+              rows="5"
+              placeholder="What's on your mind?"
+              required></textarea>
+          </div>
+          <span class="editor-field__bottom"></span>
+        </div>
 
-  <!-- ── 4. Your Button (Kept Exactly As Is) ── -->
-  <button
-    type="submit"
-    class="btn-primary btn-send"
-    style="width:100%; text-align:center; cursor:crosshair;"
-  >
-    <span class="btn-label">Send Message</span>
-    <span class="btn-icon">
-      <svg
-        class="icon-default"
-        xmlns="http://www.w3.org/2000/svg"
-        width="16"
-        height="16"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2.5"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      ><line x1="22" y1="2" x2="11" y2="13"></line><polygon
-        points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
-      <svg
-        class="icon-hover"
-        xmlns="http://www.w3.org/2000/svg"
-        width="16"
-        height="16"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2.5"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      ><polyline points="20 6 9 16 4 11"></polyline></svg>
-    </span>
-  </button>
-</form>
+        <!-- ── 4. Your Button (Kept Exactly As Is) ── -->
+        <button
+          type="submit"
+          class="btn-primary btn-send"
+          style="width:100%; text-align:center; cursor:crosshair;"
+        >
+          <span class="btn-label">Send Message</span>
+          <span class="btn-icon">
+            <svg
+              class="icon-default"
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              ><line x1="22" y1="2" x2="11" y2="13"></line><polygon
+                points="22 2 15 22 11 13 2 9 22 2"></polygon></svg
+            >
+            <svg
+              class="icon-hover"
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              ><polyline points="20 6 9 16 4 11"></polyline></svg
+            >
+          </span>
+        </button>
+      </form>
     </div>
     <!-- closes .contact-grid -->
   </section>

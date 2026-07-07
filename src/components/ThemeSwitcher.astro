@@ -548,6 +548,7 @@
     }
 
     let isDark = savedDark !== "false";
+    document.documentElement.classList.toggle("light", !isDark);
     syncIcons(isDark);
     syncTrigger(initPrimary, initAccent);
 
