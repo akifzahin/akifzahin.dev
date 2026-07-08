@@ -3,11 +3,14 @@ title: "Lessons I've Learned, Standing in the Middle of Loss and Death"
 date: 2026-01-19
 description: "What I've learned watching my father slowly die."
 tags: ["Personal", "Grief"]
-image: "/images/post2-dad.webp"
+image: "../../../public/images/lessons-grief-dad.webp"
 ---
-![img](https://cdn-images-1.medium.com/max/800/0*v9cLJC3Mf5EK40uh)
 
-*Singapore, 2018. A year before his terminal cancer diagnosis.*
+![picture of a man smiling](../../../public/images/lessons-grief-dad.webp)
+
+<div style="text-align: center;">
+Singapore, 2018. A year before his terminal cancer diagnosis.
+</div>
 
 It was 12pm on a sunny Tuesday. The sun was just starting to settle down above my head. I remember drinking coffee sitting opposite my sister at the outdoor cafeteria. The lake shone bright under the sunlight, with its green hue and the never ending sound of the birds chirping across the horizon.
 
@@ -25,15 +28,19 @@ A flat line.
 
 It has been more than a year after this death now, and I’ve spent the year, struggling to accept, understand or even fathom his absence, his death or move forward with what happened that day. But, as someone who has watched a great man, a loving father and a caring husband slowly fade away, like a candle slowly dying in the wind, my dad and his journey with his illness and eventual death has taught me 3 things:
 
-#### Be okay with letting everything go.
+## Be okay with letting everything go
+
+![hospital waiting room](../../../public/images/lessons-grief-hospital.jpg)
+
+<div style="text-align: center;"> Photo by [Greg Rosenke](https://unsplash.com/@greg_rosenke?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText) on [Unsplash](https://unsplash.com/photos/green-and-white-sofa-chairs-xeNNZw4hnlk?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText) </div>
 
 I remember sitting beside his bed three years ago, while he was undergoing chemotherapy. I felt uneasy with the whole situation and the gravity of what was going on. My dad took my hand and told me “We all must return. Return to God, return to Earth whatever you call it. Remember, be ready to let anything go, even if it’s me.” I broke down as he said it, but now I realize the truth in the statement. Everything around us, my two beautiful cats, my aging mother or my traumatized little sister or even the worries we have of yesterday or the relationships we hold dear, everything will end. And that’s okay.
 
 If everything lasted forever, I guess I wouldn’t have understood the importance of what or who I’ve lost. I wouldn’t have learned to slow down and appreciate the beauty of every day things around me.
 
-Philosophy or the meaning of this temporary existence has never popped up in my head before my Dad’s cancer diagnosis. Life felt invincible and my future felt solid. But the Yiddish proverb “*Man makes plans but God laughs.*” rings ever so true now.
+Philosophy or the meaning of this temporary existence has never popped up in my head before my Dad’s cancer diagnosis. Life felt invincible and my future felt solid. But the Yiddish proverb “_Man makes plans but God laughs._” rings ever so true now.
 
-#### Find meaning outside of your own pain.
+## Find meaning outside of your own pain
 
 During the year after my father’s death, I dove deep into existential philosophy. One such writer who has helped me through this journey of grief is **Viktor Frankl**, as he wrote in his book **Man’s Search for Meaning**:
 
@@ -47,7 +54,7 @@ A bit too harsh, but it is what gives me motivation to continue living, despite 
 
 And lastly,
 
-#### Live around the grief, not past it.
+## Live around the grief, not past it
 
 For too long, I’ve spent my days distracting myself with a number of instant gratifying substances or bad coping mechanisms to ease the pain, instead of truly processing it. But, I’ve started to keep grief around as just another emotion. Sure, most days or even weeks, I’ll be stuck paralyzed to my bed because of the sadness and the yearning for him to come back down. But on some days, I’ll carry my grief in my pocket and go about my day. It was my turn to face this tragic phase of life and I finally understand that I must see my life to its end, no matter how good or bad it may get.
 

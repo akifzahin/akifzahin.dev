@@ -1,6 +1,12 @@
 /* ==========================================================================
    DESIGN TOKENS
    ========================================================================== */
+html {
+  -webkit-text-size-adjust: 100%;
+  -moz-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
 :root {
   /* === 3-COLOR SYSTEM === */
   --primary: #0fd28c;
@@ -651,6 +657,7 @@ nav {
   gap: 2.5rem;
   list-style: none;
   padding-left: 10px;
+  align-items: center;
 }
 
 .nav-links a {
@@ -680,6 +687,36 @@ nav {
 .logo-a,
 .logo-z {
   position: relative;
+
+}
+
+.nav-links a[href="/blog"],
+.nav-drawer ul li a[href="/blog"] {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+
+}
+
+.nav-links a[href="/blog"] {
+  transform: translateY(-1.2px);
+  font-size: 1.1rem;
+  /* Adjust this pixel value until it looks perfect to your eye */
+}
+
+.nav-drawer ul li a[href="/blog"] {
+  display: block;
+  padding: 0.9rem 1.5rem;
+  font-family: var(--font-display);
+  /* Keeps your special blog font */
+  font-size: 0.9rem;
+  /* Matches the hamburger size precisely */
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(var(--primary-rgb), 0.08);
+  text-align: left;
 }
 
 .logo-a {
@@ -2373,6 +2410,14 @@ nav {
   letter-spacing: 0.05em;
 }
 
+.post-content h3 {
+  font-size: medium;
+}
+
+.post-content h4 {
+  font-size: small;
+}
+
 :root.light .post-content h2,
 :root.light .post-content h3,
 :root.light .post-content h4 {
@@ -3674,7 +3719,7 @@ footer {
   background: rgba(var(--accent-rgb), 0.05);
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1012px) {
   .nav-links {
     display: none;
   }
