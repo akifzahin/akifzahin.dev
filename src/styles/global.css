@@ -31,9 +31,10 @@ html {
   --text: #e0e0e0;
   --text-muted: #555;
   --text-subtle: #b2afaf;
+  --draft: #ff3b30;
 
   /* Typography */
-  --font-sans: 'Inter', sans-serif;
+  --font-sans: 'Space Grotesk', sans-serif;
   --font-mono: 'Share Tech Mono', monospace;
   --font-display: 'Orbitron', sans-serif;
 
@@ -451,6 +452,7 @@ html.color-transitioning body::before {
   --text: #1a1a2e;
   --text-muted: #4a4a6a;
   --text-subtle: #414141;
+  --draft: #9b0404;
 }
 
 :root.light .project-card,

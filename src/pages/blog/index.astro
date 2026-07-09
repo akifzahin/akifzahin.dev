@@ -47,7 +47,16 @@ function pageClass(n: number) {
             posts.map((post) => (
               <li class="post-card">
                 <a href={"/blog/" + post.id}>
-                  <div class="post-card-content">
+                  <div class="post-card-content" style="position: relative;">
+                    {post.data.draft && (
+                      <span
+                        style="position: absolute; top: 0.5rem; right: 5.5rem; color: var(--draft); font-weight: bold; font-size: larger;"
+                        class="font-display"
+                      >
+                        [DRAFT]
+                      </span>
+                    )}
+
                     <div class="post-card-text">
                       <span class="post-date font-mono">
                         {post.data.date.toLocaleDateString("en-US", {
