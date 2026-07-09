@@ -1,10 +1,10 @@
-
 ---
 title: "I Wonder Where The Strays Sleep"
 date: 2026-07-08
 description: "A brief but heartbreaking look into the lives of my local strays"
 tags: ["Animals", "Kindness"]
 image: "../../../public/images/strays-sleep-family.jpg"
+draft: true
 ---
 ![dog mother and her babies walking](../../../public/images/strays-sleep-family.jpg)
 
