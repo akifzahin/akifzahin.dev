@@ -663,10 +663,10 @@ nav {
 }
 
 .nav-links a {
-  font-family: var(--font-mono);
-  font-size: 1.05rem;
+  font-family: var(--font-display);
+  font-size: 0.85rem;
   color: var(--text);
-  letter-spacing: 0.15em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   transition: color var(--t-fast);
 }
@@ -863,9 +863,9 @@ nav {
 
 .hero-eyebrow {
   font-size: 1.3rem;
-  font-weight: 400;
+  font-weight: 600;
   color: var(--primary);
-  letter-spacing: 0.3em;
+  letter-spacing: 0.2rem;
   text-transform: lowercase;
   margin-bottom: 1.5rem;
   overflow: hidden;
@@ -1072,9 +1072,10 @@ nav {
   position: relative;
   z-index: 1;
   display: inline-block;
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
+  font-weight: 500;
   font-size: 1rem;
-  letter-spacing: 0.15em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   padding: 0.75rem 1.1rem;
   background: rgba(var(--primary-dim), 0.45);
@@ -1255,15 +1256,15 @@ nav {
 }
 
 .section-label {
-  font-family: var(--font-mono);
+  font-family: var(--font-display);
   font-size: 1.3rem;
   color: var(--primary);
-  letter-spacing: 0.2em;
+  letter-spacing: 0.3em;
   text-transform: uppercase;
   margin-bottom: 3rem;
   text-shadow: 0 0 2px var(--primary);
   opacity: 0.9;
-  background: var(--bg);
+  /* background: var(--bg); */
 
   /* Forces the div to exactly fit the text width */
   width: fit-content;
@@ -1280,10 +1281,10 @@ nav {
 
 
 .tag {
-  font-family: var(--font-mono);
-  font-size: 1.15rem;
-  letter-spacing: 0.1em;
-  padding: 0.2rem 0.6rem;
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+  letter-spacing: 0.1rem;
+  padding: 0.4rem 0.4rem;
   border: 2px solid rgba(var(--primary-rgb), 0.6);
   color: rgba(var(--primary-rgb), 0.8);
   transition: all var(--t-base);
@@ -1373,20 +1374,30 @@ nav {
 }
 
 .project-num {
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   font-size: 0.8rem;
-  color: var(--text);
+  color: var(--primary);
   letter-spacing: 0.1em;
-  margin-bottom: 1rem;
+  margin-bottom: 0.3rem;
+}
+
+:root.light .project-num {
+
+  color: var(--accent);
 }
 
 .project-title {
   font-family: var(--font-display);
-  font-size: 0.9rem;
+  font-size: 1.1rem;
   font-weight: 700;
-  color: var(--text);
+  color: var(--primary);
   margin-bottom: 0.75rem;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.1em;
+  /* text-align: center; */
+}
+
+:root.light .project-title {
+  color: var(--accent);
 }
 
 .project-desc {
@@ -1554,14 +1565,15 @@ nav {
 }
 
 .skill-group-title {
-  font-size: 1.1rem;
+  font-family: var(--font-display);
+  font-size: 0.9rem;
   color: var(--primary);
-  letter-spacing: 0.2em;
+  letter-spacing: 0.3rem;
   text-transform: uppercase;
   margin-bottom: 1rem;
   opacity: 0.9;
   width: fit-content;
-  background: var(--bg);
+  /* background: var(--bg); */
 
 }
 
@@ -1586,13 +1598,20 @@ nav {
 .github-stats {
   display: flex;
   align-items: center;
+  justify-content: center;
+  /* Adds horizontal centering */
   gap: 8px;
   padding: 8px 10px;
   margin: -1rem -1rem 1rem -1rem;
-  border-bottom: 1px solid rgba(var(--primary-rgb), 0.3);
+  border-bottom: 1px solid rgba(var(--primary-rgb), 0.8);
   background: var(--bg);
   font-size: 10px;
   letter-spacing: 1px;
+}
+
+:root.light .github-stats {
+  border-bottom: 1px solid rgba(var(--accent-rgb), 0.8);
+
 }
 
 .github-mark {
@@ -1700,7 +1719,8 @@ nav {
 }
 
 .timeline-date {
-  font-size: 0.85rem;
+  font-size: 0.9rem;
+  font-family: var(--font-sans);
   color: var(--text-subtle);
   letter-spacing: 0.1em;
   padding-top: 0.2rem;
@@ -1708,11 +1728,15 @@ nav {
 
 .timeline-title {
   font-family: var(--font-display);
-  font-size: 1rem;
+  font-size: 1.1rem;
   font-weight: 700;
-  color: var(--text);
+  color: var(--primary);
   margin-bottom: 0.25rem;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.1rem;
+}
+
+:root.light .timeline-title {
+  color: var(--accent);
 }
 
 .timeline-company {
@@ -1899,6 +1923,12 @@ nav {
   /* Pushed the main box up closer to the text label */
 }
 
+/* Targets placeholders in all inputs and textareas */
+.form-input::placeholder {
+  font-family: var(--font-sans);
+  color: var(--text-muted);
+}
+
 .editor-field.editor-field__textarea textarea.editor-field__input {
   resize: vertical;
   /* FIXED: Restores your ability to resize the textbox up and down */
@@ -1950,7 +1980,7 @@ nav {
   color: var(--accent);
   font-size: 13px;
   font-weight: 500;
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   /* Or swap to var(--font-display) for Orbitron */
   text-transform: uppercase;
   letter-spacing: 1.25px;
@@ -2148,9 +2178,6 @@ nav {
   -webkit-text-stroke: 0.2px black;
 }
 
-.form-input::placeholder {
-  color: var(--text-subtle);
-}
 
 .contact-form .btn-primary {
 
@@ -2349,6 +2376,7 @@ nav {
 
 .post-date {
   font-size: 1rem;
+  font-family: var(--font-sans);
   letter-spacing: 0.2em;
   color: var(--primary);
   text-transform: uppercase;
@@ -2505,6 +2533,8 @@ nav {
   transition: background var(--t-fast), transform var(--t-slow);
 }
 
+
+
 :root.light .game-card {
   border: 2px solid rgba(var(--accent-rgb), 0.3);
 
@@ -2598,11 +2628,13 @@ nav {
 
 .game-title {
   font-family: var(--font-display);
-  font-size: 0.9rem;
+  font-size: 1.1rem;
+  /* Changed from 0.9rem */
   font-weight: 700;
   color: var(--primary);
   margin-bottom: 0.75rem;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.1em;
+  /* Changed from 0.05em */
 }
 
 :root.light .game-title {
@@ -2643,8 +2675,8 @@ nav {
 
 .blog-subheading {
   font-family: var(--font-mono);
-  font-size: 1rem;
-  letter-spacing: 0.2em;
+  font-size: 1.3rem;
+  letter-spacing: 0.12em;
   color: var(--text);
   text-transform: uppercase;
   margin-bottom: 4rem;
@@ -2686,7 +2718,8 @@ nav {
 }
 
 .post-card .post-date {
-  font-size: 1.2rem;
+  font-size: 1rem;
+  font-family: var(--font-sans);
   letter-spacing: 0.2em;
   color: var(--primary);
   text-transform: uppercase;
