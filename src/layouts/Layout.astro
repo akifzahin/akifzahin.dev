@@ -141,6 +141,10 @@ const { title = "Akif Zahin", showBack = false } = Astro.props;
     ></script>
     <script
       is:inline
+      src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.clouds2.min.js"
+    ></script>
+    <script
+      is:inline
       src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.waves.min.js"
     ></script>
     <script
@@ -478,17 +482,21 @@ const { title = "Akif Zahin", showBack = false } = Astro.props;
               zoom: 0.9,
             },
           };
-
         case "Dreamcore":
           return {
-            effect: "CELLS",
+            effect: "CLOUDS2",
             options: {
               ...base,
-              color1: p,
-              color2: a,
-              backgroundColor: bg,
-              size: 5,
-              speed: 1.2,
+              scale: 1.0,
+              speed: 0.9,
+              backgroundColor: isDark ? 0x0d1a2e : 0xb8d9f5, // deep navy-blue night / soft blue day
+              skyColor: isDark ? 0x3b659c: 0xad87d9, // muted steel-blue dusk / light lavender
+              cloudColor: p, // #74baf2 — blue clouds
+              cloudShadowColor: a, // #996bdb — purple shadow, still present but not dominant
+              sunColor: a,
+              sunGlareColor: isDark ? 0x996bdb : 0xfff5e6, // violet glow at night / warm cream glow by day
+              sunlightColor: p,
+              texturePath: "/noise.png",
             },
           };
 
