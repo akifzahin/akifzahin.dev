@@ -482,24 +482,50 @@ const { title = "Akif Zahin", showBack = false } = Astro.props;
               zoom: 0.9,
             },
           };
+        // case "Dreamcore":
+        // return {
+        //   effect: "CELLS",
+        //   options: {
+        //     ...base,
+        //     color1: p,
+        //     color2: a,
+        //     backgroundColor: bg,
+        //     size: 5,
+        //     speed: 1.2,
+        //   },
+        // };
+        // case "Dreamcore":
+        //   return {
+        //     effect: "CLOUDS2",
+        //     options: {
+        //       ...base,
+        //       scale: 1.0,
+        //       speed: 0.9,
+        //       minHeight: 1000.0,
+        //       minWidth: 400.0,
+        //       backgroundColor: isDark ? 0x0d1a2e : 0xb8d9f5,
+        //       skyColor: isDark ? 0x3b659c : 0xad87d9,
+        //       cloudColor: p,
+        //       cloudShadowColor: a,
+        //       sunColor: a,
+        //       sunGlareColor: isDark ? 0x996bdb : 0xfff5e6,
+        //       sunlightColor: p,
+        //       texturePath: "/noise.png",
+        //     },
+        //   };
         case "Dreamcore":
           return {
-            effect: "CLOUDS2",
+            effect: "WAVES",
             options: {
               ...base,
-              scale: 1.0,
-              speed: 0.9,
-              backgroundColor: isDark ? 0x0d1a2e : 0xb8d9f5, // deep navy-blue night / soft blue day
-              skyColor: isDark ? 0x3b659c: 0xad87d9, // muted steel-blue dusk / light lavender
-              cloudColor: p, // #74baf2 — blue clouds
-              cloudShadowColor: a, // #996bdb — purple shadow, still present but not dominant
-              sunColor: a,
-              sunGlareColor: isDark ? 0x996bdb : 0xfff5e6, // violet glow at night / warm cream glow by day
-              sunlightColor: p,
-              texturePath: "/noise.png",
+              color: darkenHex(p, 0.25), // #74baf2 — wave body color
+              backgroundColor: bg,
+              shininess: 10.0, // adds a highlight sheen — try 0–50
+              waveHeight: 40.0, // lower than the demo's 40 for a gentler swell
+              waveSpeed: 1, // slower than 1.4 for that dreamy, unhurried motion
+              zoom: 0.5,
             },
           };
-
         case "Cassette Futurism":
           return {
             effect: "TRUNK",
@@ -586,6 +612,15 @@ const { title = "Akif Zahin", showBack = false } = Astro.props;
       const primary = localStorage.getItem("theme-primary") ?? "#0fd28c";
       const accent = localStorage.getItem("theme-accent") ?? "#f40bf4";
       initVanta(themeName, primary, accent);
+    }
+    function darkenHex(hex: number, amount: number): number {
+      const r = (hex >> 16) & 0xff;
+      const g = (hex >> 8) & 0xff;
+      const b = hex & 0xff;
+      const dr = Math.round(r * (1 - amount));
+      const dg = Math.round(g * (1 - amount));
+      const db = Math.round(b * (1 - amount));
+      return (dr << 16) + (dg << 8) + db;
     }
 
     function initPersistentUI() {

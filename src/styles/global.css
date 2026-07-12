@@ -471,7 +471,8 @@ html.color-transitioning body::before {
 
 :root.light .section-label {
   color: var(--accent);
-  -webkit-text-stroke: 0.26px black;
+  -webkit-text-stroke: 1px black;
+
   text-shadow: 0 0 2px var(--accent);
 
 }
@@ -1260,6 +1261,7 @@ nav {
 .section-label {
   font-family: var(--font-display);
   font-size: 1.3rem;
+  padding: 0.5rem;
   font-weight: 600;
   color: var(--primary);
   letter-spacing: 0.2em;
@@ -1267,9 +1269,10 @@ nav {
   margin-bottom: 3rem;
   text-shadow: 0 0 2px var(--primary);
   opacity: 0.9;
-  /* background: var(--bg); */
+  background: var(--bg);
 
   /* Forces the div to exactly fit the text width */
+  -webkit-text-stroke: 1px black;
   width: fit-content;
 }
 
@@ -1577,7 +1580,14 @@ nav {
   margin-bottom: 1rem;
   opacity: 0.9;
   width: fit-content;
-  /* background: var(--bg); */
+  -webkit-text-stroke: 0.8px black;
+  padding: 0.5rem;
+  background: var(--bg);
+
+}
+
+:root.light .skill-group-title {
+  -webkit-text-stroke: 0.8px black;
 
 }
 
