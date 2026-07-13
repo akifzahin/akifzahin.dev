@@ -4,14 +4,11 @@ date: 2025-10-14
 description: "I'm tired of hearing the same line over and over again — \"Grief comes in waves and it'll pass\". It's not a wave, it's a tsunami."
 tags: ["Personal", "Mental Health"]
 image: "/images/waves-tsunami.webp"
+darft: false
 ---
 ![man sitting on surfboard over vast cyan ocean](/images/waves-tsunami.webp)
 
 <div align="center">
-
-*Photo by [Felipe Coelho](https://unsplash.com/@ofelipecoelho?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText) on [Unsplash](https://unsplash.com/photos/surfer-is-paddling-alone-in-the-vast-ocean--otamb-hEPM?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText)*
-
-</div>
 
 I’m tired of hearing the same line over and over again — “*Grief comes in waves and it’ll pass*”. It’s not a wave, it’s a **tsunami**.
 
@@ -43,10 +40,6 @@ The wave of grief has now fully engulfed you in all its glory. You are now subme
 
 <div align="center">
 
-*Photo by [Kevin Escate](https://unsplash.com/@hf_photography?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText) on [Unsplash](https://unsplash.com/photos/person-in-yellow-hijab-standing-on-brown-field-during-night-time-4Se7r4gf6KE?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText)*
-
-</div>
-
 I’ve spent the whole year trying to investigate why this phenomenon seems to happen. What makes something as simple as a wave of sadness that should pass over you and let you be okay, takes control and tries to drown you. Some might call it the brain rewiring, or hormonal imbalance, or the way our memory works.
 
 ### **I like to think about this in a simple way. *Ghosts.***
@@ -67,10 +60,6 @@ Part of what makes grief like this so *terrifyingly beautiful* is the love that�
 
 <div align="center">
 
-*Photo by [Kellen Riggin](https://unsplash.com/@kalaniparker?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText) on [Unsplash](https://unsplash.com/photos/two-surfers-wait-for-waves-near-a-rocky-coastline-MA0nBwOmuwQ?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText)*
-
-</div>
-
 I think what my journey through these waves and my life with the ghosts of my past has taught me, is that grief as deep as this is not just a wound or a scar; it’s you being reborn. While you may never go back to the past to experience what life was back then, you do have the chance to take all of this sadness and mold yourself into a version that your departed loved one can be proud of, living each day in their remembrance.
 
 ## Stop trying to fight the wave. Seriously
@@ -79,10 +68,6 @@ I think what my journey through these waves and my life with the ghosts of my pa
 
 <div align="center">
 
-*Photo by [Peter Thomas](https://unsplash.com/@lifeof_peter_?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText) on [Unsplash](https://unsplash.com/photos/a-body-of-water-surrounded-by-rocks-on-a-cloudy-day-iXseilSuq6A?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText)*
-
-</div>
-
 If you ever feel like the wave has hit you hard and you don’t want to feel the power of the tsunami, try to stop fighting it. Let the wave come naturally to you, make you cry and leave you as you were. The more time I’ve spent trying to calm down from the panic of remembering my father instead of, letting the memories flow, the more pain and sadness has remained inside me and turned into something far worse. “*Let it be”*, as the Beatles said.
 
 ### Express yourself. It doesn’t matter how
@@ -90,10 +75,6 @@ If you ever feel like the wave has hit you hard and you don’t want to feel the
 ![artist working on a painting in a studio](/images/waves-tsunami-express.jpg)
 
 <div align="center">
-
-*Photo by [Vitaly Gariev](https://unsplash.com/@silverkblack?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText) on [Unsplash](https://unsplash.com/photos/artist-working-on-a-painting-in-a-studio-IIisONUL2d8?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText)*
-
-</div>
 
 Overtime, I realized that all this pain needs to go somewhere. Then I discovered writing. Once something of no particular interest (other than writing comments on YouTube), has now become a new avenue for my feelings to transform into words that inspire others to do the same. Expression isn’t limited to writing only. For my sister, it was art and the freedom to paint her mind onto the canvas. For my mother it was singing her heart out when times got tough.
 
@@ -106,10 +87,6 @@ And lastly,
 ![people walking on a beach at sunset](/images/waves-tsunami-others.jpg)
 
 <div align="center">
-
-*Photo by [Maria Ivanova](https://unsplash.com/@marishphoto?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText) on [Unsplash](https://unsplash.com/photos/people-walking-on-a-beach-at-sunset-oHz3mZsShmo?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText)*
-
-</div>
 
 > Anything that’s human is mentionable, and anything that is mentionable can be more manageable. — Fred Rogers
 

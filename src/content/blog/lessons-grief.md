@@ -4,6 +4,7 @@ date: 2026-01-19
 description: "What I've learned watching my father slowly die."
 tags: ["Personal", "Grief"]
 image: "/images/lessons-grief-dad.webp"
+draft: false
 ---
 
 ![picture of a dad smiling](/images/lessons-grief-dad.webp)

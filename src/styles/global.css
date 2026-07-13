@@ -1270,10 +1270,17 @@ nav {
   text-shadow: 0 0 2px var(--primary);
   opacity: 0.9;
   background: var(--bg);
+  border: 2.3px solid rgba(var(--primary-rgb), 0.3);
+
 
   /* Forces the div to exactly fit the text width */
   -webkit-text-stroke: 1px black;
   width: fit-content;
+}
+
+:root.light .section-label {
+  border: 2.3px solid rgba(var(--accent-rgb), 0.3);
+
 }
 
 .section-label::before {
@@ -1338,6 +1345,10 @@ nav {
   transition: background var(--t-fast), transform var(--t-slow);
 }
 
+:root.light .project-card {
+  border: 2.3px solid rgba(var(--accent-rgb), 0.3);
+}
+
 .project-card:hover {
   animation: glitchCard 6s ease-in-out infinite;
   transform: scale(1.02);
@@ -1377,6 +1388,36 @@ nav {
 .project-card::before,
 .project-card::after {
   display: none;
+}
+
+/* Project Card Image Container */
+.project-card-image {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  /* Using 16:9 here for screenshots, change to 3 / 4 for portrait */
+  overflow: hidden;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg);
+}
+
+/* Image Base Configuration */
+.project-card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  display: block;
+  filter: saturate(0.8);
+  transition: filter var(--t-base), transform var(--t-base);
+}
+
+/* Card Hover Animation Effects */
+.project-card:hover .project-card-image img {
+  filter: saturate(1.1) contrast(1.1);
+  transform: scale(1.01);
 }
 
 .project-num {
@@ -1583,11 +1624,15 @@ nav {
   -webkit-text-stroke: 0.8px black;
   padding: 0.5rem;
   background: var(--bg);
+  border: 2.3px solid rgba(var(--primary-rgb), 0.3);
 
 }
 
+
+
 :root.light .skill-group-title {
   -webkit-text-stroke: 0.8px black;
+  border: 2.3px solid rgba(var(--accent-rgb), 0.3);
 
 }
 
