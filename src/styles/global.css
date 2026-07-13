@@ -1670,8 +1670,13 @@ nav {
   letter-spacing: 1px;
 }
 
-.github-stats:hover {
+/* Replace your old .github-stats:hover rule with this: */
+.project-card:hover .github-stats {
   animation: glitchCard 6s ease-in-out infinite;
+}
+
+:root.light .project-card:hover .github-stats {
+  animation: glitchCardLight 6s ease-in-out infinite;
 }
 
 :root.light .github-stats {
