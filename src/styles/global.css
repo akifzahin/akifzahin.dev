@@ -1630,8 +1630,11 @@ nav {
 
 
 
-:root.light .skill-group-title {
-  -webkit-text-stroke: 0.8px black;
+:root.light .skill-group-title,
+:root.light .skill-tags,
+:root.light .timeline-item,
+:root.light .about-text {
+
   border: 2.3px solid rgba(var(--accent-rgb), 0.3);
 
 }
@@ -1658,19 +1661,21 @@ nav {
   display: flex;
   align-items: center;
   justify-content: center;
-  /* Adds horizontal centering */
   gap: 8px;
   padding: 8px 10px;
   margin: -1rem -1rem 1rem -1rem;
-  border-bottom: 1px solid rgba(var(--primary-rgb), 0.8);
+  border-bottom: 1px solid rgba(var(--primary-rgb), 0.3);
   background: var(--bg);
   font-size: 10px;
   letter-spacing: 1px;
 }
 
-:root.light .github-stats {
-  border-bottom: 1px solid rgba(var(--accent-rgb), 0.8);
+.github-stats:hover {
+  animation: glitchCard 6s ease-in-out infinite;
+}
 
+:root.light .github-stats {
+  border-bottom: 1px solid rgba(var(--accent-rgb), 0.3);
 }
 
 .github-mark {
@@ -3515,7 +3520,7 @@ footer {
 
 @keyframes glitchCardLight {
   0% {
-    border-color: none;
+    border-color: transparent;
     box-shadow: none;
   }
 
@@ -3540,14 +3545,14 @@ footer {
   }
 
   100% {
-    border-color: none;
+    border-color: transparent;
     box-shadow: none;
   }
 }
 
 @keyframes glitchCard {
   0% {
-    border-color: none;
+    border-color: transparent;
     box-shadow: none;
   }
 
@@ -3572,7 +3577,7 @@ footer {
   }
 
   100% {
-    border-color: none;
+    border-color: transparent;
     box-shadow: none;
   }
 }
@@ -3583,7 +3588,8 @@ footer {
 :root.light .timeline-item:hover,
 :root.light .skill-tags:hover,
 :root.light .project-card:hover,
-:root.light .contact-left:hover {
+:root.light .contact-left:hover,
+:root.light .github-stats:hover {
   animation-name: glitchCardLight;
 }
 
