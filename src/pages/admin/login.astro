@@ -1,0 +1,85 @@
+---
+import Layout from "../../layouts/Layout.astro";
+
+const error = Astro.url.searchParams.get("error");
+---
+
+<Layout title="Admin Login">
+  <main class="admin-login">
+    <div class="admin-login-card">
+      <h1 class="font-display">Admin Access</h1>
+      {error && <p class="admin-login-error font-mono">Incorrect password</p>}
+      <form id="login-form" class="admin-login-form">
+        <div class="editor-field editor-field__textbox">
+          <div class="editor-field__label-container">
+            <label class="editor-field__label font-mono" for="password">Password</label>
+          </div>
+          <div class="editor-field__container">
+            <input
+              class="editor-field__input form-input font-mono"
+              type="password"
+              id="password"
+              name="password"
+              required
+              autofocus
+            />
+          </div>
+          <span class="editor-field__bottom"></span>
+        </div>
+        <button type="submit" class="btn-primary" style="width:100%; margin-top:1rem;">
+          <span class="btn-label">Log In</span>
+        </button>
+      </form>
+    </div>
+  </main>
+</Layout>
+
+<style>
+  .admin-login {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+  }
+  .admin-login-card {
+    width: 100%;
+    max-width: 360px;
+    background: var(--bg);
+    border: 2.3px solid rgba(var(--primary-rgb), 0.3);
+    padding: 2rem;
+  }
+  .admin-login-card h1 {
+    font-size: 1.3rem;
+    color: var(--primary);
+    margin-bottom: 1.5rem;
+    letter-spacing: 0.1em;
+  }
+  .admin-login-error {
+    color: var(--draft);
+    font-size: 0.85rem;
+    margin-bottom: 1rem;
+  }
+</style>
+
+<script>
+  document.addEventListener("astro:page-load", () => {
+    const form = document.getElementById("login-form") as HTMLFormElement;
+    form?.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const password = (document.getElementById("password") as HTMLInputElement).value;
+
+      const res = await fetch("/api/admin/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ password }),
+      });
+
+      if (res.ok) {
+        window.location.href = "/admin";
+      } else {
+        window.location.href = "/admin/login?error=1";
+      }
+    });
+  });
+</script>
