@@ -38,16 +38,21 @@ import Layout from "../../layouts/Layout.astro";
         .map((post: any) => {
           const isDraft = post.draft === 1;
           return `
-            <a href="/admin/edit/${post.id}" class="admin-post-card">
-              <div class="admin-post-card-top">
-                <span class="admin-post-title">${post.title}</span>
-                <span class="admin-post-status ${isDraft ? "draft" : "published"} font-mono">
-                  ${isDraft ? "Draft" : "Published"}
-                </span>
-              </div>
-              <p class="admin-post-desc">${post.description}</p>
-            </a>
-          `;
+      <a href="/admin/edit/${post.id}" class="admin-post-card">
+        <div class="admin-post-card-row">
+          ${post.cover_image ? `<img src="${post.cover_image}" alt="" class="admin-post-thumb" />` : ""}
+          <div class="admin-post-card-text">
+            <div class="admin-post-card-top">
+              <span class="admin-post-title">${post.title}</span>
+              <span class="admin-post-status ${isDraft ? "draft" : "published"} font-mono">
+                ${isDraft ? "Draft" : "Published"}
+              </span>
+            </div>
+            <p class="admin-post-desc">${post.description}</p>
+          </div>
+        </div>
+      </a>
+    `;
         })
         .join("");
     } catch (err) {

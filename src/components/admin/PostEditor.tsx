@@ -22,6 +22,7 @@ export default function PostEditor({ postId }: PostEditorProps) {
   const saveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const creating = useRef(false);
   const [isDraft, setIsDraft] = useState(true);
+  const [uploadingImage, setUploadingImage] = useState(false);
 
   const editor = useEditor({
     extensions: [
@@ -120,6 +121,27 @@ export default function PostEditor({ postId }: PostEditorProps) {
     if (saveTimer.current) clearTimeout(saveTimer.current);
     doSave();
   };
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setUploadingImage(true);
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+      const res = await fetch("/api/admin/upload-image", {
+        method: "POST",
+        body: formData,
+      });
+      const result = await res.json();
+      setCoverImage(result.url);
+    } catch {
+      setStatus("error");
+    } finally {
+      setUploadingImage(false);
+    }
+  };
   const handlePublish = async () => {
     if (saveTimer.current) clearTimeout(saveTimer.current);
     await doSave();
@@ -169,13 +191,32 @@ export default function PostEditor({ postId }: PostEditorProps) {
             value={tagsInput}
             onChange={(e) => setTagsInput(e.target.value)}
           />
-          <input
-            className="post-editor-image-input"
-            type="text"
-            placeholder="Cover image path or URL"
-            value={coverImage}
-            onChange={(e) => setCoverImage(e.target.value)}
-          />
+          <div className="post-editor-image-upload">
+            <input
+              type="file"
+              accept="image/*"
+              id="cover-image-file"
+              style={{ display: "none" }}
+              onChange={handleImageUpload}
+            />
+            <label
+              htmlFor="cover-image-file"
+              className="post-editor-image-btn font-mono"
+            >
+              {uploadingImage
+                ? "Uploading..."
+                : coverImage
+                  ? "Change Cover Image"
+                  : "Upload Cover Image"}
+            </label>
+            {coverImage && (
+              <img
+                src={coverImage}
+                alt="Cover preview"
+                className="post-editor-image-preview"
+              />
+            )}
+          </div>
         </div>
       </div>
 

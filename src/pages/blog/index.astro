@@ -1,15 +1,12 @@
 ---
-import { getCollection } from "astro:content";
+export const prerender = false;
+import { getPublishedPosts } from "../../lib/posts";
 import Layout from "../../layouts/Layout.astro";
 import BackButton from "../../components/BackButton.astro";
 
 const POSTS_PER_PAGE = 5;
 
-const allPosts = (
-  await getCollection("blog", ({ data }) =>
-    import.meta.env.PROD ? !data.draft : true,
-  )
-).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const allPosts = await getPublishedPosts();
 
 const url = new URL(Astro.request.url);
 const currentPage = Number(url.searchParams.get("page") || 1);
@@ -46,38 +43,32 @@ function pageClass(n: number) {
           {
             posts.map((post) => (
               <li class="post-card">
-                <a href={"/blog/" + post.id}>
+                <a href={"/blog/" + post.slug}>
                   <div class="post-card-content" style="position: relative;">
-                    {post.data.draft && (
-                      <span
-                        style="position: absolute; top: 0.5rem; right: 5.5rem; color: var(--draft); font-weight: bold; font-size: larger;"
-                        class="font-display"
-                      >
-                        [DRAFT]
-                      </span>
-                    )}
-
                     <div class="post-card-text">
                       <span class="post-date font-mono">
-                        {post.data.date.toLocaleDateString("en-US", {
-                          year: "numeric",
-                          month: "short",
-                          day: "numeric",
-                        })}
+                        {new Date(post.published_at!).toLocaleDateString(
+                          "en-US",
+                          {
+                            year: "numeric",
+                            month: "short",
+                            day: "numeric",
+                          },
+                        )}
                       </span>
-                      <h2 class="post-title">{post.data.title}</h2>
-                      <p class="post-desc">{post.data.description}</p>
-                      {post.data.tags && (
+                      <h2 class="post-title">{post.title}</h2>
+                      <p class="post-desc">{post.description}</p>
+                      {post.tags.length > 0 && (
                         <div class="post-tags">
-                          {post.data.tags.map((tag) => (
+                          {post.tags.map((tag) => (
                             <span class="tag font-mono">{tag}</span>
                           ))}
                         </div>
                       )}
                     </div>
-                    {post.data.image && (
+                    {post.cover_image && (
                       <div class="post-card-image">
-                        <img src={post.data.image} alt={post.data.title} />
+                        <img src={post.cover_image} alt={post.title} />
                       </div>
                     )}
                   </div>
