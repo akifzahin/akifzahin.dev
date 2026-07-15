@@ -51,7 +51,9 @@ const randomPost = otherPosts[Math.floor(Math.random() * otherPosts.length)];
 
       <div class="clap-section" data-post-id={post.id}>
         <button class="clap-btn" id="clap-btn" aria-label="Clap for this post">
+          <!-- 1. OUTLINE ICON (Default state) -->
           <svg
+            class="icon-outline"
             xmlns="http://www.w3.org/2000/svg"
             width="24"
             height="24"
@@ -63,12 +65,30 @@ const randomPost = otherPosts[Math.floor(Math.random() * otherPosts.length)];
             stroke-linejoin="round"
           >
             <path
-              d="M11 5.882V19.24a1.76 1.76 0 0 1-3.417.592l-2.147-6.15M11 5.882 8.13 5.15a1.75 1.75 0 0 0-1.972 1.98l.144.79c.13.71.71 1.24 1.42 1.24h.13"
+              d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"
             ></path>
-            <path d="M7 12H4.5a2 2 0 0 0 0 4h1"></path>
-            <path d="M11 5.882V4.5a2 2 0 1 1 4 0v1.382"></path>
-            <path d="M15 5.882V4.5a2 2 0 1 1 4 0v1.382"></path>
-            <path d="M19 5.882V4.5a2 2 0 1 1 4 0v6.5c0 3.5-2 6-6 6h-2"></path>
+            <path d="M16 2a5 5 0 0 1 5 5"></path>
+            <path d="M18 4a2.5 2.5 0 0 1 2.5 2.5"></path>
+          </svg>
+
+          <!-- 2. FILLED ICON (State after user clicks/claps) -->
+          <svg
+            class="icon-filled"
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path
+              d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"
+            ></path>
+            <path d="M16 2a5 5 0 0 1 5 5"></path>
+            <path d="M18 4a2.5 2.5 0 0 1 2.5 2.5"></path>
           </svg>
         </button>
         <span class="clap-count font-mono" id="clap-count">0</span>
@@ -159,15 +179,26 @@ const randomPost = otherPosts[Math.floor(Math.random() * otherPosts.length)];
         localStorage.setItem("visitor_id", visitorId);
       }
 
-      let clapping = false;
+      let currentTotal = 0;
+      let currentMine = 0;
+      let holding = false;
+      let holdInterval: ReturnType<typeof setInterval> | null = null;
+      let pendingClaps = 0;
+      let flushTimer: ReturnType<typeof setTimeout> | null = null;
 
       function updateUI(total: number, mine: number) {
+        currentTotal = total;
+        currentMine = mine;
         countEl!.textContent = String(total);
-        if (mine >= 50) {
-          btn!.classList.add("maxed");
-        } else {
-          btn!.classList.remove("maxed");
-        }
+        btn!.classList.toggle("maxed", mine >= 50);
+      }
+
+      function popText(text: string) {
+        const pop = document.createElement("span");
+        pop.className = "clap-pop font-mono";
+        pop.textContent = text;
+        section!.appendChild(pop);
+        pop.addEventListener("animationend", () => pop.remove());
       }
 
       // Load current state on page load
@@ -176,28 +207,82 @@ const randomPost = otherPosts[Math.floor(Math.random() * otherPosts.length)];
         .then((data) => updateUI(data.total, data.mine))
         .catch(() => {});
 
-      btn.addEventListener("click", async () => {
-        if (clapping) return;
-        clapping = true;
+      // Optimistically bump the UI immediately, batch the network call
+      function localClap() {
+        if (currentMine >= 50) return;
+        currentMine++;
+        currentTotal++;
+        countEl!.textContent = String(currentTotal);
+        btn!.classList.toggle("maxed", currentMine >= 50);
+        popText("+1");
+
         btn!.classList.add("clapping");
+        setTimeout(() => btn!.classList.remove("clapping"), 150);
 
-        try {
-          const res = await fetch(`/api/posts/${postId}/clap`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ visitor_id: visitorId }),
-          });
-          const data = await res.json();
-          updateUI(data.total, data.mine);
-        } catch {
-          // fail silently — claps are non-critical
+        pendingClaps++;
+        if (flushTimer) clearTimeout(flushTimer);
+        flushTimer = setTimeout(flushClaps, 400);
+      }
+
+      async function flushClaps() {
+        const toSend = pendingClaps;
+        pendingClaps = 0;
+        if (toSend === 0) return;
+
+        for (let i = 0; i < toSend; i++) {
+          try {
+            const res = await fetch(`/api/posts/${postId}/clap`, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ visitor_id: visitorId }),
+            });
+            const data = await res.json();
+            // Reconcile with server truth after the batch
+            if (i === toSend - 1) updateUI(data.total, data.mine);
+          } catch {
+            // fail silently — claps are non-critical
+          }
         }
+      }
 
-        setTimeout(() => {
-          btn!.classList.remove("clapping");
-          clapping = false;
-        }, 150);
+      // Single click
+      btn.addEventListener("click", () => {
+        if (holding) return; // avoid double-firing after a hold sequence
+        localClap();
       });
+
+      // Press and hold — auto-increment
+      function startHold() {
+        if (holdInterval) return;
+        holding = false;
+        holdInterval = setInterval(() => {
+          holding = true;
+          localClap();
+        }, 180);
+      }
+
+      function stopHold() {
+        if (holdInterval) {
+          clearInterval(holdInterval);
+          holdInterval = null;
+        }
+        setTimeout(() => {
+          holding = false;
+        }, 50); // let click event resolve first
+      }
+
+      btn.addEventListener("mousedown", startHold);
+      btn.addEventListener("mouseup", stopHold);
+      btn.addEventListener("mouseleave", stopHold);
+      btn.addEventListener(
+        "touchstart",
+        (e) => {
+          e.preventDefault();
+          startHold();
+        },
+        { passive: false },
+      );
+      btn.addEventListener("touchend", stopHold);
     });
   </script>
 </Layout>

@@ -1757,6 +1757,101 @@ nav {
   color: var(--primary);
   background: rgba(var(--primary-rgb), 0.1);
 }
+/* --- Icon Switch System --- */
+
+/* 1. Hide the filled icon by default */
+.clap-btn .icon-filled {
+  display: none;
+}
+
+/* 2. When the user has clapped (.active), hide outline and show filled */
+.clap-btn.active .icon-outline {
+  display: none;
+}
+
+.clap-btn.active .icon-filled {
+  display: inline-block;
+}
+
+/* Optional: Make the filled icon stand out slightly more when maxed out */
+.clap-btn.maxed .icon-filled {
+  transform: scale(1.05);
+  transition: transform 0.2s ease;
+}
+.admin-link {
+  color: var(--primary);
+  text-decoration: none;
+}
+
+.clap-section {
+  position: relative;
+}
+
+.clap-btn {
+  position: relative;
+  overflow: visible;
+}
+
+.clap-pop {
+  position: absolute;
+  left: 24px;
+  top: -4px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--primary);
+  pointer-events: none;
+  animation: clapPopUp 0.6s ease-out forwards;
+}
+
+:root.light .clap-pop {
+  color: var(--accent);
+}
+
+@keyframes clapPopUp {
+  0% {
+    opacity: 1;
+    transform: translateY(0) scale(0.9);
+  }
+
+  60% {
+    opacity: 1;
+    transform: translateY(-18px) scale(1.1);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateY(-32px) scale(1);
+  }
+}
+
+.clap-btn.clapping {
+  animation: clapPulse 0.15s ease;
+}
+
+@keyframes clapPulse {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(0.85);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+.admin-link:hover {
+  border-color: var(--primary);
+  box-shadow: 0 0 10px rgba(var(--primary-rgb, 15, 210, 140), 0.3);
+}
+
+:root.light .admin-link {
+  background: var(--bg-surface);
+  color: var(--accent);
+  border: 1px solid var(--accent);
+}
 
 .admin-post-status.draft {
   color: var(--draft);
