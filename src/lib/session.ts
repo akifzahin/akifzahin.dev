@@ -16,7 +16,8 @@ export async function verifySessionToken(token: string): Promise<boolean> {
   try {
     await jwtVerify(token, secret);
     return true;
-  } catch {
+  } catch (err) {
+    console.error("Session verify failed:", err);
     return false;
   }
 }

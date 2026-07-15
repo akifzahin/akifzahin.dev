@@ -1,4 +1,5 @@
 ---
+export const prerender = false;
 import Layout from "../../layouts/Layout.astro";
 
 const error = Astro.url.searchParams.get("error");
@@ -34,33 +35,6 @@ const error = Astro.url.searchParams.get("error");
   </main>
 </Layout>
 
-<style>
-  .admin-login {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 2rem;
-  }
-  .admin-login-card {
-    width: 100%;
-    max-width: 360px;
-    background: var(--bg);
-    border: 2.3px solid rgba(var(--primary-rgb), 0.3);
-    padding: 2rem;
-  }
-  .admin-login-card h1 {
-    font-size: 1.3rem;
-    color: var(--primary);
-    margin-bottom: 1.5rem;
-    letter-spacing: 0.1em;
-  }
-  .admin-login-error {
-    color: var(--draft);
-    font-size: 0.85rem;
-    margin-bottom: 1rem;
-  }
-</style>
 
 <script>
   document.addEventListener("astro:page-load", () => {

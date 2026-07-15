@@ -1,0 +1,57 @@
+---
+export const prerender = false;
+import Layout from "../../layouts/Layout.astro";
+---
+
+<Layout title="Drafts — Admin">
+  <main class="admin-dashboard">
+    <div class="admin-dashboard-inner">
+      <div class="admin-dashboard-header">
+        <h1 class="font-display">Your Posts</h1>
+        <a href="/admin/new" class="btn-primary">
+          <span class="btn-label">+ New Post</span>
+        </a>
+      </div>
+
+      <div id="posts-list" class="admin-posts-list">
+        <p class="font-mono admin-loading">Loading...</p>
+      </div>
+    </div>
+  </main>
+</Layout>
+
+<script>
+  document.addEventListener("astro:page-load", async () => {
+    const list = document.getElementById("posts-list");
+    if (!list) return;
+
+    try {
+      const res = await fetch("/api/admin/posts");
+      const posts = await res.json();
+
+      if (posts.length === 0) {
+        list.innerHTML = `<p class="admin-empty font-mono">No posts yet. Create your first one.</p>`;
+        return;
+      }
+
+      list.innerHTML = posts
+        .map((post: any) => {
+          const isDraft = post.draft === 1;
+          return `
+            <a href="/admin/edit/${post.id}" class="admin-post-card">
+              <div class="admin-post-card-top">
+                <span class="admin-post-title">${post.title}</span>
+                <span class="admin-post-status ${isDraft ? "draft" : "published"} font-mono">
+                  ${isDraft ? "Draft" : "Published"}
+                </span>
+              </div>
+              <p class="admin-post-desc">${post.description}</p>
+            </a>
+          `;
+        })
+        .join("");
+    } catch (err) {
+      list.innerHTML = `<p class="admin-empty font-mono">Failed to load posts.</p>`;
+    }
+  });
+</script>

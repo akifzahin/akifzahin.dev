@@ -1,0 +1,35 @@
+---
+export const prerender = false;
+import Layout from "../../../layouts/Layout.astro";
+import PostEditor from "../../../components/admin/PostEditor.tsx";
+
+const { id } = Astro.params;
+const postId = Number(id);
+---
+
+<Layout title="Edit Post — Admin">
+  <main class="admin-editor-page">
+    <div class="admin-editor-inner">
+      <a href="/admin" class="admin-back-link font-mono">← Back to posts</a>
+      <PostEditor client:load postId={postId} />
+    </div>
+  </main>
+</Layout>
+
+
+
+<style is:global>
+  body::before {
+    display: none !important;
+  }
+  body::after {
+    display: none !important;
+  }
+</style>
+
+<script>
+  document.addEventListener("astro:page-load", () => {
+    const vantaMount = document.getElementById("vanta-bg");
+    if (vantaMount) vantaMount.style.display = "none";
+  });
+</script>
