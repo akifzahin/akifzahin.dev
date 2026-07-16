@@ -10,7 +10,14 @@ interface PostEditorProps {
 }
 
 type SaveStatus = "idle" | "saving" | "saved" | "error";
-
+function testImageUrl(url: string): Promise<boolean> {
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.onload = () => resolve(true);
+    img.onerror = () => resolve(false);
+    img.src = url;
+  });
+}
 export default function PostEditor({ postId }: PostEditorProps) {
   const [id, setId] = useState<number | undefined>(postId);
   const [title, setTitle] = useState("");
@@ -23,6 +30,8 @@ export default function PostEditor({ postId }: PostEditorProps) {
   const creating = useRef(false);
   const [isDraft, setIsDraft] = useState(true);
   const [uploadingImage, setUploadingImage] = useState(false);
+  const [uploadingInlineImage, setUploadingInlineImage] = useState(false);
+  const inlineImageInputRef = useRef<HTMLInputElement | null>(null);
 
   const editor = useEditor({
     extensions: [
@@ -33,6 +42,31 @@ export default function PostEditor({ postId }: PostEditorProps) {
     ],
     content: "",
     onUpdate: () => scheduleSave(),
+    editorProps: {
+      handlePaste(view, event) {
+        const text = event.clipboardData?.getData("text/plain")?.trim();
+        if (!text || !/^https?:\/\//i.test(text)) return false;
+
+        event.preventDefault();
+        const { from } = view.state.selection;
+
+        testImageUrl(text).then((isImage) => {
+          if (isImage) {
+            const tr = view.state.tr.insert(
+              from,
+              view.state.schema.nodes.image.create({ src: text }),
+            );
+            view.dispatch(tr);
+          } else {
+            // Not an image — insert as plain text/link instead
+            const tr = view.state.tr.insertText(text, from);
+            view.dispatch(tr);
+          }
+        });
+
+        return true;
+      },
+    },
   });
 
   // Load existing post when editing
@@ -47,7 +81,6 @@ export default function PostEditor({ postId }: PostEditorProps) {
       setTagsInput((post.tags || []).join(", "));
       setCoverImage(post.cover_image || "");
       setIsDraft(post.draft === 1);
-      editor?.commands.setContent(post.content_json);
       editor?.commands.setContent(post.content_json);
       setLoaded(true);
     })();
@@ -121,6 +154,7 @@ export default function PostEditor({ postId }: PostEditorProps) {
     if (saveTimer.current) clearTimeout(saveTimer.current);
     doSave();
   };
+
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -142,6 +176,32 @@ export default function PostEditor({ postId }: PostEditorProps) {
       setUploadingImage(false);
     }
   };
+
+  const handleInlineImageUpload = async (
+    e: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    const file = e.target.files?.[0];
+    if (!file || !editor) return;
+
+    setUploadingInlineImage(true);
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+      const res = await fetch("/api/admin/upload-image", {
+        method: "POST",
+        body: formData,
+      });
+      const result = await res.json();
+      editor.chain().focus().setImage({ src: result.url }).run();
+    } catch {
+      setStatus("error");
+    } finally {
+      setUploadingInlineImage(false);
+      e.target.value = ""; // reset so choosing the same file again still fires onChange
+    }
+  };
+
   const handlePublish = async () => {
     if (saveTimer.current) clearTimeout(saveTimer.current);
     await doSave();
@@ -209,12 +269,35 @@ export default function PostEditor({ postId }: PostEditorProps) {
                   ? "Change Cover Image"
                   : "Upload Cover Image"}
             </label>
+            <input
+              type="text"
+              className="post-editor-image-url-input font-mono"
+              placeholder="or paste image URL"
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault();
+                  const val = (e.target as HTMLInputElement).value.trim();
+                  if (val) setCoverImage(val);
+                  (e.target as HTMLInputElement).value = "";
+                }
+              }}
+            />
             {coverImage && (
-              <img
-                src={coverImage}
-                alt="Cover preview"
-                className="post-editor-image-preview"
-              />
+              <div className="post-editor-image-preview-wrap">
+                <img
+                  src={coverImage}
+                  alt="Cover preview"
+                  className="post-editor-image-preview"
+                />
+                <button
+                  type="button"
+                  className="post-editor-image-remove"
+                  aria-label="Remove cover image"
+                  onClick={() => setCoverImage("")}
+                >
+                  ×
+                </button>
+              </div>
             )}
           </div>
         </div>
@@ -267,6 +350,20 @@ export default function PostEditor({ postId }: PostEditorProps) {
         >
           Code
         </button>
+        <button
+          type="button"
+          onClick={() => inlineImageInputRef.current?.click()}
+          disabled={uploadingInlineImage}
+        >
+          {uploadingInlineImage ? "..." : "Image"}
+        </button>
+        <input
+          type="file"
+          accept="image/*"
+          ref={inlineImageInputRef}
+          style={{ display: "none" }}
+          onChange={handleInlineImageUpload}
+        />
       </div>
 
       <EditorContent editor={editor} className="post-editor-body" />

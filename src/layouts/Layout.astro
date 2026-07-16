@@ -8,6 +8,7 @@ import Analytics from "@vercel/analytics/astro";
 import SpeedInsights from "@vercel/speed-insights/astro";
 import ThemeSwitcher from "../components/ThemeSwitcher.astro";
 import BackButton from "../components/BackButton.astro";
+import BackToTop from "../components/BackToTop.astro";
 import { ClientRouter } from "astro:transitions";
 const { title = "Akif Zahin", showBack = false } = Astro.props;
 ---
@@ -258,7 +259,7 @@ const { title = "Akif Zahin", showBack = false } = Astro.props;
     </div>
 
     <slot />
-
+  <BackToTop/>
     <Analytics />
     <SpeedInsights />
   </body><!-- ── All persistent UI — recreated on every page-load ──────────────── --><!--
@@ -794,20 +795,10 @@ const { title = "Akif Zahin", showBack = false } = Astro.props;
           { once: true },
         );
       }
-      // ── Progress bar ────────────────────────────────────────────────────
+      // ── Progress bar (scroll-driven) ─────────────────────────────────
       const progressBar = document.createElement("div");
       progressBar.id = "progress-bar";
       document.body.appendChild(progressBar);
-
-      // ── Back to top ─────────────────────────────────────────────────────
-      const backToTop = document.createElement("button");
-      backToTop.id = "back-to-top";
-      backToTop.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="m16 12-4-4-4 4"/><path d="M12 16V8"/></svg>`;
-      backToTop.setAttribute("aria-label", "Back to top");
-      document.body.appendChild(backToTop);
-      backToTop.addEventListener("click", () =>
-        window.scrollTo({ top: 0, behavior: "smooth" }),
-      );
 
       const onScroll = () => {
         const scrollTop = window.scrollY;
@@ -817,8 +808,6 @@ const { title = "Akif Zahin", showBack = false } = Astro.props;
         progressBar.style.width = `${progress}%`;
         progressBar.style.boxShadow =
           progress > 95 ? "0 0 12px #0fd28c, 0 0 24px #6b21d4" : "none";
-        backToTop.style.opacity = scrollTop > 300 ? "1" : "0";
-        backToTop.style.pointerEvents = scrollTop > 300 ? "auto" : "none";
       };
       window.addEventListener("scroll", onScroll);
       document.addEventListener(
@@ -826,7 +815,41 @@ const { title = "Akif Zahin", showBack = false } = Astro.props;
         () => window.removeEventListener("scroll", onScroll),
         { once: true },
       );
+      // ── First-visit-this-session hint banners ──────────────────────────
+      if (!sessionStorage.getItem("hints-shown")) {
+        sessionStorage.setItem("hints-shown", "true");
 
+        const darkToggle = document.getElementById("dark-toggle");
+        const colorTrigger = document.getElementById("color-trigger");
+
+        function showHint(anchor: HTMLElement | null, text: string) {
+          if (!anchor) return;
+          const bubble = document.createElement("div");
+          bubble.className = "hint-bubble font-mono";
+          bubble.textContent = text;
+          document.body.appendChild(bubble);
+
+          const rect = anchor.getBoundingClientRect();
+          bubble.style.left = `${rect.left + rect.width / 2}px`;
+          bubble.style.top = `${rect.bottom + 10}px`;
+
+          setTimeout(() => {
+            bubble.classList.add("hint-fade-out");
+            setTimeout(() => bubble.remove(), 400);
+          }, 3500);
+        }
+
+        setTimeout(() => {
+          showHint(darkToggle, "Click me to toggle dark/light mode!");
+        }, 800);
+
+        setTimeout(() => {
+          showHint(
+            colorTrigger,
+            "Click me to choose themes and change colors!",
+          );
+        }, 4700); // fires after the first bubble has fully faded (3.5s visible + 0.4s fade + buffer)
+      }
       // ── Nav scramble ────────────────────────────────────────────────────
       const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%";
       document

@@ -2,6 +2,7 @@
 export const prerender = false;
 import Layout from "../../../layouts/Layout.astro";
 import PostEditor from "../../../components/admin/PostEditor.tsx";
+import BackButton from "../../../components/BackButton.astro";
 
 const { id } = Astro.params;
 const postId = Number(id);
@@ -10,13 +11,11 @@ const postId = Number(id);
 <Layout title="Edit Post — Admin">
   <main class="admin-editor-page">
     <div class="admin-editor-inner">
-      <a href="/admin" class="admin-back-link font-mono">← Back to posts</a>
+      <BackButton />
       <PostEditor client:load postId={postId} />
     </div>
   </main>
 </Layout>
-
-
 
 <style is:global>
   body::before {

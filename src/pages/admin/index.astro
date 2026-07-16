@@ -1,11 +1,14 @@
 ---
 export const prerender = false;
 import Layout from "../../layouts/Layout.astro";
+import BackButton from "../../components/BackButton.astro";
+import BackToTop from "../../components/BackToTop.astro";
 ---
 
 <Layout title="Drafts — Admin">
   <main class="admin-dashboard">
     <div class="admin-dashboard-inner">
+      <BackButton />
       <div class="admin-dashboard-header">
         <h1 class="font-display">Your Posts</h1>
         <a href="/admin/new" class="btn-primary">
@@ -16,6 +19,7 @@ import Layout from "../../layouts/Layout.astro";
       <div id="posts-list" class="admin-posts-list">
         <p class="font-mono admin-loading">Loading...</p>
       </div>
+      <nav id="admin-pagination" class="pagination font-mono"></nav>
     </div>
   </main>
 </Layout>
@@ -23,18 +27,19 @@ import Layout from "../../layouts/Layout.astro";
 <script>
   document.addEventListener("astro:page-load", async () => {
     const list = document.getElementById("posts-list");
-    if (!list) return;
+    const paginationEl = document.getElementById("admin-pagination");
+    if (!list || !paginationEl) return;
 
-    try {
-      const res = await fetch("/api/admin/posts");
-      const posts = await res.json();
+    const POSTS_PER_PAGE = 8;
+    let allPosts: any[] = [];
+    let currentPage = 1;
 
-      if (posts.length === 0) {
-        list.innerHTML = `<p class="admin-empty font-mono">No posts yet. Create your first one.</p>`;
-        return;
-      }
+    function renderPage() {
+      const totalPages = Math.ceil(allPosts.length / POSTS_PER_PAGE);
+      const start = (currentPage - 1) * POSTS_PER_PAGE;
+      const pagePosts = allPosts.slice(start, start + POSTS_PER_PAGE);
 
-      list.innerHTML = posts
+      list!.innerHTML = pagePosts
         .map((post: any) => {
           const isDraft = post.draft === 1;
           return `
@@ -55,6 +60,50 @@ import Layout from "../../layouts/Layout.astro";
     `;
         })
         .join("");
+
+      renderPagination(totalPages);
+    }
+
+    function renderPagination(totalPages: number) {
+      if (totalPages <= 1) {
+        paginationEl!.innerHTML = "";
+        return;
+      }
+
+      const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1)
+        .map(
+          (n) =>
+            `<button class="page-btn ${n === currentPage ? "active" : ""}" data-page="${n}">${n}</button>`,
+        )
+        .join("");
+
+      paginationEl!.innerHTML = `
+        <div class="page-numbers">
+          ${currentPage > 1 ? `<button class="page-btn" data-page="${currentPage - 1}">← Prev</button>` : ""}
+          ${pageNumbers}
+          ${currentPage < totalPages ? `<button class="page-btn" data-page="${currentPage + 1}">Next →</button>` : ""}
+        </div>
+      `;
+
+      paginationEl!.querySelectorAll("[data-page]").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          currentPage = Number((btn as HTMLElement).dataset.page);
+          renderPage();
+          list!.scrollIntoView({ behavior: "smooth", block: "start" });
+        });
+      });
+    }
+
+    try {
+      const res = await fetch("/api/admin/posts");
+      allPosts = await res.json();
+
+      if (allPosts.length === 0) {
+        list.innerHTML = `<p class="admin-empty font-mono">No posts yet. Create your first one.</p>`;
+        return;
+      }
+
+      renderPage();
     } catch (err) {
       list.innerHTML = `<p class="admin-empty font-mono">Failed to load posts.</p>`;
     }
