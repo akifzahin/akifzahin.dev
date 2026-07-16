@@ -3500,13 +3500,13 @@ nav {
 }
 
 .post-card {
-  border: 2px solid var(--primary);
+  border: 2px solid rgba(var(--primary-rgb), 0.3);
   transition: border-color var(--t-slow), box-shadow var(--t-slow), transform var(--t-slow);
   will-change: transform;
 }
 
 :root.light .post-card {
-  border: 2px solid var(--accent);
+  border: 2px solid rgba(var(--accent-rgb), 0.3);
 }
 
 .post-card:hover {
@@ -4250,8 +4250,8 @@ footer {
 
 @keyframes glitchCardLight {
   0% {
-    border-color: transparent;
-    box-shadow: none;
+    border-color: rgba(var(--accent-rgb), 0.3);
+    box-shadow: 0 0 4px rgba(var(--accent-rgb), 0.3);
   }
 
   20% {
@@ -4275,15 +4275,16 @@ footer {
   }
 
   100% {
-    border-color: transparent;
-    box-shadow: none;
+    border-color: rgba(var(--accent-rgb), 0.3);
+    box-shadow: 0 0 4px rgba(var(--accent-rgb), 0.3);
   }
 }
 
 @keyframes glitchCard {
   0% {
-    border-color: transparent;
-    box-shadow: none;
+    border-color: rgba(var(--primary-rgb), 0.3);
+    box-shadow: 0 0 4px rgba(var(--primary-rgb), 0.3);
+    ;
   }
 
   20% {
@@ -4307,8 +4308,8 @@ footer {
   }
 
   100% {
-    border-color: transparent;
-    box-shadow: none;
+    border-color: rgba(var(--primary-rgb), 0.3);
+    box-shadow: 0 0 4px rgba(var(--primary-rgb), 0.3);
   }
 }
 
