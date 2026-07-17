@@ -1628,6 +1628,43 @@ nav {
 
 }
 
+.admin-post-card-wrap {
+  position: relative;
+}
+
+.admin-post-delete {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--draft);
+  color: #fff;
+  border: none;
+  font-size: 0.85rem;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  transition: transform 0.15s ease;
+}
+
+.admin-post-delete:hover {
+  transform: scale(1.1);
+}
+
+.admin-post-delete.confirming {
+  width: auto;
+  padding: 0 0.6rem;
+  border-radius: 12px;
+  font-size: 0.65rem;
+  font-family: var(--font-mono);
+  letter-spacing: 0.05em;
+}
+
 .admin-dashboard {
   min-height: 100vh;
   padding: 8rem 2rem 4rem;

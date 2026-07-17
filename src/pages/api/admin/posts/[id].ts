@@ -31,7 +31,7 @@ export const GET: APIRoute = async ({ params }) => {
       tags: post.tags_json ? JSON.parse(post.tags_json as string) : [],
       draft: post.draft,
     }),
-    { status: 200, headers: { "Content-Type": "application/json" } }
+    { status: 200, headers: { "Content-Type": "application/json" } },
   );
 };
 
@@ -53,6 +53,19 @@ export const PUT: APIRoute = async ({ params, request }) => {
       JSON.stringify(tags ?? []),
       id!,
     ],
+  });
+
+  return new Response(JSON.stringify({ success: true }), {
+    status: 200,
+    headers: { "Content-Type": "application/json" },
+  });
+};
+export const DELETE: APIRoute = async ({ params }) => {
+  const id = params.id;
+
+  await db.execute({
+    sql: "DELETE FROM posts WHERE id = ?",
+    args: [id!],
   });
 
   return new Response(JSON.stringify({ success: true }), {

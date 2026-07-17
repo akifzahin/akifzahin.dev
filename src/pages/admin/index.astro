@@ -39,31 +39,92 @@ import BackToTop from "../../components/BackToTop.astro";
       const start = (currentPage - 1) * POSTS_PER_PAGE;
       const pagePosts = allPosts.slice(start, start + POSTS_PER_PAGE);
 
+      // 1. Generate and insert the HTML for all the post cards
       list!.innerHTML = pagePosts
         .map((post: any) => {
           const isDraft = post.draft === 1;
+
+          // Fallback text if title or description are blank
+          const displayTitle = post.title || "Untitled Post";
+          const displayDesc =
+            post.description || "No description provided for this post.";
+
+          // Render the image tag if it exists, otherwise render the inline SVG icon
+          const thumbVisual = post.cover_image
+            ? `<img src="${post.cover_image}" alt="" class="admin-post-thumb" />`
+            : `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-book-open-text-icon lucide-book-open-text admin-post-thumb"><path d="M12 7v14"/><path d="M16 12h2"/><path d="M16 8h2"/><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/><path d="M6 12h2"/><path d="M6 8h2"/></svg>`;
+
+          // Return the full wrapper structure including the card and the delete button
           return `
-      <a href="/admin/edit/${post.id}" class="admin-post-card">
-        <div class="admin-post-card-row">
-          ${post.cover_image ? `<img src="${post.cover_image}" alt="" class="admin-post-thumb" />` : ""}
-          <div class="admin-post-card-text">
-            <div class="admin-post-card-top">
-              <span class="admin-post-title">${post.title}</span>
-              <span class="admin-post-status ${isDraft ? "draft" : "published"} font-mono">
-                ${isDraft ? "Draft" : "Published"}
-              </span>
+      <div class="admin-post-card-wrap">
+        <a href="/admin/edit/${post.id}" class="admin-post-card">
+          <div class="admin-post-card-row">
+            ${thumbVisual}
+            <div class="admin-post-card-text">
+              <div class="admin-post-card-top">
+                <span class="admin-post-title">${displayTitle}</span>
+                <span class="admin-post-status ${isDraft ? "draft" : "published"} font-mono">
+                  ${isDraft ? "Draft" : "Published"}
+                </span>
+              </div>
+              <p class="admin-post-desc">${displayDesc}</p>
             </div>
-            <p class="admin-post-desc">${post.description}</p>
           </div>
-        </div>
-      </a>
+        </a>
+        <button type="button" class="admin-post-delete" data-id="${post.id}" aria-label="Delete post">×</button>
+      </div>
     `;
         })
         .join("");
 
+      // 2. Find all the newly created delete buttons and attach click listeners to them
+      list!.querySelectorAll(".admin-post-delete").forEach((btn) => {
+        btn.addEventListener("click", (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          handleDeleteClick(btn as HTMLElement);
+        });
+      });
+
       renderPagination(totalPages);
     }
+    async function handleDeleteClick(btn: HTMLElement) {
+      const id = btn.dataset.id;
+      const alreadyConfirming = btn.classList.contains("confirming");
 
+      if (!alreadyConfirming) {
+        btn.classList.add("confirming");
+        btn.textContent = "Sure?";
+        setTimeout(() => {
+          if (btn.classList.contains("confirming")) {
+            btn.classList.remove("confirming");
+            btn.textContent = "×";
+          }
+        }, 3000); // auto-revert if they don't confirm in time
+        return;
+      }
+
+      btn.textContent = "...";
+      try {
+        await fetch(`/api/admin/posts/${id}`, { method: "DELETE" });
+        allPosts = allPosts.filter((p) => p.id !== Number(id));
+        if (
+          (currentPage - 1) * POSTS_PER_PAGE >= allPosts.length &&
+          currentPage > 1
+        ) {
+          currentPage--; // step back a page if we just emptied the last one
+        }
+        if (allPosts.length === 0) {
+          list!.innerHTML = `<p class="admin-empty font-mono">No posts yet. Create your first one.</p>`;
+          paginationEl!.innerHTML = "";
+        } else {
+          renderPage();
+        }
+      } catch {
+        btn.textContent = "×";
+        btn.classList.remove("confirming");
+      }
+    }
     function renderPagination(totalPages: number) {
       if (totalPages <= 1) {
         paginationEl!.innerHTML = "";
