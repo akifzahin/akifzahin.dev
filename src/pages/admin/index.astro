@@ -9,17 +9,43 @@ import BackToTop from "../../components/BackToTop.astro";
   <main class="admin-dashboard">
     <div class="admin-dashboard-inner">
       <BackButton />
-      <div class="admin-dashboard-header">
-        <h1 class="font-display">Your Posts</h1>
-        <a href="/admin/new" class="btn-primary">
-          <span class="btn-label">+ New Post</span>
-        </a>
-      </div>
 
-      <div id="posts-list" class="admin-posts-list">
-        <p class="font-mono admin-loading">Loading...</p>
-      </div>
-      <nav id="admin-pagination" class="pagination font-mono"></nav>
+      <!-- 1. The main two-column grid wrapper -->
+      <div class="admin-split-grid">
+        
+        <!-- LEFT COLUMN: Posts -->
+        <div class="admin-split-col">
+          <!-- 2. We moved the header inside this column so it aligns with the right column -->
+          <div class="admin-dashboard-header">
+            <h1 class="font-display">
+              <span class="glitch-outline" data-text="Your">Your</span>
+              <span class="glitch-glow" data-text="Posts">Posts</span>
+            </h1>
+            <a href="/admin/new" class="btn-primary">
+              <span class="btn-label">+ New Post</span>
+            </a>
+          </div>
+
+          <div id="posts-list" class="admin-posts-list">
+            <p class="font-mono admin-loading">Loading...</p>
+          </div>
+          <nav id="admin-pagination" class="pagination font-mono"></nav>
+        </div>
+
+        <!-- RIGHT COLUMN: Comments -->
+        <div class="admin-split-col">
+          <div class="admin-comments-section">
+            <h1 class="font-display">
+              <span class="glitch-outline" data-text="Pending">Pending</span>
+              <span class="glitch-glow" data-text="Comments">Comments</span>
+            </h1>
+            <div id="comments-list" class="admin-posts-list">
+              <p class="font-mono admin-loading">Loading...</p>
+            </div>
+          </div>
+        </div>
+
+      </div> <!-- End of admin-split-grid -->
     </div>
   </main>
 </Layout>
@@ -168,5 +194,79 @@ import BackToTop from "../../components/BackToTop.astro";
     } catch (err) {
       list.innerHTML = `<p class="admin-empty font-mono">Failed to load posts.</p>`;
     }
+  });
+</script>
+<script>
+  document.addEventListener("astro:page-load", async () => {
+    const list = document.getElementById("comments-list");
+    if (!list) return;
+
+    function escapeHtml(str: string) {
+      const div = document.createElement("div");
+      div.textContent = str;
+      return div.innerHTML;
+    }
+
+    async function loadComments() {
+      try {
+        const res = await fetch("/api/admin/comments");
+        const comments = await res.json();
+
+        if (!Array.isArray(comments) || comments.length === 0) {
+          list!.innerHTML = `<p class="admin-empty font-mono">No pending comments.</p>`;
+          return;
+        }
+
+        list!.innerHTML = comments
+          .map(
+            (c: any) => `
+          <div class="admin-post-card-wrap" data-comment-id="${c.id}">
+            <div class="admin-post-card admin-comment-card">
+              <div class="admin-post-card-text">
+                <div class="admin-post-card-top">
+                  <span class="admin-post-title">${escapeHtml(c.name)}</span>
+                  <span class="admin-post-status draft font-mono">on "${escapeHtml(c.post_title)}"</span>
+                </div>
+                <p class="admin-post-desc">${escapeHtml(c.body)}</p>
+              </div>
+            </div>
+            <div class="admin-comment-actions">
+              <button type="button" class="admin-comment-approve" data-id="${c.id}">Approve</button>
+              <button type="button" class="admin-comment-reject" data-id="${c.id}">Reject</button>
+            </div>
+          </div>
+        `,
+          )
+          .join("");
+
+        list!.querySelectorAll(".admin-comment-approve").forEach((btn) => {
+          btn.addEventListener("click", async () => {
+            const id = (btn as HTMLElement).dataset.id;
+            (btn as HTMLElement).textContent = "...";
+            await fetch(`/api/admin/comments/${id}`, { method: "POST" });
+            document.querySelector(`[data-comment-id="${id}"]`)?.remove();
+            if (!list!.querySelector("[data-comment-id]")) {
+              list!.innerHTML = `<p class="admin-empty font-mono">No pending comments.</p>`;
+            }
+          });
+        });
+
+        list!.querySelectorAll(".admin-comment-reject").forEach((btn) => {
+          btn.addEventListener("click", async () => {
+            const id = (btn as HTMLElement).dataset.id;
+            (btn as HTMLElement).textContent = "...";
+            await fetch(`/api/admin/comments/${id}`, { method: "DELETE" });
+            document.querySelector(`[data-comment-id="${id}"]`)?.remove();
+            if (!list!.querySelector("[data-comment-id]")) {
+              list!.innerHTML = `<p class="admin-empty font-mono">No pending comments.</p>`;
+            }
+          });
+        });
+      } catch {
+        list!.innerHTML = `<p class="admin-empty font-mono">Failed to load comments.</p>`;
+      }
+    }
+
+    loadComments();
   });
 </script>

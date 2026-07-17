@@ -617,7 +617,7 @@ body::before {
 /* ==========================================================================
    NAVIGATION
    ========================================================================== */
-nav {
+.nav-wrapper nav {
   position: fixed;
   top: 0;
   left: 0;
@@ -696,15 +696,15 @@ nav {
 .nav-links a[href="/blog"],
 .nav-drawer ul li a[href="/blog"] {
   font-family: var(--font-display);
-  font-size: 1.05rem;
+  font-size: 1rem;
   letter-spacing: 0.15em;
   text-transform: uppercase;
 
 }
 
 .nav-links a[href="/blog"] {
-  transform: translateY(-1.2px);
-  font-size: 1.1rem;
+  /* transform: translateY(-1.2px); */
+  font-size: 0.85rem;
   /* Adjust this pixel value until it looks perfect to your eye */
 }
 
@@ -1628,6 +1628,110 @@ nav {
 
 }
 
+.glitch-outline,
+.glitch-glow {
+  display: inline-block;
+  position: relative;
+}
+
+.glitch-outline {
+  color: rgba(var(--accent-rgb), 0.877);
+  -webkit-text-stroke: 1px black;
+  text-shadow: 0 0 10px rgba(var(--accent-rgb), 0.9), 0 0 40px rgba(var(--accent-rgb), 0.6);
+}
+
+.glitch-glow {
+  color: var(--primary);
+  -webkit-text-stroke: 1px black;
+  text-shadow: 0 0 10px rgba(var(--primary-rgb), 0.9), 0 0 40px rgba(var(--primary-rgb), 0.6);
+}
+
+.glitch-outline::before,
+.glitch-outline::after,
+.glitch-glow::before,
+.glitch-glow::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.glitch-outline::before,
+.glitch-glow::before {
+  color: rgba(var(--accent-rgb), 0.45);
+  animation: glitch1 3s steps(1) infinite;
+  clip-path: polygon(0 20%, 100% 20%, 100% 40%, 0 40%);
+  text-shadow: -2px 0 var(--accent), 2px 0 var(--primary);
+}
+
+.glitch-outline::after,
+.glitch-glow::after {
+  color: var(--primary);
+  animation: glitch2 3s steps(1) infinite;
+  clip-path: polygon(0 60%, 100% 60%, 100% 80%, 0 80%);
+  text-shadow: -2px 0 var(--accent), 2px 0 var(--primary);
+  opacity: 0.7;
+}
+
+.admin-comments-section {
+  margin-top: 0;
+}
+
+.admin-comments-section h2 {
+  color: var(--primary)
+}
+
+:root.light .admin-comments-section h2 {
+  color: var(--accent)
+}
+
+
+.admin-comment-card {
+  cursor: default;
+}
+
+.admin-comment-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.admin-comment-approve,
+.admin-comment-reject {
+  font-family: var(--font-mono);
+  font-size: 0.86rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.4rem 0.8rem;
+  border: 1px solid rgba(var(--primary-rgb), 0.4);
+  background: var(--bg);
+  color: var(--primary);
+  cursor: pointer;
+}
+
+.admin-comment-reject {
+  border-color: rgba(var(--accent-rgb), 0.4);
+  color: var(--accent);
+}
+
+.admin-comment-approve:hover {
+  animation: glitchCard 6s ease-in-out infinite;
+}
+
+.admin-comment-reject:hover {
+  animation: glitchCardLight 6s ease-in-out infinite;
+}
+
+/* :root.light .admin-comment-approve:hover {
+  animation: glitchCardLight 6s ease-in-out infinite;
+} */
+
+/* :root.light .admin-comment-reject:hover {
+  animation: glitchCardLight 6s ease-in-out infinite;
+} */
+
 .admin-post-card-wrap {
   position: relative;
 }
@@ -1665,20 +1769,40 @@ nav {
   letter-spacing: 0.05em;
 }
 
+.admin-split-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  align-items: start;
+}
+
+.admin-split-col {
+  min-width: 0;
+  /* prevents grid children from overflowing on long content */
+}
+
+@media (max-width: 900px) {
+  .admin-split-grid {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+}
+
 .admin-dashboard {
   min-height: 100vh;
   padding: 8rem 2rem 4rem;
-  max-width: 800px;
+  max-width: 1200px;
   margin: 0 auto;
 }
 
 .admin-dashboard-header {
-  display: flex;
+  display: inline-flex;
+  /* Shrinks the div width to fit its content */
   justify-content: space-between;
   align-items: center;
   margin-bottom: 2.5rem;
   flex-wrap: wrap;
-  gap: 1rem;
+  gap: 5.4rem;
 }
 
 .admin-dashboard-header h1 {
@@ -1698,6 +1822,35 @@ nav {
   opacity: 0.6;
 }
 
+.admin-comments-section h1 {
+  font-size: 1.8rem;
+  letter-spacing: 0.05em;
+  margin: 0 0 2.5rem 0;
+  line-height: 1;
+}
+
+.admin-dashboard-header h1 {
+  margin: 0;
+  line-height: 1;
+}
+
+.admin-comment-card .admin-post-card-top {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.admin-comment-card .admin-post-title {
+  white-space: normal;
+  overflow: visible;
+}
+
+.admin-comment-card .admin-post-status {
+  position: static;
+  white-space: normal;
+}
+
 .admin-post-card {
   display: block;
   padding: 1.25rem;
@@ -1708,8 +1861,18 @@ nav {
   transition: border-color 0.2s ease;
 }
 
+:root.light .admin-post-card {
+
+  border: 2px solid rgba(var(--accent-rgb), 0.3);
+}
+
+:root.light .admin-post-card:hover {
+
+  animation: glitchCardLight 6s ease-in-out infinite;
+}
+
 .admin-post-card:hover {
-  border-color: var(--primary);
+  animation: glitchCard 6s ease-in-out infinite;
 }
 
 .admin-post-card-top {
@@ -1723,6 +1886,10 @@ nav {
   font-family: var(--font-display);
   font-size: 1.1rem;
   color: var(--primary);
+}
+
+:root.light .admin-post-title {
+  color: var(--accent);
 }
 
 .admin-post-status {
@@ -1754,7 +1921,9 @@ nav {
   background: transparent;
   color: var(--primary);
   cursor: pointer;
-  transition: transform 0.15s ease, border-color 0.2s ease, background 0.2s ease;
+  -webkit-user-select: none;
+  transition: transform 0.15s ease, border-color 0.2s ease,
+    background 0.2s ease;
   user-select: none;
 }
 
@@ -3880,19 +4049,24 @@ nav {
 
 /* Mobile — stack image above text */
 
-
 /* ==========================================================================
-   PAGINATION
+   PAGINATION (REDESIGNED)
    ========================================================================== */
+
+/* The main container holding all the pagination elements */
 .pagination {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.75rem;
-  margin-top: 3rem;
+  gap: 1rem;
+  /* Slightly wider gap for a clean, breathing layout */
+  margin-top: 2rem;
   flex-wrap: wrap;
+  padding: 1rem;
+  border-bottom: none !important;
 }
 
+/* The wrapper just for the page number buttons */
 .page-numbers {
   display: flex;
   gap: 0.5rem;
@@ -3900,6 +4074,7 @@ nav {
   justify-content: center;
 }
 
+/* The individual page buttons */
 .page-btn {
   display: inline-flex;
   align-items: center;
@@ -3907,36 +4082,75 @@ nav {
   min-width: 40px;
   height: 40px;
   padding: 0 0.75rem;
-  border: 1px solid var(--primary);
-  color: var(--primary);
+  font-size: 0.875rem;
+  font-weight: 500;
+  /* Makes the numbers slightly easier to read */
   text-decoration: none;
-  font-size: 0.85rem;
-  letter-spacing: 0.1em;
-  transition: box-shadow var(--t-fast), background var(--t-fast);
+  border-radius: 8px;
+  /* Soft, rounded corners give it a modern, friendly look */
 
+  /* Styling using your project's variables */
+  border: 2px solid rgba(var(--primary-rgb), 0.3);
+  color: var(--primary);
+  background: transparent;
+
+  /* Smoothly animates all changes when hovering or clicking */
+  transition:
+    background-color var(--t-fast),
+    border-color var(--t-fast),
+    color var(--t-fast),
+    box-shadow var(--t-fast),
+    transform var(--t-fast);
 }
 
+/* Hover State: A soft background tint and a gentle "lift" shadow */
 .page-btn:hover {
-  box-shadow: 0 0 16px rgba(var(--primary-rgb), 0.4);
+  /* background-color: rgba(var(--primary-rgb), 0.06);
+  box-shadow: 0 4px 12px rgba(var(--primary-rgb), 0.15);
+  transform: translateY(-1px);  */
+  animation: glitchCard 6s ease-in-out infinite;
 }
 
+/* Active State: The page the user is currently on */
 .page-btn.active {
   background: var(--primary);
   color: var(--bg);
+  border-color: var(--primary);
 }
 
+/* Accessibility: A clean ring appears if someone navigates using a keyboard */
+.page-btn:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+.admin-dashboard-header .btn-primary {
+  background: var(--bg);
+}
+
+/* ==========================================================================
+   LIGHT MODE ADJUSTMENTS
+   ========================================================================== */
+
 :root.light .page-btn {
-  border-color: var(--accent);
+  border: 2px solid rgba(var(--accent-rgb), 0.3);
   color: var(--accent);
+}
+
+:root.light .page-btn:hover {
+  /* background-color: rgba(var(--accent-rgb), 0.06);
+  box-shadow: 0 4px 12px rgba(var(--accent-rgb), 0.15); */
+  animation: glitchCardLight 6s ease-in-out infinite;
 }
 
 :root.light .page-btn.active {
   background: var(--accent);
   color: var(--bg);
+  border-color: var(--accent);
 }
 
-:root.light .page-btn:hover {
-  box-shadow: 0 0 16px rgba(var(--accent-rgb), 0.4);
+:root.light .page-btn:focus-visible {
+  outline: 2px solid var(--accent);
 }
 
 /* Mobile */

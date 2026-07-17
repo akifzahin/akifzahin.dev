@@ -93,6 +93,60 @@ const randomPost = otherPosts[Math.floor(Math.random() * otherPosts.length)];
         </button>
         <span class="clap-count font-mono" id="clap-count">0</span>
       </div>
+
+      <section class="comments-section" id="comments-section" data-post-id={post.id}>
+        <p class="section-label">Comments</p>
+
+        <div id="comments-list" class="comments-list">
+          <p class="font-mono comments-loading">Loading comments...</p>
+        </div>
+
+        <form id="comment-form" class="comment-form">
+          <input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off" />
+
+          <div class="editor-field editor-field__textbox">
+            <div class="editor-field__label-container">
+              <label class="editor-field__label font-mono" for="comment-name">Name</label>
+            </div>
+            <div class="editor-field__container">
+              <input
+                class="editor-field__input form-input font-mono"
+                type="text"
+                id="comment-name"
+                name="name"
+                placeholder="Your name"
+                maxlength="80"
+                required
+              />
+            </div>
+            <span class="editor-field__bottom"></span>
+          </div>
+
+          <div class="editor-field editor-field__textarea">
+            <div class="editor-field__label-container">
+              <label class="editor-field__label font-mono" for="comment-body">Comment</label>
+            </div>
+            <div class="editor-field__container">
+              <textarea
+                class="editor-field__input form-input font-mono"
+                id="comment-body"
+                name="body"
+                rows="4"
+                maxlength="2000"
+                placeholder="What are your thoughts?"
+                required
+              ></textarea>
+            </div>
+            <span class="editor-field__bottom"></span>
+          </div>
+
+          <p id="comment-error" class="comment-error font-mono" hidden></p>
+
+          <button type="submit" class="btn-primary btn-send">
+            <span class="btn-label">Post Comment</span>
+          </button>
+        </form>
+      </section>
     </div>
     <footer class="post-footer">
       {
@@ -160,6 +214,69 @@ const randomPost = otherPosts[Math.floor(Math.random() * otherPosts.length)];
     /* This hides the moving scanline on this page only */
     body::after {
       display: none !important;
+    }
+
+    /* ── Comments ────────────────────────────────────────────────────── */
+    .comments-section {
+      margin-top: 4rem;
+      padding-top: 3rem;
+      border-top: 2px solid rgba(var(--primary-rgb), 0.2);
+    }
+
+    .comments-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .comment-card {
+      border: 1px solid rgba(var(--primary-rgb), 0.2);
+      padding: 1rem 1.25rem;
+      background: var(--bg);
+    }
+
+    .comment-card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 0.5rem;
+    }
+
+    .comment-name {
+      font-family: var(--font-display);
+      font-size: 0.9rem;
+      color: var(--primary);
+      letter-spacing: 0.05em;
+    }
+
+    :root.light .comment-name {
+      color: var(--accent);
+    }
+
+    .comment-date {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--text-subtle);
+    }
+
+    .comment-body {
+      font-size: 0.95rem;
+      color: var(--text);
+      line-height: 1.6;
+      white-space: pre-wrap;
+    }
+
+    .comment-error {
+      color: var(--draft);
+      font-size: 0.85rem;
+      margin: -0.5rem 0 1rem;
+    }
+
+    .comments-empty,
+    .comments-loading {
+      font-size: 0.9rem;
+      color: var(--text-subtle);
     }
   </style>
   <script>
@@ -283,6 +400,93 @@ const randomPost = otherPosts[Math.floor(Math.random() * otherPosts.length)];
         { passive: false },
       );
       btn.addEventListener("touchend", stopHold);
+    });
+  </script>
+  <script>
+    document.addEventListener("astro:page-load", () => {
+      const section = document.getElementById("comments-section");
+      const list = document.getElementById("comments-list");
+      const form = document.getElementById("comment-form") as HTMLFormElement;
+      const errorEl = document.getElementById("comment-error");
+      if (!section || !list || !form || !errorEl) return;
+
+      const postId = section.dataset.postId;
+
+      function escapeHtml(str: string) {
+        const div = document.createElement("div");
+        div.textContent = str;
+        return div.innerHTML;
+      }
+
+      function renderComments(comments: any[]) {
+        if (comments.length === 0) {
+          list!.innerHTML = `<p class="comments-empty font-mono">No comments yet — be the first.</p>`;
+          return;
+        }
+        list!.innerHTML = comments
+          .map(
+            (c) => `
+          <div class="comment-card">
+            <div class="comment-card-top">
+              <span class="comment-name">${escapeHtml(c.name)}</span>
+              <span class="comment-date font-mono">${new Date(c.created_at).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" })}</span>
+            </div>
+            <p class="comment-body">${escapeHtml(c.body)}</p>
+          </div>
+        `,
+          )
+          .join("");
+      }
+
+      async function loadComments() {
+        try {
+          const res = await fetch(`/api/comments/${postId}`);
+          const comments = await res.json();
+          renderComments(comments);
+        } catch {
+          list!.innerHTML = `<p class="comments-empty font-mono">Failed to load comments.</p>`;
+        }
+      }
+
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        errorEl!.hidden = true;
+
+        const data = Object.fromEntries(new FormData(form));
+        const submitBtn = form.querySelector("button[type='submit']") as HTMLButtonElement;
+        submitBtn.disabled = true;
+
+        try {
+          const res = await fetch(`/api/comments/${postId}`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data),
+          });
+          const result = await res.json();
+
+          if (!res.ok) {
+            errorEl!.textContent = result.error || "Something went wrong — please try again.";
+            errorEl!.hidden = false;
+            return;
+          }
+
+          form.reset();
+          errorEl!.hidden = true;
+          errorEl!.textContent = "";
+          const label = submitBtn.querySelector(".btn-label");
+          if (label) label.textContent = "Submitted — pending review";
+          setTimeout(() => {
+            if (label) label.textContent = "Post Comment";
+          }, 3000);
+        } catch {
+          errorEl!.textContent = "Network error — please try again.";
+          errorEl!.hidden = false;
+        } finally {
+          submitBtn.disabled = false;
+        }
+      });
+
+      loadComments();
     });
   </script>
 </Layout>

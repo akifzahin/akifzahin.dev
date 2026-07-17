@@ -34,3 +34,23 @@ CREATE TABLE claps (
 );
 
 CREATE INDEX idx_claps_post ON claps(post_id);
+
+-- ============================================================================
+-- COMMENTS
+-- Visitor-submitted comments on published posts. Every comment lands with
+-- approved = 0 (invisible to the public) until manually approved in /admin.
+-- No stored "flagged" state — the blocklist check happens at submit time and
+-- either rejects the request outright (400, nothing written) or lets it
+-- through to the pending queue. Nothing in between.
+-- ============================================================================
+CREATE TABLE comments (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  post_id INTEGER NOT NULL REFERENCES posts(id) ON DELETE CASCADE,
+  name TEXT NOT NULL,
+  body TEXT NOT NULL,
+  approved INTEGER NOT NULL DEFAULT 0,   -- 0 = pending, 1 = approved/public
+  created_at TEXT NOT NULL DEFAULT (datetime('now'))
+);
+
+CREATE INDEX idx_comments_post ON comments(post_id);
+CREATE INDEX idx_comments_approved ON comments(approved);

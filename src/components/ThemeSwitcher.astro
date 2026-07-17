@@ -108,13 +108,13 @@
       <li
         class="dropdown-item"
         role="option"
-        data-primary="#74baf2"
-        data-accent="#996bdb"
+        data-primary="#996bdb"
+        data-accent="#74baf2"
         data-image="/images/dream.webp"
         data-name="Dreamcore"
         data-vanta="CELLS"
       >
-        <span class="swatch" style="--a:#74baf2; --b:#996bdb"></span>
+        <span class="swatch" style="--a:#996bdb; --b:#74baf2"></span>
         <span>Dreamcore</span>
       </li>
       <li
@@ -154,8 +154,7 @@
             type="button"
             class="color-swatch-btn"
             id="custom-primary-swatch"
-            aria-label="Edit primary color"
-          ></button>
+            aria-label="Edit primary color"></button>
           <span class="color-input-hex" id="custom-primary-hex">#00ffcc</span>
         </div>
       </div>
@@ -166,15 +165,18 @@
             type="button"
             class="color-swatch-btn"
             id="custom-accent-swatch"
-            aria-label="Edit accent color"
-          ></button>
+            aria-label="Edit accent color"></button>
           <span class="color-input-hex" id="custom-accent-hex">#ff00aa</span>
         </div>
       </div>
     </div>
 
     <!-- Custom HSV color picker popover — replaces native <input type="color"> -->
-    <div class="color-picker-popover" id="color-picker-popover" aria-hidden="true">
+    <div
+      class="color-picker-popover"
+      id="color-picker-popover"
+      aria-hidden="true"
+    >
       <div class="cp-sv-area" id="cp-sv-area">
         <div class="cp-sv-white"></div>
         <div class="cp-sv-black"></div>
@@ -207,7 +209,9 @@
     cursor: pointer;
     padding: 0;
     box-shadow: 0 0 6px rgba(var(--primary-rgb, 15, 210, 140), 0.3);
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    transition:
+      transform 0.15s ease,
+      box-shadow 0.15s ease;
   }
   .color-swatch-btn:hover {
     transform: scale(1.08);
@@ -323,8 +327,12 @@
     outline: none;
     border-color: var(--primary, #0fd28c);
   }
-  .custom-color-panel__header { color: var(--primary); }
-.light .custom-color-panel__header { color: var(--accent); }
+  .custom-color-panel__header {
+    color: var(--primary);
+  }
+  .light .custom-color-panel__header {
+    color: var(--accent);
+  }
 </style>
 
 <script>
@@ -341,7 +349,9 @@
     const c = v * s;
     const x = c * (1 - Math.abs(((h / 60) % 2) - 1));
     const m = v - c;
-    let r = 0, g = 0, b = 0;
+    let r = 0,
+      g = 0,
+      b = 0;
     if (h < 60) [r, g, b] = [c, x, 0];
     else if (h < 120) [r, g, b] = [x, c, 0];
     else if (h < 180) [r, g, b] = [0, c, x];
@@ -406,9 +416,11 @@
   }
 
   function dispatchThemeChange(name: string, primary: string, accent: string) {
-    document.dispatchEvent(new CustomEvent('theme-change', {
-      detail: { name, primary: primary.trim(), accent: accent.trim() }
-    }));
+    document.dispatchEvent(
+      new CustomEvent("theme-change", {
+        detail: { name, primary: primary.trim(), accent: accent.trim() },
+      }),
+    );
   }
 
   function savePrefs(
@@ -459,15 +471,17 @@
     if (pHex) pHex.textContent = p;
     if (aHex) aHex.textContent = a;
     // Also sync the Custom item's swatch in the dropdown
-    const customItem = document.querySelector<HTMLElement>('[data-name="Custom"]');
+    const customItem = document.querySelector<HTMLElement>(
+      '[data-name="Custom"]',
+    );
     if (customItem) {
-      const swatch = customItem.querySelector<HTMLElement>('.swatch');
+      const swatch = customItem.querySelector<HTMLElement>(".swatch");
       if (swatch) {
-        swatch.style.setProperty('--a', p);
-        swatch.style.setProperty('--b', a);
+        swatch.style.setProperty("--a", p);
+        swatch.style.setProperty("--b", a);
       }
       customItem.dataset.primary = p;
-      customItem.dataset.accent  = a;
+      customItem.dataset.accent = a;
     }
   }
 
@@ -506,9 +520,9 @@
 
   function initThemeSwitcher() {
     const savedPrimary = localStorage.getItem("theme-primary");
-    const savedAccent  = localStorage.getItem("theme-accent");
-    const savedDark    = localStorage.getItem("theme-dark");
-    const savedImage   = localStorage.getItem("theme-image");
+    const savedAccent = localStorage.getItem("theme-accent");
+    const savedDark = localStorage.getItem("theme-dark");
+    const savedImage = localStorage.getItem("theme-image");
 
     // FIX: this must be mutable — it gets reassigned whenever a new theme
     // is picked, so the dark-toggle (and anything else that reads it later)
@@ -517,16 +531,16 @@
     let savedName = localStorage.getItem("theme-name") ?? "Cyberpunk";
 
     const initPrimary = savedPrimary ?? "#0fd28c";
-    const initAccent  = savedAccent  ?? "#f40bf4";
+    const initAccent = savedAccent ?? "#f40bf4";
 
     if (savedPrimary && savedAccent) {
       applyTheme(initPrimary, initAccent, savedImage ?? undefined);
     }
     if (savedDark === "false") document.documentElement.classList.add("light");
 
-    const darkToggle   = document.getElementById("dark-toggle");
+    const darkToggle = document.getElementById("dark-toggle");
     const colorTrigger = document.getElementById("color-trigger");
-    const dropdown     = document.getElementById("color-dropdown");
+    const dropdown = document.getElementById("color-dropdown");
     if (!darkToggle || !colorTrigger || !dropdown) return;
 
     const items = dropdown.querySelectorAll<HTMLElement>(".dropdown-item");
@@ -537,10 +551,13 @@
     });
 
     // Custom picker state — seeded here, kept in sync with the swatch buttons
-    let customPrimaryHex = localStorage.getItem("custom-primary") ?? initPrimary;
-    let customAccentHex  = localStorage.getItem("custom-accent")  ?? initAccent;
+    let customPrimaryHex =
+      localStorage.getItem("custom-primary") ?? initPrimary;
+    let customAccentHex = localStorage.getItem("custom-accent") ?? initAccent;
     let cpTarget: "primary" | "accent" | null = null;
-    let cpH = 0, cpS = 1, cpV = 1;
+    let cpH = 0,
+      cpS = 1,
+      cpV = 1;
 
     // If Custom was saved, seed pickers and show panel
     if (savedName === "Custom") {
@@ -557,9 +574,11 @@
       document.documentElement.classList.toggle("light", !isDark);
       syncIcons(isDark);
       const primary =
-        document.documentElement.style.getPropertyValue("--primary") || "#0fd28c";
+        document.documentElement.style.getPropertyValue("--primary") ||
+        "#0fd28c";
       const accent =
-        document.documentElement.style.getPropertyValue("--accent") || "#f40bf4";
+        document.documentElement.style.getPropertyValue("--accent") ||
+        "#f40bf4";
       const image = localStorage.getItem("theme-image") ?? undefined;
       savePrefs(primary, accent, isDark, savedName, image);
       syncTrigger(primary, accent);
@@ -591,7 +610,11 @@
       const clickedSwatch =
         (e.target as HTMLElement)?.id === "custom-primary-swatch" ||
         (e.target as HTMLElement)?.id === "custom-accent-swatch";
-      if (popoverEl && !popoverEl.contains(e.target as Node) && !clickedSwatch) {
+      if (
+        popoverEl &&
+        !popoverEl.contains(e.target as Node) &&
+        !clickedSwatch
+      ) {
         closeColorPopover();
       }
     });
@@ -614,7 +637,10 @@
         dropdown.classList.remove("open");
 
         const { primary, accent, image, name } = item.dataset as {
-          primary: string; accent: string; image: string; name: string;
+          primary: string;
+          accent: string;
+          image: string;
+          name: string;
         };
 
         const hero = document.querySelector(".hero");
@@ -639,23 +665,31 @@
       if (!panel) return;
       panel.classList.add("open");
       panel.setAttribute("aria-hidden", "false");
-      const savedP = localStorage.getItem("custom-primary") ?? localStorage.getItem("theme-primary") ?? "#00ffcc";
-      const savedA = localStorage.getItem("custom-accent")  ?? localStorage.getItem("theme-accent")  ?? "#ff00aa";
+      const savedP =
+        localStorage.getItem("custom-primary") ??
+        localStorage.getItem("theme-primary") ??
+        "#00ffcc";
+      const savedA =
+        localStorage.getItem("custom-accent") ??
+        localStorage.getItem("theme-accent") ??
+        "#ff00aa";
       customPrimaryHex = savedP;
-      customAccentHex  = savedA;
+      customAccentHex = savedA;
       syncCustomPickers(savedP, savedA);
     }
 
     // ── Custom HSV color picker popover ─────────────────────────────────
-    const popover     = document.getElementById("color-picker-popover");
-    const svArea      = document.getElementById("cp-sv-area");
-    const svCursor    = document.getElementById("cp-sv-cursor");
-    const hueTrack    = document.getElementById("cp-hue-track");
-    const hueCursor   = document.getElementById("cp-hue-cursor");
-    const cpPreview   = document.getElementById("cp-preview-swatch");
-    const hexInput    = document.getElementById("cp-hex-input") as HTMLInputElement | null;
+    const popover = document.getElementById("color-picker-popover");
+    const svArea = document.getElementById("cp-sv-area");
+    const svCursor = document.getElementById("cp-sv-cursor");
+    const hueTrack = document.getElementById("cp-hue-track");
+    const hueCursor = document.getElementById("cp-hue-cursor");
+    const cpPreview = document.getElementById("cp-preview-swatch");
+    const hexInput = document.getElementById(
+      "cp-hex-input",
+    ) as HTMLInputElement | null;
     const primarySwatchBtn = document.getElementById("custom-primary-swatch");
-    const accentSwatchBtn  = document.getElementById("custom-accent-swatch");
+    const accentSwatchBtn = document.getElementById("custom-accent-swatch");
 
     function updateCpUI() {
       const hex = hsvToHex(cpH, cpS, cpV);
@@ -677,12 +711,17 @@
       cpTarget = null;
     }
 
-    function openColorPopover(target: "primary" | "accent", anchor: HTMLElement) {
+    function openColorPopover(
+      target: "primary" | "accent",
+      anchor: HTMLElement,
+    ) {
       if (!popover) return;
       cpTarget = target;
       const seedHex = target === "primary" ? customPrimaryHex : customAccentHex;
       const { h, s, v } = hexToHsv(seedHex);
-      cpH = h; cpS = s; cpV = v;
+      cpH = h;
+      cpS = s;
+      cpV = v;
       updateCpUI();
       const rect = anchor.getBoundingClientRect();
       popover.style.top = `${rect.bottom + 8}px`;
@@ -744,25 +783,39 @@
       (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
       handleSvPointer(e);
     });
-    svArea?.addEventListener("pointermove", (e) => { if (svDragging) handleSvPointer(e); });
-    svArea?.addEventListener("pointerup", () => { svDragging = false; });
-    svArea?.addEventListener("pointercancel", () => { svDragging = false; });
+    svArea?.addEventListener("pointermove", (e) => {
+      if (svDragging) handleSvPointer(e);
+    });
+    svArea?.addEventListener("pointerup", () => {
+      svDragging = false;
+    });
+    svArea?.addEventListener("pointercancel", () => {
+      svDragging = false;
+    });
 
     hueTrack?.addEventListener("pointerdown", (e) => {
       hueDragging = true;
       (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
       handleHuePointer(e);
     });
-    hueTrack?.addEventListener("pointermove", (e) => { if (hueDragging) handleHuePointer(e); });
-    hueTrack?.addEventListener("pointerup", () => { hueDragging = false; });
-    hueTrack?.addEventListener("pointercancel", () => { hueDragging = false; });
+    hueTrack?.addEventListener("pointermove", (e) => {
+      if (hueDragging) handleHuePointer(e);
+    });
+    hueTrack?.addEventListener("pointerup", () => {
+      hueDragging = false;
+    });
+    hueTrack?.addEventListener("pointercancel", () => {
+      hueDragging = false;
+    });
 
     hexInput?.addEventListener("change", () => {
       const val = hexInput.value.trim();
       if (/^#?[0-9a-fA-F]{6}$/.test(val)) {
         const hex = val.startsWith("#") ? val : `#${val}`;
         const { h, s, v } = hexToHsv(hex);
-        cpH = h; cpS = s; cpV = v;
+        cpH = h;
+        cpS = s;
+        cpV = v;
         commitCpColor();
       } else {
         updateCpUI(); // revert to last valid value
