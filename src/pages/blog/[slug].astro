@@ -1,6 +1,7 @@
 ---
 export const prerender = false;
 import { getPostBySlug, getPublishedPosts } from "../../lib/posts";
+import { COOKIE_NAME, verifySessionToken } from "../../lib/session";
 import Layout from "../../layouts/Layout.astro";
 import BackButton from "../../components/BackButton.astro";
 
@@ -17,6 +18,11 @@ const prevPost = allPosts[currentIndex + 1] ?? null;
 const nextPost = allPosts[currentIndex - 1] ?? null;
 const otherPosts = allPosts.filter((p) => p.slug !== post.slug);
 const randomPost = otherPosts[Math.floor(Math.random() * otherPosts.length)];
+
+// Read-only admin check — this page is public, we're not gating access,
+// just deciding whether to render the Reply/Delete controls for whoever's viewing.
+const sessionToken = Astro.cookies.get(COOKIE_NAME)?.value;
+const isAdmin = sessionToken ? await verifySessionToken(sessionToken) : false;
 ---
 
 <Layout title={post.title} showBack={true}>
@@ -51,7 +57,6 @@ const randomPost = otherPosts[Math.floor(Math.random() * otherPosts.length)];
 
       <div class="clap-section" data-post-id={post.id}>
         <button class="clap-btn" id="clap-btn" aria-label="Clap for this post">
-          <!-- 1. OUTLINE ICON (Default state) -->
           <svg
             class="icon-outline"
             xmlns="http://www.w3.org/2000/svg"
@@ -70,8 +75,6 @@ const randomPost = otherPosts[Math.floor(Math.random() * otherPosts.length)];
             <path d="M16 2a5 5 0 0 1 5 5"></path>
             <path d="M18 4a2.5 2.5 0 0 1 2.5 2.5"></path>
           </svg>
-
-          <!-- 2. FILLED ICON (State after user clicks/claps) -->
           <svg
             class="icon-filled"
             xmlns="http://www.w3.org/2000/svg"
@@ -92,21 +95,31 @@ const randomPost = otherPosts[Math.floor(Math.random() * otherPosts.length)];
           </svg>
         </button>
         <span class="clap-count font-mono" id="clap-count">0</span>
+        <!-- <h3 class="comment-form-h1">Like This Post!</h3> -->
       </div>
 
-      <section class="comments-section" id="comments-section" data-post-id={post.id}>
-        <p class="section-label">Comments</p>
-
-        <div id="comments-list" class="comments-list">
-          <p class="font-mono comments-loading">Loading comments...</p>
-        </div>
+      <section
+        class="comments-section"
+        id="comments-section"
+        data-post-id={post.id}
+        data-is-admin={isAdmin ? "true" : "false"}
+      >
+        <h1 class="comment-form-h1">Share Your Thoughts!</h1>
 
         <form id="comment-form" class="comment-form">
-          <input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off" />
+          <input
+            type="checkbox"
+            name="botcheck"
+            style="display:none"
+            tabindex="-1"
+            autocomplete="off"
+          />
 
           <div class="editor-field editor-field__textbox">
             <div class="editor-field__label-container">
-              <label class="editor-field__label font-mono" for="comment-name">Name</label>
+              <label class="editor-field__label font-mono" for="comment-name"
+                >Name</label
+              >
             </div>
             <div class="editor-field__container">
               <input
@@ -124,7 +137,9 @@ const randomPost = otherPosts[Math.floor(Math.random() * otherPosts.length)];
 
           <div class="editor-field editor-field__textarea">
             <div class="editor-field__label-container">
-              <label class="editor-field__label font-mono" for="comment-body">Comment</label>
+              <label class="editor-field__label font-mono" for="comment-body"
+                >Comment</label
+              >
             </div>
             <div class="editor-field__container">
               <textarea
@@ -134,8 +149,7 @@ const randomPost = otherPosts[Math.floor(Math.random() * otherPosts.length)];
                 rows="4"
                 maxlength="2000"
                 placeholder="What are your thoughts?"
-                required
-              ></textarea>
+                required></textarea>
             </div>
             <span class="editor-field__bottom"></span>
           </div>
@@ -146,6 +160,13 @@ const randomPost = otherPosts[Math.floor(Math.random() * otherPosts.length)];
             <span class="btn-label">Post Comment</span>
           </button>
         </form>
+        <br> 
+        <br>
+        <p class="section-label" id="comments-label">Comments</p>
+
+        <div id="comments-list" class="comments-list">
+          <p class="font-mono comments-loading">Loading comments...</p>
+        </div>
       </section>
     </div>
     <footer class="post-footer">
@@ -206,77 +227,36 @@ const randomPost = otherPosts[Math.floor(Math.random() * otherPosts.length)];
     </footer>
   </main>
   <style is:global>
-    /* This hides the 3D grid on this page only */
     body::before {
       display: none !important;
     }
 
-    /* This hides the moving scanline on this page only */
     body::after {
       display: none !important;
     }
 
-    /* ── Comments ────────────────────────────────────────────────────── */
-    .comments-section {
-      margin-top: 4rem;
-      padding-top: 3rem;
-      border-top: 2px solid rgba(var(--primary-rgb), 0.2);
-    }
-
-    .comments-list {
-      display: flex;
-      flex-direction: column;
-      gap: 1.25rem;
-      margin-bottom: 2.5rem;
-    }
-
-    .comment-card {
-      border: 1px solid rgba(var(--primary-rgb), 0.2);
-      padding: 1rem 1.25rem;
-      background: var(--bg);
-    }
-
-    .comment-card-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      margin-bottom: 0.5rem;
-    }
-
-    .comment-name {
-      font-family: var(--font-display);
-      font-size: 0.9rem;
-      color: var(--primary);
-      letter-spacing: 0.05em;
-    }
-
-    :root.light .comment-name {
-      color: var(--accent);
-    }
-
-    .comment-date {
-      font-family: var(--font-mono);
-      font-size: 0.7rem;
-      color: var(--text-subtle);
-    }
-
-    .comment-body {
-      font-size: 0.95rem;
-      color: var(--text);
-      line-height: 1.6;
-      white-space: pre-wrap;
-    }
-
-    .comment-error {
+    /* ── Comment delete button (admin only) ─────────────────────────── */
+    .comment-delete-btn {
+      background: none;
+      border: none;
       color: var(--draft);
-      font-size: 0.85rem;
-      margin: -0.5rem 0 1rem;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      cursor: pointer;
+      padding: 0.25rem 0;
+      opacity: 0.7;
+      transition: opacity var(--t-fast);
     }
 
-    .comments-empty,
-    .comments-loading {
-      font-size: 0.9rem;
-      color: var(--text-subtle);
+    .comment-delete-btn:hover {
+      opacity: 1;
+    }
+
+    .comment-delete-btn.confirming {
+      opacity: 1;
+      text-decoration: underline;
     }
   </style>
   <script>
@@ -318,13 +298,11 @@ const randomPost = otherPosts[Math.floor(Math.random() * otherPosts.length)];
         pop.addEventListener("animationend", () => pop.remove());
       }
 
-      // Load current state on page load
       fetch(`/api/posts/${postId}/clap?visitor_id=${visitorId}`)
         .then((res) => res.json())
         .then((data) => updateUI(data.total, data.mine))
         .catch(() => {});
 
-      // Optimistically bump the UI immediately, batch the network call
       function localClap() {
         if (currentMine >= 50) return;
         currentMine++;
@@ -354,7 +332,6 @@ const randomPost = otherPosts[Math.floor(Math.random() * otherPosts.length)];
               body: JSON.stringify({ visitor_id: visitorId }),
             });
             const data = await res.json();
-            // Reconcile with server truth after the batch
             if (i === toSend - 1) updateUI(data.total, data.mine);
           } catch {
             // fail silently — claps are non-critical
@@ -362,13 +339,11 @@ const randomPost = otherPosts[Math.floor(Math.random() * otherPosts.length)];
         }
       }
 
-      // Single click
       btn.addEventListener("click", () => {
-        if (holding) return; // avoid double-firing after a hold sequence
+        if (holding) return;
         localClap();
       });
 
-      // Press and hold — auto-increment
       function startHold() {
         if (holdInterval) return;
         holding = false;
@@ -385,7 +360,7 @@ const randomPost = otherPosts[Math.floor(Math.random() * otherPosts.length)];
         }
         setTimeout(() => {
           holding = false;
-        }, 50); // let click event resolve first
+        }, 50);
       }
 
       btn.addEventListener("mousedown", startHold);
@@ -406,11 +381,19 @@ const randomPost = otherPosts[Math.floor(Math.random() * otherPosts.length)];
     document.addEventListener("astro:page-load", () => {
       const section = document.getElementById("comments-section");
       const list = document.getElementById("comments-list");
+      const labelEl = document.getElementById("comments-label");
       const form = document.getElementById("comment-form") as HTMLFormElement;
       const errorEl = document.getElementById("comment-error");
       if (!section || !list || !form || !errorEl) return;
 
       const postId = section.dataset.postId;
+      const isAdmin = section.dataset.isAdmin === "true";
+
+      let visitorId = localStorage.getItem("visitor_id");
+      if (!visitorId) {
+        visitorId = crypto.randomUUID();
+        localStorage.setItem("visitor_id", visitorId);
+      }
 
       function escapeHtml(str: string) {
         const div = document.createElement("div");
@@ -418,29 +401,237 @@ const randomPost = otherPosts[Math.floor(Math.random() * otherPosts.length)];
         return div.innerHTML;
       }
 
+      function formatDate(iso: string) {
+        return new Date(iso).toLocaleDateString("en-US", {
+          year: "numeric",
+          month: "short",
+          day: "numeric",
+        });
+      }
+
+      function heartIcon(filled: boolean) {
+        return filled
+          ? `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-6.7-4.35-9.3-8.1C.8 10.2 1.2 6.7 4 5.1c2.1-1.2 4.4-.6 5.8 1 .5.6.9 1.2 1.2 1.7.3-.5.7-1.1 1.2-1.7 1.4-1.6 3.7-2.2 5.8-1 2.8 1.6 3.2 5.1 1.3 7.8C18.7 16.65 12 21 12 21z"/></svg>`
+          : `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-6.7-4.35-9.3-8.1C.8 10.2 1.2 6.7 4 5.1c2.1-1.2 4.4-.6 5.8 1 .5.6.9 1.2 1.2 1.7.3-.5.7-1.1 1.2-1.7 1.4-1.6 3.7-2.2 5.8-1 2.8 1.6 3.2 5.1 1.3 7.8C18.7 16.65 12 21 12 21z"/></svg>`;
+      }
+
+      function renderReplyHtml(reply: any) {
+        const liked = !!reply.liked;
+        const deleteBtn = isAdmin
+          ? `<button type="button" class="comment-delete-btn" data-delete-id="${reply.id}">Delete</button>`
+          : "";
+        return `
+          <div class="comment-reply">
+            <div class="comment-card-top">
+              <span class="comment-name">${escapeHtml(reply.name)}</span>
+              <span class="comment-date font-mono">${formatDate(reply.created_at)}</span>
+            </div>
+            <p class="comment-body">${escapeHtml(reply.body)}</p>
+            <div class="comment-actions">
+              <button type="button" class="comment-like-btn${liked ? " liked" : ""}" data-comment-id="${reply.id}" data-liked="${liked}">
+                ${heartIcon(liked)}
+                <span class="like-count">${reply.like_count ?? 0}</span>
+              </button>
+              ${deleteBtn}
+            </div>
+          </div>
+        `;
+      }
+
+      function renderCommentHtml(comment: any) {
+        const liked = !!comment.liked;
+        const replyToggle = isAdmin
+          ? `<button type="button" class="comment-reply-toggle" data-reply-to="${comment.id}">Reply</button>`
+          : "";
+        const deleteBtn = isAdmin
+          ? `<button type="button" class="comment-delete-btn" data-delete-id="${comment.id}">Delete</button>`
+          : "";
+
+        const replyForm = isAdmin
+          ? `
+            <div class="reply-form" id="reply-form-${comment.id}" data-parent-id="${comment.id}">
+              <textarea placeholder="Write a reply..." maxlength="2000"></textarea>
+              <div class="reply-form-actions">
+                <button type="button" class="reply-submit" data-parent-id="${comment.id}">Post Reply</button>
+                <button type="button" class="reply-cancel" data-parent-id="${comment.id}">Cancel</button>
+              </div>
+            </div>
+          `
+          : "";
+
+        const repliesHtml =
+          comment.replies && comment.replies.length > 0
+            ? `<div class="comment-replies">${comment.replies.map(renderReplyHtml).join("")}</div>`
+            : "";
+
+        return `
+          <div class="comment-card">
+            <div class="comment-card-top">
+              <span class="comment-name">${escapeHtml(comment.name)}</span>
+              <span class="comment-date font-mono">${formatDate(comment.created_at)}</span>
+            </div>
+            <p class="comment-body">${escapeHtml(comment.body)}</p>
+            <div class="comment-actions">
+              <button type="button" class="comment-like-btn${liked ? " liked" : ""}" data-comment-id="${comment.id}" data-liked="${liked}">
+                ${heartIcon(liked)}
+                <span class="like-count">${comment.like_count ?? 0}</span>
+              </button>
+              ${replyToggle}
+              ${deleteBtn}
+            </div>
+            ${replyForm}
+            ${repliesHtml}
+          </div>
+        `;
+      }
+
+      function countAll(comments: any[]) {
+        return comments.reduce(
+          (sum, c) => sum + 1 + (c.replies?.length ?? 0),
+          0,
+        );
+      }
+
       function renderComments(comments: any[]) {
+        if (labelEl) {
+          const total = countAll(comments);
+          labelEl.textContent = total > 0 ? `Comments (${total})` : "Comments";
+        }
+
         if (comments.length === 0) {
           list!.innerHTML = `<p class="comments-empty font-mono">No comments yet — be the first.</p>`;
           return;
         }
-        list!.innerHTML = comments
-          .map(
-            (c) => `
-          <div class="comment-card">
-            <div class="comment-card-top">
-              <span class="comment-name">${escapeHtml(c.name)}</span>
-              <span class="comment-date font-mono">${new Date(c.created_at).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" })}</span>
-            </div>
-            <p class="comment-body">${escapeHtml(c.body)}</p>
-          </div>
-        `,
-          )
-          .join("");
+
+        list!.innerHTML = comments.map(renderCommentHtml).join("");
+        attachActionListeners();
+      }
+
+      function attachActionListeners() {
+        // ── Likes ─────────────────────────────────────────────────────
+        list!.querySelectorAll(".comment-like-btn").forEach((btn) => {
+          btn.addEventListener("click", async () => {
+            const el = btn as HTMLElement;
+            const commentId = el.dataset.commentId;
+            el.setAttribute("disabled", "true");
+
+            try {
+              const res = await fetch(`/api/comments/${commentId}/like`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ visitor_id: visitorId }),
+              });
+              const data = await res.json();
+
+              el.classList.toggle("liked", data.liked);
+              el.dataset.liked = String(data.liked);
+              const countSpan = el.querySelector(".like-count");
+              if (countSpan) countSpan.textContent = String(data.count);
+              const svg = el.querySelector("svg");
+              if (svg) svg.outerHTML = heartIcon(data.liked);
+            } catch {
+              // fail silently — likes are non-critical
+            } finally {
+              el.removeAttribute("disabled");
+            }
+          });
+        });
+
+        // ── Reply toggle (admin only — buttons only exist if isAdmin) ──
+        list!.querySelectorAll(".comment-reply-toggle").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            const parentId = (btn as HTMLElement).dataset.replyTo;
+            const formEl = document.getElementById(`reply-form-${parentId}`);
+            formEl?.classList.toggle("open");
+            if (formEl?.classList.contains("open")) {
+              formEl.querySelector("textarea")?.focus();
+            }
+          });
+        });
+
+        list!.querySelectorAll(".reply-cancel").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            const parentId = (btn as HTMLElement).dataset.parentId;
+            document
+              .getElementById(`reply-form-${parentId}`)
+              ?.classList.remove("open");
+          });
+        });
+
+        // ── Delete (admin only — buttons only exist if isAdmin) ────────
+        list!.querySelectorAll(".comment-delete-btn").forEach((btn) => {
+          btn.addEventListener("click", async () => {
+            const el = btn as HTMLElement;
+            const id = el.dataset.deleteId;
+            const alreadyConfirming = el.classList.contains("confirming");
+
+            if (!alreadyConfirming) {
+              el.classList.add("confirming");
+              el.textContent = "Sure?";
+              setTimeout(() => {
+                if (el.classList.contains("confirming")) {
+                  el.classList.remove("confirming");
+                  el.textContent = "Delete";
+                }
+              }, 3000);
+              return;
+            }
+
+            el.textContent = "...";
+            try {
+              await fetch(`/api/admin/comments/${id}`, { method: "DELETE" });
+              await loadComments(); // reload — also clears any now-orphaned replies from view
+            } catch {
+              el.textContent = "Delete";
+              el.classList.remove("confirming");
+            }
+          });
+        });
+
+        list!.querySelectorAll(".reply-submit").forEach((btn) => {
+          btn.addEventListener("click", async () => {
+            const el = btn as HTMLElement;
+            const parentId = el.dataset.parentId;
+            const formEl = document.getElementById(`reply-form-${parentId}`);
+            const textarea = formEl?.querySelector(
+              "textarea",
+            ) as HTMLTextAreaElement | null;
+            if (!textarea) return;
+
+            const body = textarea.value.trim();
+            if (!body) return;
+
+            el.setAttribute("disabled", "true");
+            const originalLabel = el.textContent;
+            el.textContent = "Posting...";
+
+            try {
+              const res = await fetch(`/api/admin/comments/${parentId}/reply`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ body }),
+              });
+
+              if (res.ok) {
+                textarea.value = "";
+                await loadComments(); // reload to show the new reply nested
+              } else {
+                el.textContent = originalLabel;
+              }
+            } catch {
+              el.textContent = originalLabel;
+            } finally {
+              el.removeAttribute("disabled");
+            }
+          });
+        });
       }
 
       async function loadComments() {
         try {
-          const res = await fetch(`/api/comments/${postId}`);
+          const res = await fetch(
+            `/api/comments/${postId}?visitor_id=${visitorId}`,
+          );
           const comments = await res.json();
           renderComments(comments);
         } catch {
@@ -453,7 +644,9 @@ const randomPost = otherPosts[Math.floor(Math.random() * otherPosts.length)];
         errorEl!.hidden = true;
 
         const data = Object.fromEntries(new FormData(form));
-        const submitBtn = form.querySelector("button[type='submit']") as HTMLButtonElement;
+        const submitBtn = form.querySelector(
+          "button[type='submit']",
+        ) as HTMLButtonElement;
         submitBtn.disabled = true;
 
         try {
@@ -465,7 +658,8 @@ const randomPost = otherPosts[Math.floor(Math.random() * otherPosts.length)];
           const result = await res.json();
 
           if (!res.ok) {
-            errorEl!.textContent = result.error || "Something went wrong — please try again.";
+            errorEl!.textContent =
+              result.error || "Something went wrong — please try again.";
             errorEl!.hidden = false;
             return;
           }

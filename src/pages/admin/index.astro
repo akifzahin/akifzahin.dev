@@ -12,7 +12,6 @@ import BackToTop from "../../components/BackToTop.astro";
 
       <!-- 1. The main two-column grid wrapper -->
       <div class="admin-split-grid">
-        
         <!-- LEFT COLUMN: Posts -->
         <div class="admin-split-col">
           <!-- 2. We moved the header inside this column so it aligns with the right column -->
@@ -35,17 +34,21 @@ import BackToTop from "../../components/BackToTop.astro";
         <!-- RIGHT COLUMN: Comments -->
         <div class="admin-split-col">
           <div class="admin-comments-section">
-            <h1 class="font-display">
-              <span class="glitch-outline" data-text="Pending">Pending</span>
-              <span class="glitch-glow" data-text="Comments">Comments</span>
-            </h1>
+            <div class="comments-header">
+              <h1 class="font-display">
+                <span class="glitch-outline" data-text="Pending">Pending</span>
+                <span class="glitch-glow" data-text="Comments">Comments</span>
+              </h1>
+              <span id="comments-count" class="comment-count-badge font-mono"
+              ></span>
+            </div>
             <div id="comments-list" class="admin-posts-list">
               <p class="font-mono admin-loading">Loading...</p>
             </div>
           </div>
         </div>
-
-      </div> <!-- End of admin-split-grid -->
+      </div>
+      <!-- End of admin-split-grid -->
     </div>
   </main>
 </Layout>
@@ -211,7 +214,12 @@ import BackToTop from "../../components/BackToTop.astro";
       try {
         const res = await fetch("/api/admin/comments");
         const comments = await res.json();
-
+        // ADD THESE 4 LINES:
+        const countEl = document.getElementById("comments-count");
+        if (countEl) {
+          countEl.textContent =
+            comments.length > 0 ? `${comments.length} pending` : "";
+        }
         if (!Array.isArray(comments) || comments.length === 0) {
           list!.innerHTML = `<p class="admin-empty font-mono">No pending comments.</p>`;
           return;

@@ -3,8 +3,10 @@ import type { APIRoute } from "astro";
 import { getApprovedComments, createComment } from "../../../lib/comments";
 import { containsBlockedWord } from "../../../lib/blocklist";
 
-// GET /api/comments/[postId] — public, approved comments only
-export const GET: APIRoute = async ({ params }) => {
+// GET /api/comments/[postId] — public, approved comments only.
+// Accepts an optional ?visitor_id= query param so each comment can report
+// whether THIS visitor already liked it (for correct heart icon state on load).
+export const GET: APIRoute = async ({ params, url }) => {
   const postId = Number(params.postId);
   if (!postId) {
     return new Response(JSON.stringify({ error: "Invalid post id" }), {
@@ -12,7 +14,8 @@ export const GET: APIRoute = async ({ params }) => {
     });
   }
 
-  const comments = await getApprovedComments(postId);
+  const visitorId = url.searchParams.get("visitor_id") ?? undefined;
+  const comments = await getApprovedComments(postId, visitorId);
 
   return new Response(JSON.stringify(comments), {
     status: 200,
@@ -42,7 +45,6 @@ export const POST: APIRoute = async ({ params, request }) => {
     botcheck?: string;
   };
 
-  // Honeytrap — real visitors never fill this hidden field
   if (botcheck) {
     return new Response(JSON.stringify({ error: "Submission rejected" }), {
       status: 400,

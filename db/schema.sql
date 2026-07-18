@@ -54,3 +54,13 @@ CREATE TABLE comments (
 
 CREATE INDEX idx_comments_post ON comments(post_id);
 CREATE INDEX idx_comments_approved ON comments(approved);
+
+ALTER TABLE comments ADD COLUMN parent_id INTEGER REFERENCES comments(id) ON DELETE CASCADE;
+CREATE TABLE comment_likes (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  comment_id INTEGER NOT NULL REFERENCES comments(id) ON DELETE CASCADE,
+  visitor_id TEXT NOT NULL,
+  created_at TEXT NOT NULL DEFAULT (datetime('now')),
+  UNIQUE(comment_id, visitor_id)
+);
+CREATE INDEX idx_comment_likes_comment ON comment_likes(comment_id);
