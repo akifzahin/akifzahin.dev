@@ -1,7 +1,13 @@
 ---
 const currentPath = Astro.url.pathname;
 const isPost = currentPath.startsWith("/blog/") && currentPath !== "/blog/";
-const backHref = isPost ? "/blog" : "/";
+const isAdminEdit =
+  currentPath.startsWith("/admin/edit/") ||
+  currentPath.startsWith("/admin/new");
+
+let backHref = "/";
+if (isPost) backHref = "/blog";
+else if (isAdminEdit) backHref = "/admin";
 ---
 
 <a id="back-button" href="/" aria-label="Back">
@@ -23,13 +29,18 @@ const backHref = isPost ? "/blog" : "/";
 
 <script>
   document.addEventListener("astro:page-load", () => {
-    const btn = document.getElementById("back-button") as HTMLAnchorElement | null;
+    const btn = document.getElementById(
+      "back-button",
+    ) as HTMLAnchorElement | null;
     if (!btn) return;
 
     btn.addEventListener("click", (e) => {
       // If there's real browser history to go back to, use it —
       // otherwise fall back to the href already on the element.
-      if (window.history.length > 1 && document.referrer.includes(window.location.origin)) {
+      if (
+        window.history.length > 1 &&
+        document.referrer.includes(window.location.origin)
+      ) {
         e.preventDefault();
         window.history.back();
       }

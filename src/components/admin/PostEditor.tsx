@@ -4,6 +4,7 @@ import StarterKit from "@tiptap/starter-kit";
 import ImageExtension from "@tiptap/extension-image";
 import Placeholder from "@tiptap/extension-placeholder";
 import LinkExtension from "@tiptap/extension-link";
+import TextAlign from "@tiptap/extension-text-align";
 
 interface PostEditorProps {
   postId?: number; // undefined = new post
@@ -39,6 +40,7 @@ export default function PostEditor({ postId }: PostEditorProps) {
       ImageExtension,
       LinkExtension.configure({ openOnClick: false }),
       Placeholder.configure({ placeholder: "Start writing..." }),
+      TextAlign.configure({ types: ["paragraph", "heading"] }),
     ],
     content: "",
     onUpdate: () => scheduleSave(),
@@ -65,6 +67,19 @@ export default function PostEditor({ postId }: PostEditorProps) {
         });
 
         return true;
+      },
+      handleDOMEvents: {
+        keyup: (view) => {
+          const { from } = view.state.selection;
+          const coords = view.coordsAtPos(from);
+
+          if (coords.bottom > window.innerHeight - 100) {
+            window.scrollTo({
+              top: window.scrollY + (coords.bottom - window.innerHeight + 150),
+              behavior: "smooth",
+            });
+          }
+        },
       },
     },
   });
@@ -201,7 +216,18 @@ export default function PostEditor({ postId }: PostEditorProps) {
       e.target.value = ""; // reset so choosing the same file again still fires onChange
     }
   };
+  const cycleTextAlign = () => {
+    if (!editor) return;
+    const current =
+      editor.getAttributes("paragraph").textAlign ??
+      editor.getAttributes("heading").textAlign ??
+      "left";
 
+    const next =
+      current === "left" ? "center" : current === "center" ? "right" : "left";
+
+    editor.chain().focus().setTextAlign(next).run();
+  };
   const handlePublish = async () => {
     if (saveTimer.current) clearTimeout(saveTimer.current);
     await doSave();
@@ -272,7 +298,7 @@ export default function PostEditor({ postId }: PostEditorProps) {
             <input
               type="text"
               className="post-editor-image-url-input font-mono"
-              placeholder="or paste image URL"
+              placeholder="URL path"
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
                   e.preventDefault();
@@ -331,6 +357,9 @@ export default function PostEditor({ postId }: PostEditorProps) {
           }
         >
           H3
+        </button>
+        <button type="button" onClick={cycleTextAlign}>
+          Align
         </button>
         <button
           type="button"
