@@ -1733,6 +1733,263 @@ body::before {
 /* :root.light .admin-comment-reject:hover {
   animation: glitchCardLight 6s ease-in-out infinite;
 } */
+/* ── Lists ──────────────────────────────────────────────────────────── */
+.post-editor-body .ProseMirror ul,
+.post-editor-body .ProseMirror ol {
+  padding-left: 1.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.post-editor-body .ProseMirror ul li,
+.post-editor-body .ProseMirror ol li {
+  margin-bottom: 0.4rem;
+}
+
+.post-editor-body .ProseMirror ul {
+  list-style: disc;
+}
+
+.post-editor-body .ProseMirror ol {
+  list-style: decimal;
+}
+
+/* ── Task list ──────────────────────────────────────────────────────── */
+.post-editor-body .ProseMirror ul[data-type="taskList"] {
+  list-style: none;
+  padding-left: 0.25rem;
+}
+
+.post-editor-body .ProseMirror li[data-type="taskItem"] {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  margin-bottom: 0.4rem;
+}
+
+.post-editor-body .ProseMirror li[data-type="taskItem"]>label {
+  flex-shrink: 0;
+  margin-top: 0.3rem;
+}
+
+.post-editor-body .ProseMirror li[data-type="taskItem"]>div {
+  flex: 1;
+}
+
+.post-editor-body .ProseMirror li[data-type="taskItem"] input[type="checkbox"] {
+  width: 15px;
+  height: 15px;
+  accent-color: var(--primary);
+  cursor: pointer;
+}
+
+:root.light .post-editor-body .ProseMirror li[data-type="taskItem"] input[type="checkbox"] {
+  accent-color: var(--accent);
+}
+
+.post-editor-body .ProseMirror li[data-type="taskItem"][data-checked="true"]>div {
+  text-decoration: line-through;
+  color: var(--text-subtle);
+  opacity: 0.7;
+}
+
+/* ── Inline code ────────────────────────────────────────────────────── */
+.post-editor-body .ProseMirror code {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  background: rgba(var(--primary-rgb), 0.08);
+  border: 1px solid rgba(var(--primary-rgb), 0.2);
+  padding: 0.15em 0.4em;
+  color: var(--primary);
+}
+
+.post-editor-body .ProseMirror pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  color: inherit;
+}
+
+:root.light .post-editor-body .ProseMirror code {
+  background: rgba(var(--accent-rgb), 0.08);
+  border-color: rgba(var(--accent-rgb), 0.2);
+  color: var(--accent);
+}
+
+/* ── Horizontal rule ────────────────────────────────────────────────── */
+.post-editor-body .ProseMirror hr {
+  border: none;
+  border-top: 1px solid rgba(var(--primary-rgb), 0.2);
+  margin: 2rem 0;
+}
+
+:root.light .post-editor-body .ProseMirror hr {
+  border-top-color: rgba(var(--accent-rgb), 0.2);
+}
+
+/* ── Link mark ──────────────────────────────────────────────────────── */
+.post-editor-body .ProseMirror a {
+  color: var(--primary);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+:root.light .post-editor-body .ProseMirror a {
+  color: var(--accent);
+}
+
+/* ── Link popover (toolbar) ────────────────────────────────────────── */
+.post-editor-link-popover {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  position: sticky;
+  top: calc(72px + 48px);
+  z-index: 49;
+  background: var(--bg);
+  border: 1px solid rgba(var(--primary-rgb), 0.3);
+  padding: 0.6rem 0.75rem;
+  margin-top: 0.4rem;
+}
+
+:root.light .post-editor-link-popover {
+  border-color: rgba(var(--accent-rgb), 0.3);
+}
+
+.post-editor-toolbar-wrap {
+  position: sticky;
+  top: 72px;
+  z-index: 50;
+  background: var(--bg);
+}
+
+.post-editor-link-input {
+  flex: 1;
+  min-width: 0;
+  background: transparent;
+  border: 1px solid rgba(var(--primary-rgb), 0.3);
+  outline: none;
+  color: var(--text);
+  font-size: 0.85rem;
+  padding: 0.4rem 0.6rem;
+}
+
+.post-editor-link-input:focus {
+  border-color: var(--primary);
+}
+
+:root.light .post-editor-link-input {
+  border-color: rgba(var(--accent-rgb), 0.3);
+}
+
+:root.light .post-editor-link-input:focus {
+  border-color: var(--accent);
+}
+
+.post-editor-link-confirm,
+.post-editor-link-remove,
+.post-editor-link-cancel {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.05em;
+  padding: 0.4rem 0.7rem;
+  background: transparent;
+  border: 1px solid rgba(var(--primary-rgb), 0.3);
+  color: rgba(var(--primary-rgb), 0.8);
+  cursor: pointer;
+  transition: border-color 0.2s ease, color 0.2s ease;
+  flex-shrink: 0;
+}
+
+.post-editor-link-confirm:hover,
+.post-editor-link-remove:hover,
+.post-editor-link-cancel:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.post-editor-link-remove {
+  border-color: rgba(var(--draft), 0.4);
+  color: var(--draft);
+}
+
+.post-editor-link-remove:hover {
+  border-color: var(--draft);
+  color: var(--draft);
+}
+
+:root.light .post-editor-link-confirm,
+:root.light .post-editor-link-cancel {
+  border-color: rgba(var(--accent-rgb), 0.3);
+  color: rgba(var(--accent-rgb), 0.8);
+}
+
+:root.light .post-editor-link-confirm:hover,
+:root.light .post-editor-link-cancel:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.post-editor-body .ProseMirror h2,
+.post-editor-body .ProseMirror h3,
+.post-editor-body .ProseMirror h4,
+.post-editor-body .ProseMirror h5,
+.post-editor-body .ProseMirror h6 {
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  color: var(--primary);
+  margin: 2rem 0 1rem;
+  letter-spacing: 0.05em;
+}
+
+.post-editor-body .ProseMirror h2 {
+  font-size: 1.5rem;
+}
+
+.post-editor-body .ProseMirror h3 {
+  font-size: 1.25rem;
+}
+
+.post-editor-body .ProseMirror h4 {
+  font-size: 1.1rem;
+}
+
+.post-editor-body .ProseMirror h5 {
+  font-size: 1rem;
+}
+
+.post-editor-body .ProseMirror h6 {
+  font-size: 0.9rem;
+}
+
+:root.light .post-editor-body .ProseMirror h2,
+:root.light .post-editor-body .ProseMirror h3,
+:root.light .post-editor-body .ProseMirror h4,
+:root.light .post-editor-body .ProseMirror h5,
+:root.light .post-editor-body .ProseMirror h6 {
+  color: var(--accent);
+}
+
+.post-content h5,
+.post-content h6 {
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  color: var(--primary);
+  margin: 2.5rem 0 1rem;
+  letter-spacing: 0.05em;
+}
+
+.post-content h5 {
+  font-size: 0.85rem;
+}
+
+.post-content h6 {
+  font-size: 0.75rem;
+}
+
+:root.light .post-content h5,
+:root.light .post-content h6 {
+  color: var(--accent);
+}
 
 .admin-post-card-wrap {
   position: relative;

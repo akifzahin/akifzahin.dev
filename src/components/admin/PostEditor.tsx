@@ -5,6 +5,8 @@ import ImageExtension from "@tiptap/extension-image";
 import Placeholder from "@tiptap/extension-placeholder";
 import LinkExtension from "@tiptap/extension-link";
 import TextAlign from "@tiptap/extension-text-align";
+import TaskList from "@tiptap/extension-task-list";
+import TaskItem from "@tiptap/extension-task-item";
 
 interface PostEditorProps {
   postId?: number; // undefined = new post
@@ -34,6 +36,15 @@ export default function PostEditor({ postId }: PostEditorProps) {
   const [uploadingInlineImage, setUploadingInlineImage] = useState(false);
   const inlineImageInputRef = useRef<HTMLInputElement | null>(null);
 
+  // ── Link popover state ──────────────────────────────────────────────────
+  const [linkPopoverOpen, setLinkPopoverOpen] = useState(false);
+  const [linkUrlInput, setLinkUrlInput] = useState("");
+  const linkInputRef = useRef<HTMLInputElement | null>(null);
+
+  // Force toolbar re-render on selection/transaction changes so is-active
+  // classes and the link popover seed value stay in sync with the cursor.
+  const [, forceToolbarUpdate] = useState(0);
+
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -41,9 +52,13 @@ export default function PostEditor({ postId }: PostEditorProps) {
       LinkExtension.configure({ openOnClick: false }),
       Placeholder.configure({ placeholder: "Start writing..." }),
       TextAlign.configure({ types: ["paragraph", "heading"] }),
+      TaskList,
+      TaskItem.configure({ nested: true }),
     ],
     content: "",
     onUpdate: () => scheduleSave(),
+    onSelectionUpdate: () => forceToolbarUpdate((n) => n + 1),
+    onTransaction: () => forceToolbarUpdate((n) => n + 1),
     editorProps: {
       handlePaste(view, event) {
         const text = event.clipboardData?.getData("text/plain")?.trim();
@@ -228,6 +243,73 @@ export default function PostEditor({ postId }: PostEditorProps) {
 
     editor.chain().focus().setTextAlign(next).run();
   };
+  const cycleHeading = () => {
+    if (!editor) return;
+    const levels = [2, 3, 4, 5, 6] as const;
+    const current = levels.find((l) =>
+      editor.isActive("heading", { level: l }),
+    );
+
+    if (!current) {
+      // Not currently a heading — start at H2
+      editor.chain().focus().toggleHeading({ level: 2 }).run();
+      return;
+    }
+
+    const nextIndex = levels.indexOf(current) + 1;
+    if (nextIndex >= levels.length) {
+      // Was H6 — cycle back to paragraph
+      editor.chain().focus().setParagraph().run();
+    } else {
+      editor.chain().focus().toggleHeading({ level: levels[nextIndex] }).run();
+    }
+  };
+  // ── Link handling ────────────────────────────────────────────────────────
+  const openLinkPopover = () => {
+    if (!editor) return;
+    // Seed the input with the existing href if the cursor is already inside a link
+    const existingHref = editor.getAttributes("link").href ?? "";
+    setLinkUrlInput(existingHref);
+    setLinkPopoverOpen(true);
+    // Focus the input on next tick, after it mounts
+    setTimeout(() => linkInputRef.current?.focus(), 0);
+  };
+
+  const commitLink = () => {
+    if (!editor) return;
+    let url = linkUrlInput.trim();
+
+    if (!url) {
+      editor.chain().focus().unsetLink().run();
+      setLinkPopoverOpen(false);
+      setLinkUrlInput("");
+      return;
+    }
+
+    // Auto-prepend https:// if the user typed a bare domain (no protocol,
+    // not a relative path, not a mailto/tel link)
+    const hasProtocol = /^[a-z][a-z0-9+.-]*:/i.test(url);
+    const isRelative = url.startsWith("/") || url.startsWith("#");
+    if (!hasProtocol && !isRelative) {
+      url = `https://${url}`;
+    }
+
+    editor.chain().focus().extendMarkRange("link").setLink({ href: url }).run();
+    setLinkPopoverOpen(false);
+    setLinkUrlInput("");
+  };
+
+  const removeLink = () => {
+    editor?.chain().focus().unsetLink().run();
+    setLinkPopoverOpen(false);
+    setLinkUrlInput("");
+  };
+
+  const cancelLinkPopover = () => {
+    setLinkPopoverOpen(false);
+    setLinkUrlInput("");
+  };
+
   const handlePublish = async () => {
     if (saveTimer.current) clearTimeout(saveTimer.current);
     await doSave();
@@ -328,56 +410,110 @@ export default function PostEditor({ postId }: PostEditorProps) {
           </div>
         </div>
       </div>
-
+      <div className="post-editor-toolbar-wrap">
       <div className="post-editor-toolbar">
         <button
           type="button"
+          className={editor?.isActive("bold") ? "is-active" : ""}
           onClick={() => editor?.chain().focus().toggleBold().run()}
         >
           B
         </button>
         <button
           type="button"
+          className={editor?.isActive("italic") ? "is-active" : ""}
           onClick={() => editor?.chain().focus().toggleItalic().run()}
         >
           I
         </button>
         <button
           type="button"
-          onClick={() =>
-            editor?.chain().focus().toggleHeading({ level: 2 }).run()
-          }
+          className={editor?.isActive("strike") ? "is-active" : ""}
+          onClick={() => editor?.chain().focus().toggleStrike().run()}
         >
-          H2
+          S
         </button>
         <button
           type="button"
-          onClick={() =>
-            editor?.chain().focus().toggleHeading({ level: 3 }).run()
-          }
+          className={editor?.isActive("code") ? "is-active" : ""}
+          onClick={() => editor?.chain().focus().toggleCode().run()}
         >
-          H3
+          Inline Code
+        </button>
+        <button
+          type="button"
+          className={editor?.isActive("heading") ? "is-active" : ""}
+          onClick={cycleHeading}
+        >
+          Heading
+          {editor?.isActive("heading")
+            ? ` H${editor.getAttributes("heading").level}`
+            : ""}
         </button>
         <button type="button" onClick={cycleTextAlign}>
           Align
         </button>
         <button
           type="button"
+          className={editor?.isActive("bulletList") ? "is-active" : ""}
           onClick={() => editor?.chain().focus().toggleBulletList().run()}
         >
-          List
+          U.List
         </button>
         <button
           type="button"
+          className={editor?.isActive("orderedList") ? "is-active" : ""}
+          onClick={() => editor?.chain().focus().toggleOrderedList().run()}
+        >
+          O.List
+        </button>
+        <button
+          type="button"
+          className={editor?.isActive("taskList") ? "is-active" : ""}
+          onClick={() => editor?.chain().focus().toggleTaskList().run()}
+        >
+          Todo
+        </button>
+        <button
+          type="button"
+          className={editor?.isActive("blockquote") ? "is-active" : ""}
           onClick={() => editor?.chain().focus().toggleBlockquote().run()}
         >
           Quote
         </button>
         <button
           type="button"
+          className={editor?.isActive("codeBlock") ? "is-active" : ""}
           onClick={() => editor?.chain().focus().toggleCodeBlock().run()}
         >
           Code
+        </button>
+        <button
+          type="button"
+          onClick={() => editor?.chain().focus().setHorizontalRule().run()}
+        >
+          Divider
+        </button>
+        <button
+          type="button"
+          className={editor?.isActive("link") ? "is-active" : ""}
+          onClick={openLinkPopover}
+        >
+          Link
+        </button>
+        <button
+          type="button"
+          onClick={() => editor?.chain().focus().undo().run()}
+          disabled={!editor?.can().undo()}
+        >
+          Undo
+        </button>
+        <button
+          type="button"
+          onClick={() => editor?.chain().focus().redo().run()}
+          disabled={!editor?.can().redo()}
+        >
+          Redo
         </button>
         <button
           type="button"
@@ -395,6 +531,51 @@ export default function PostEditor({ postId }: PostEditorProps) {
         />
       </div>
 
+      {linkPopoverOpen && (
+        <div className="post-editor-link-popover">
+          <input
+            ref={linkInputRef}
+            type="text"
+            className="post-editor-link-input font-mono"
+            placeholder="https://example.com"
+            value={linkUrlInput}
+            onChange={(e) => setLinkUrlInput(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                e.preventDefault();
+                commitLink();
+              } else if (e.key === "Escape") {
+                e.preventDefault();
+                cancelLinkPopover();
+              }
+            }}
+          />
+          <button
+            type="button"
+            className="post-editor-link-confirm"
+            onClick={commitLink}
+          >
+            Set
+          </button>
+          {editor?.isActive("link") && (
+            <button
+              type="button"
+              className="post-editor-link-remove"
+              onClick={removeLink}
+            >
+              Remove
+            </button>
+          )}
+          <button
+            type="button"
+            className="post-editor-link-cancel"
+            onClick={cancelLinkPopover}
+          >
+            ×
+          </button>
+        </div>
+      )}
+</div>
       <EditorContent editor={editor} className="post-editor-body" />
 
       <div className="post-editor-actions">
