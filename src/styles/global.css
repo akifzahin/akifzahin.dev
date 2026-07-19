@@ -1855,6 +1855,81 @@ body::before {
   border-color: rgba(var(--accent-rgb), 0.3);
 }
 
+.post-editor-toolbar button {
+  position: relative;
+}
+
+.post-editor-toolbar button[data-tooltip]::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  background: var(--bg);
+  border: 1.5px solid var(--primary);
+  color: var(--primary);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.02em;
+  padding: 0.4rem 0.6rem;
+  box-shadow: 0 0 10px rgba(var(--primary-rgb), 0.25);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease;
+  z-index: 60;
+}
+
+.post-editor-toolbar button[data-tooltip]::before {
+  content: '';
+  position: absolute;
+  bottom: calc(100% + 3px);
+  left: 50%;
+  transform: translateX(-50%) rotate(45deg);
+  width: 7px;
+  height: 7px;
+  background: var(--bg);
+  border-right: 1.5px solid var(--primary);
+  border-bottom: 1.5px solid var(--primary);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease;
+  z-index: 60;
+}
+
+.post-editor-toolbar button[data-tooltip]:hover::after,
+.post-editor-toolbar button[data-tooltip]:hover::before {
+  opacity: 1;
+  transition-delay: 0.3s;
+}
+
+:root.light .post-editor-toolbar button[data-tooltip]::after {
+  border-color: var(--accent);
+  color: var(--accent);
+  box-shadow: 0 0 10px rgba(var(--accent-rgb), 0.25);
+}
+
+:root.light .post-editor-toolbar button[data-tooltip]::before {
+  border-right-color: var(--accent);
+  border-bottom-color: var(--accent);
+}
+
+@media (max-width: 768px) {
+  .post-editor-toolbar-wrap {
+    position: fixed;
+    top: 72px;
+    left: 0;
+    right: 0;
+    z-index: 50;
+  }
+
+  /* prevent the fixed toolbar from covering the top of your content */
+  .post-editor-body {
+    margin-top: 90px;
+    /* roughly toolbar height + spacing — adjust to taste */
+  }
+}
+
 .post-editor-toolbar-wrap {
   position: sticky;
   top: 72px;
@@ -2946,16 +3021,15 @@ body::before {
   justify-content: center;
 }
 
-.post-editor-toolbar {
+/* .post-editor-toolbar {
   position: sticky;
   top: 72px;
-  /* matches --nav-height, so the toolbar sits just below the fixed nav */
   z-index: 50;
   background: var(--bg);
-  /* prevents content from showing through as it scrolls under */
 }
 
-.post-editor-toolbar button {
+*/
+/* .post-editor-toolbar button {
   font-family: var(--font-mono);
   font-size: 1rem;
   letter-spacing: 0.05em;
@@ -2965,7 +3039,7 @@ body::before {
   color: rgba(var(--primary-rgb), 0.8);
   cursor: pointer;
   transition: border-color 0.2s ease, color 0.2s ease;
-}
+} */
 
 .post-editor-toolbar button:hover {
   border-color: var(--primary);
@@ -2987,6 +3061,72 @@ body::before {
 :root.light .post-editor-toolbar button.is-active {
   border-color: var(--accent);
   color: var(--accent);
+}
+
+
+
+.post-editor-toolbar button {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  background: transparent;
+  border: 1px solid rgba(var(--primary-rgb), 0.3);
+  color: rgba(var(--primary-rgb), 0.8);
+  cursor: pointer;
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+
+.post-editor-toolbar button:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.post-editor-toolbar button.is-active {
+  border-color: var(--primary);
+  background: rgba(var(--primary-rgb), 0.1);
+  color: var(--primary);
+}
+
+.post-editor-toolbar button:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.toolbar-btn-badge {
+  position: absolute;
+  bottom: -3px;
+  right: -3px;
+  font-family: var(--font-mono);
+  font-size: 0.55rem;
+  line-height: 1;
+  background: var(--primary);
+  color: var(--bg);
+  padding: 1px 3px;
+  border-radius: 2px;
+}
+
+:root.light .post-editor-toolbar button {
+  border-color: rgba(var(--accent-rgb), 0.3);
+  color: rgba(var(--accent-rgb), 0.8);
+}
+
+:root.light .post-editor-toolbar button:hover,
+:root.light .post-editor-toolbar button.is-active {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+:root.light .post-editor-toolbar button.is-active {
+  background: rgba(var(--accent-rgb), 0.1);
+}
+
+:root.light .toolbar-btn-badge {
+  background: var(--accent);
+  color: var(--bg);
 }
 
 /* Editor body — reuses .post-content typography rules from the public blog */
@@ -5388,7 +5528,7 @@ footer {
   }
 
   html,
-  body {
+body{
     overflow-x: hidden;
     max-width: 100%;
   }

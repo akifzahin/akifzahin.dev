@@ -7,6 +7,25 @@ import LinkExtension from "@tiptap/extension-link";
 import TextAlign from "@tiptap/extension-text-align";
 import TaskList from "@tiptap/extension-task-list";
 import TaskItem from "@tiptap/extension-task-item";
+import {
+  Bold,
+  Italic,
+  Strikethrough,
+  Code,
+  Heading2,
+  AlignLeft,
+  List,
+  ListOrdered,
+  ListTodo,
+  Quote,
+  SquareCode,
+  Minus,
+  Link as LinkIcon,
+  Undo2,
+  Redo2,
+  ImagePlus,
+  X,
+} from "lucide-react";
 
 interface PostEditorProps {
   postId?: number; // undefined = new post
@@ -410,172 +429,210 @@ export default function PostEditor({ postId }: PostEditorProps) {
           </div>
         </div>
       </div>
-      <div className="post-editor-toolbar-wrap">
-      <div className="post-editor-toolbar">
-        <button
-          type="button"
-          className={editor?.isActive("bold") ? "is-active" : ""}
-          onClick={() => editor?.chain().focus().toggleBold().run()}
-        >
-          B
-        </button>
-        <button
-          type="button"
-          className={editor?.isActive("italic") ? "is-active" : ""}
-          onClick={() => editor?.chain().focus().toggleItalic().run()}
-        >
-          I
-        </button>
-        <button
-          type="button"
-          className={editor?.isActive("strike") ? "is-active" : ""}
-          onClick={() => editor?.chain().focus().toggleStrike().run()}
-        >
-          S
-        </button>
-        <button
-          type="button"
-          className={editor?.isActive("code") ? "is-active" : ""}
-          onClick={() => editor?.chain().focus().toggleCode().run()}
-        >
-          Inline Code
-        </button>
-        <button
-          type="button"
-          className={editor?.isActive("heading") ? "is-active" : ""}
-          onClick={cycleHeading}
-        >
-          Heading
-          {editor?.isActive("heading")
-            ? ` H${editor.getAttributes("heading").level}`
-            : ""}
-        </button>
-        <button type="button" onClick={cycleTextAlign}>
-          Align
-        </button>
-        <button
-          type="button"
-          className={editor?.isActive("bulletList") ? "is-active" : ""}
-          onClick={() => editor?.chain().focus().toggleBulletList().run()}
-        >
-          U.List
-        </button>
-        <button
-          type="button"
-          className={editor?.isActive("orderedList") ? "is-active" : ""}
-          onClick={() => editor?.chain().focus().toggleOrderedList().run()}
-        >
-          O.List
-        </button>
-        <button
-          type="button"
-          className={editor?.isActive("taskList") ? "is-active" : ""}
-          onClick={() => editor?.chain().focus().toggleTaskList().run()}
-        >
-          Todo
-        </button>
-        <button
-          type="button"
-          className={editor?.isActive("blockquote") ? "is-active" : ""}
-          onClick={() => editor?.chain().focus().toggleBlockquote().run()}
-        >
-          Quote
-        </button>
-        <button
-          type="button"
-          className={editor?.isActive("codeBlock") ? "is-active" : ""}
-          onClick={() => editor?.chain().focus().toggleCodeBlock().run()}
-        >
-          Code
-        </button>
-        <button
-          type="button"
-          onClick={() => editor?.chain().focus().setHorizontalRule().run()}
-        >
-          Divider
-        </button>
-        <button
-          type="button"
-          className={editor?.isActive("link") ? "is-active" : ""}
-          onClick={openLinkPopover}
-        >
-          Link
-        </button>
-        <button
-          type="button"
-          onClick={() => editor?.chain().focus().undo().run()}
-          disabled={!editor?.can().undo()}
-        >
-          Undo
-        </button>
-        <button
-          type="button"
-          onClick={() => editor?.chain().focus().redo().run()}
-          disabled={!editor?.can().redo()}
-        >
-          Redo
-        </button>
-        <button
-          type="button"
-          onClick={() => inlineImageInputRef.current?.click()}
-          disabled={uploadingInlineImage}
-        >
-          {uploadingInlineImage ? "..." : "Image"}
-        </button>
-        <input
-          type="file"
-          accept="image/*"
-          ref={inlineImageInputRef}
-          style={{ display: "none" }}
-          onChange={handleInlineImageUpload}
-        />
-      </div>
 
-      {linkPopoverOpen && (
-        <div className="post-editor-link-popover">
-          <input
-            ref={linkInputRef}
-            type="text"
-            className="post-editor-link-input font-mono"
-            placeholder="https://example.com"
-            value={linkUrlInput}
-            onChange={(e) => setLinkUrlInput(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                e.preventDefault();
-                commitLink();
-              } else if (e.key === "Escape") {
-                e.preventDefault();
-                cancelLinkPopover();
-              }
-            }}
-          />
+      <div className="post-editor-toolbar-wrap">
+        <div className="post-editor-toolbar">
           <button
             type="button"
-            className="post-editor-link-confirm"
-            onClick={commitLink}
+            className={editor?.isActive("bold") ? "is-active" : ""}
+            onClick={() => editor?.chain().focus().toggleBold().run()}
+            aria-label="Bold"
+            data-tooltip="Bold — emphasize text"
           >
-            Set
+            <Bold size={15} />
           </button>
-          {editor?.isActive("link") && (
-            <button
-              type="button"
-              className="post-editor-link-remove"
-              onClick={removeLink}
-            >
-              Remove
-            </button>
-          )}
           <button
             type="button"
-            className="post-editor-link-cancel"
-            onClick={cancelLinkPopover}
+            className={editor?.isActive("italic") ? "is-active" : ""}
+            onClick={() => editor?.chain().focus().toggleItalic().run()}
+            aria-label="Italic"
+            data-tooltip="Italic — slant text"
           >
-            ×
+            <Italic size={15} />
+          </button>
+          <button
+            type="button"
+            className={editor?.isActive("strike") ? "is-active" : ""}
+            onClick={() => editor?.chain().focus().toggleStrike().run()}
+            aria-label="Strikethrough"
+            data-tooltip="Strikethrough — cross out text"
+          >
+            <Strikethrough size={15} />
+          </button>
+          <button
+            type="button"
+            className={editor?.isActive("code") ? "is-active" : ""}
+            onClick={() => editor?.chain().focus().toggleCode().run()}
+            aria-label="Inline code"
+            data-tooltip="Inline Code — mark text as code"
+          >
+            <Code size={15} />
+          </button>
+          <button
+            type="button"
+            className={editor?.isActive("heading") ? "is-active" : ""}
+            onClick={cycleHeading}
+            aria-label="Heading"
+            data-tooltip="Heading — cycle H2 through H6"
+          >
+            <Heading2 size={15} />
+            {editor?.isActive("heading") && (
+              <span className="toolbar-btn-badge">
+                {editor.getAttributes("heading").level}
+              </span>
+            )}
+          </button>
+          <button
+            type="button"
+            onClick={cycleTextAlign}
+            aria-label="Align"
+            data-tooltip="Align — cycle left, center, right"
+          >
+            <AlignLeft size={15} />
+          </button>
+          <button
+            type="button"
+            className={editor?.isActive("bulletList") ? "is-active" : ""}
+            onClick={() => editor?.chain().focus().toggleBulletList().run()}
+            aria-label="Bullet list"
+            data-tooltip="Bullet List — unordered list"
+          >
+            <List size={15} />
+          </button>
+          <button
+            type="button"
+            className={editor?.isActive("orderedList") ? "is-active" : ""}
+            onClick={() => editor?.chain().focus().toggleOrderedList().run()}
+            aria-label="Numbered list"
+            data-tooltip="Numbered List — ordered list"
+          >
+            <ListOrdered size={15} />
+          </button>
+          <button
+            type="button"
+            className={editor?.isActive("taskList") ? "is-active" : ""}
+            onClick={() => editor?.chain().focus().toggleTaskList().run()}
+            aria-label="Task list"
+            data-tooltip="Task List — checkbox items"
+          >
+            <ListTodo size={15} />
+          </button>
+          <button
+            type="button"
+            className={editor?.isActive("blockquote") ? "is-active" : ""}
+            onClick={() => editor?.chain().focus().toggleBlockquote().run()}
+            aria-label="Quote"
+            data-tooltip="Quote — indented blockquote"
+          >
+            <Quote size={15} />
+          </button>
+          <button
+            type="button"
+            className={editor?.isActive("codeBlock") ? "is-active" : ""}
+            onClick={() => editor?.chain().focus().toggleCodeBlock().run()}
+            aria-label="Code block"
+            data-tooltip="Code Block — multi-line code"
+          >
+            <SquareCode size={15} />
+          </button>
+          <button
+            type="button"
+            onClick={() => editor?.chain().focus().setHorizontalRule().run()}
+            aria-label="Divider"
+            data-tooltip="Divider — horizontal rule"
+          >
+            <Minus size={15} />
+          </button>
+          <button
+            type="button"
+            className={editor?.isActive("link") ? "is-active" : ""}
+            onClick={openLinkPopover}
+            aria-label="Link"
+            data-tooltip="Link — add a hyperlink"
+          >
+            <LinkIcon size={15} />
+          </button>
+          <button
+            type="button"
+            onClick={() => editor?.chain().focus().undo().run()}
+            disabled={!editor?.can().undo()}
+            aria-label="Undo"
+            data-tooltip="Undo — revert last change"
+          >
+            <Undo2 size={15} />
+          </button>
+          <button
+            type="button"
+            onClick={() => editor?.chain().focus().redo().run()}
+            disabled={!editor?.can().redo()}
+            aria-label="Redo"
+            data-tooltip="Redo — reapply last change"
+          >
+            <Redo2 size={15} />
+          </button>
+          <button
+            type="button"
+            onClick={() => inlineImageInputRef.current?.click()}
+            disabled={uploadingInlineImage}
+            aria-label="Insert image"
+            data-tooltip="Image — insert into post"
+          >
+            <ImagePlus size={15} />
           </button>
         </div>
-      )}
-</div>
+
+        {linkPopoverOpen && (
+          <div className="post-editor-link-popover">
+            <input
+              ref={linkInputRef}
+              type="text"
+              className="post-editor-link-input font-mono"
+              placeholder="https://example.com"
+              value={linkUrlInput}
+              onChange={(e) => setLinkUrlInput(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault();
+                  commitLink();
+                } else if (e.key === "Escape") {
+                  e.preventDefault();
+                  cancelLinkPopover();
+                }
+              }}
+            />
+            <button
+              type="button"
+              className="post-editor-link-confirm"
+              onClick={commitLink}
+              aria-label="Set link"
+              title="Set link"
+            >
+              <LinkIcon size={14} />
+            </button>
+            {editor?.isActive("link") && (
+              <button
+                type="button"
+                className="post-editor-link-remove"
+                onClick={removeLink}
+                aria-label="Remove link"
+                title="Remove link"
+              >
+                <X size={14} />
+              </button>
+            )}
+            <button
+              type="button"
+              className="post-editor-link-cancel"
+              onClick={cancelLinkPopover}
+              aria-label="Cancel"
+              title="Cancel"
+            >
+              <X size={14} />
+            </button>
+          </div>
+        )}
+      </div>
+
       <EditorContent editor={editor} className="post-editor-body" />
 
       <div className="post-editor-actions">
