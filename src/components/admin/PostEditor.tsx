@@ -632,7 +632,13 @@ export default function PostEditor({ postId }: PostEditorProps) {
           </div>
         )}
       </div>
-
+      <input
+        type="file"
+        accept="image/*"
+        ref={inlineImageInputRef}
+        style={{ display: "none" }}
+        onChange={handleInlineImageUpload}
+      />
       <EditorContent editor={editor} className="post-editor-body" />
 
       <div className="post-editor-actions">
