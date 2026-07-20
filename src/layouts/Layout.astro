@@ -1,6 +1,8 @@
 ---
 interface Props {
   title?: string;
+  description?: string;
+  image?: string;
   showBack?: boolean;
 }
 import "../styles/global.css";
@@ -10,7 +12,12 @@ import ThemeSwitcher from "../components/ThemeSwitcher.astro";
 import BackButton from "../components/BackButton.astro";
 import BackToTop from "../components/BackToTop.astro";
 import { ClientRouter } from "astro:transitions";
-const { title = "Akif Zahin", showBack = false } = Astro.props;
+const {
+  title = "Akif Zahin",
+  description = "I build AI-powered apps, full-stack tools, and solutions for real-world problems. Based in Dhaka, Bangladesh. Open to freelance and collaborations.",
+  image = "https://akifzahin.dev/og.png",
+  showBack = false,
+} = Astro.props;
 ---
 
 <!doctype html>
@@ -18,33 +25,21 @@ const { title = "Akif Zahin", showBack = false } = Astro.props;
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta
-      name="description"
-      content="I build AI-powered apps, full-stack tools, and solutions for real-world problems. Based in Dhaka, Bangladesh. Open to freelance and collaborations."
-    />
+    <meta name="description" content={description} />
     <meta name="author" content="Akif Zahin" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={image} />
     <meta
-      property="og:title"
-      content="Akif Zahin — Full-stack Developer & AI Builder in Dhaka"
+      property="og:url"
+      content={`https://akifzahin.dev${Astro.url.pathname}`}
     />
-    <meta
-      property="og:description"
-      content="I build AI-powered apps, full-stack tools, and solutions for real-world problems. Based in Dhaka, Bangladesh. Open to freelance and collaborations."
-    />
-    <meta property="og:image" content="https://akifzahin.dev/og.png" />
-    <meta property="og:url" content="https://akifzahin.dev" />
     <meta property="og:type" content="website" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta
-      name="twitter:title"
-      content="Akif Zahin — Full-stack Developer & AI Builder in Dhaka"
-    />
-    <meta
-      name="twitter:description"
-      content="I build AI-powered apps, full-stack tools, and solutions for real-world problems. Based in Dhaka, Bangladesh. Open to freelance and collaborations."
-    />
-    <meta name="twitter:image" content="https://akifzahin.dev/og.png" />
-    <link rel="canonical" href="https://akifzahin.dev" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={image} />
+    <link rel="canonical" href={`https://akifzahin.dev${Astro.url.pathname}`} />
     <script
       type="application/ld+json"
       set:html={JSON.stringify({
@@ -259,7 +254,7 @@ const { title = "Akif Zahin", showBack = false } = Astro.props;
     </div>
 
     <slot />
-  <BackToTop/>
+    <BackToTop />
     <Analytics />
     <SpeedInsights />
   </body><!-- ── All persistent UI — recreated on every page-load ──────────────── --><!--

@@ -25,10 +25,32 @@ const sessionToken = Astro.cookies.get(COOKIE_NAME)?.value;
 const isAdmin = sessionToken ? await verifySessionToken(sessionToken) : false;
 ---
 
-<Layout title={post.title} showBack={true}>
+<Layout
+  title={post.title}
+  description={post.description}
+  image={post.cover_image ?? undefined}
+  showBack={true}
+>
   <main class="blog-post">
     <div class="blog-post-inner">
       <BackButton />
+      <script
+        type="application/ld+json"
+        set:html={JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "BlogPosting",
+          headline: post.title,
+          description: post.description,
+          image: post.cover_image ?? "https://akifzahin.dev/og.png",
+          datePublished: post.published_at,
+          dateModified: post.updated_at,
+          author: {
+            "@type": "Person",
+            name: "Akif Zahin",
+            url: "https://akifzahin.dev",
+          },
+        })}
+      />
       <header class="post-header">
         <span class="post-date font-mono">
           {
@@ -160,8 +182,8 @@ const isAdmin = sessionToken ? await verifySessionToken(sessionToken) : false;
             <span class="btn-label">Post Comment</span>
           </button>
         </form>
-        <br> 
-        <br>
+        <br />
+        <br />
         <p class="section-label" id="comments-label">Comments</p>
 
         <div id="comments-list" class="comments-list">
