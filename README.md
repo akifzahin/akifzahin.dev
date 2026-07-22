@@ -1,5 +1,5 @@
 # akifzahin.dev
-
+<img src="/public/images/hero.svg" alt="Akif Zahin" />
 Personal portfolio and blog for Akif Zahin — a full-stack developer and AI builder based in Dhaka, Bangladesh. Built with Astro and deployed on Vercel, backed by a custom database-driven CMS.
 
 **Live site:** [akifzahin.dev](https://akifzahin.dev)
