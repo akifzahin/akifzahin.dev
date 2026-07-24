@@ -5,7 +5,7 @@ import Layout from "../../layouts/Layout.astro";
 const error = Astro.url.searchParams.get("error");
 ---
 
-<Layout title="Admin Login">
+<Layout title="Admin Login" noindex={true}>
   <main class="admin-login">
     <div class="admin-login-card">
       <h1 class="font-display">Admin Access</h1>
