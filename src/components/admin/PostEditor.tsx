@@ -71,6 +71,7 @@ export default function PostEditor({ postId }: PostEditorProps) {
 
   // ── Link popover state ──────────────────────────────────────────────────
   const [linkPopoverOpen, setLinkPopoverOpen] = useState(false);
+  const [toolbarOpen, setToolbarOpen] = useState(false);
   const [linkUrlInput, setLinkUrlInput] = useState("");
   const linkInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -568,7 +569,15 @@ export default function PostEditor({ postId }: PostEditorProps) {
       </div>
 
       <div className="post-editor-toolbar-wrap">
-        <div className="post-editor-toolbar">
+        <button
+          type="button"
+          className="toolbar-hamburger-trigger"
+          onClick={() => setToolbarOpen((o) => !o)}
+          aria-label="Toggle formatting toolbar"
+        >
+          ☰ Format
+        </button>
+        <div className={`post-editor-toolbar ${toolbarOpen ? "open" : ""}`}>
           <button
             type="button"
             className={editor?.isActive("bold") ? "is-active" : ""}

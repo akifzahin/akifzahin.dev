@@ -3106,7 +3106,127 @@ body::before {
   color: var(--accent);
 }
 
+.toolbar-hamburger-trigger {
+  display: none;
+}
 
+@media (max-width: 768px) {
+  .toolbar-hamburger-trigger {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    background: transparent;
+    border: 1px solid rgba(var(--primary-rgb), 0.3);
+    color: rgba(var(--primary-rgb), 0.8);
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+  }
+
+  .post-editor-toolbar {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .post-editor-toolbar.open {
+    display: flex;
+  }
+
+  .post-editor-toolbar button {
+    width: 100%;
+    height: auto;
+    justify-content: flex-start;
+    gap: 8px;
+    padding: 0.5rem 0.75rem;
+  }
+
+  .post-editor-toolbar button[data-tooltip]::after {
+    content: attr(data-tooltip);
+    position: static;
+    transform: none;
+    opacity: 1;
+    pointer-events: auto;
+    border: none;
+    box-shadow: none;
+    background: none;
+    padding: 0;
+    font-size: 0.75rem;
+  }
+
+  .post-editor-toolbar button[data-tooltip]::before {
+    display: none;
+  }
+}
+
+/* ==========================================================================
+   POST EDITOR — FULL MOBILE LAYOUT (final override, always last in cascade)
+   ========================================================================== */
+@media (max-width: 768px) {
+  .admin-editor-page {
+    padding: 6rem 1rem 3rem !important;
+  }
+
+  .post-editor-meta {
+    gap: 0.75rem !important;
+  }
+
+  .post-editor-title-input {
+    font-size: 1.3rem !important;
+  }
+
+  .post-editor-desc-input {
+    font-size: 0.9rem !important;
+  }
+
+  .post-editor-row {
+    flex-direction: column !important;
+    gap: 0.75rem !important;
+  }
+
+  .post-editor-tags-input {
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  .post-editor-image-upload {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    width: 100% !important;
+    gap: 0.5rem !important;
+  }
+
+  .post-editor-image-btn {
+    width: 100% !important;
+    text-align: center !important;
+  }
+
+  .post-editor-image-url-input {
+    width: 100% !important;
+  }
+
+  .post-editor-body {
+    padding: 1rem !important;
+  }
+
+  .post-editor-body .ProseMirror {
+    font-size: 0.95rem !important;
+  }
+
+  .post-editor-actions {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 0.5rem !important;
+  }
+
+  .post-editor-link-popover {
+    flex-wrap: wrap !important;
+  }
+  
+}
 
 .post-editor-toolbar button {
   position: relative;
