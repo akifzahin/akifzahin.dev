@@ -5,6 +5,7 @@ interface Props {
   image?: string;
   showBack?: boolean;
   noindex?: boolean;
+  hideVanta?: boolean;
 }
 import "../styles/global.css";
 import Analytics from "@vercel/analytics/astro";
@@ -19,6 +20,7 @@ const {
   image = "https://akifzahin.dev/og.png",
   showBack = false,
   noindex = false,
+  hideVanta = false,
 } = Astro.props;
 ---
 
@@ -186,7 +188,7 @@ const {
       src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.trunk.min.js"
     ></script>
   </head>
-  <body>
+  <body class={hideVanta ? "hide-vanta" : ""}>
     <!-- Vanta.js mount target — sits behind CSS grid via z-index -->
     <div id="vanta-bg"></div>
     <div class="nav-wrapper">

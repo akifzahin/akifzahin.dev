@@ -7,6 +7,8 @@ import LinkExtension from "@tiptap/extension-link";
 import TextAlign from "@tiptap/extension-text-align";
 import TaskList from "@tiptap/extension-task-list";
 import TaskItem from "@tiptap/extension-task-item";
+import TurndownService from "turndown";
+import { generateHTML } from "@tiptap/html";
 import {
   Bold,
   Italic,
@@ -33,6 +35,7 @@ import {
   Check,
   Send,
   Archive,
+  Download,
 } from "lucide-react";
 
 interface PostEditorProps {
@@ -86,7 +89,10 @@ export default function PostEditor({ postId }: PostEditorProps) {
       TaskItem.configure({ nested: true }),
     ],
     content: "",
-    onUpdate: () => scheduleSave(),
+    onUpdate: () => {
+      if (!loaded) return;
+      scheduleSave();
+    },
     onSelectionUpdate: () => forceToolbarUpdate((n) => n + 1),
     onTransaction: () => forceToolbarUpdate((n) => n + 1),
     editorProps: {
@@ -204,7 +210,15 @@ export default function PostEditor({ postId }: PostEditorProps) {
       cover_image: coverImage || null,
       content_json: editor?.getJSON() ?? {},
     };
+    const isEmpty = (json: any) =>
+      !json?.content ||
+      json.content.length === 0 ||
+      (json.content.length === 1 && !json.content[0]?.content);
 
+    if (id && isEmpty(payload.content_json)) {
+      setStatus("error");
+      return;
+    }
     try {
       // First save on a brand-new post: create the row, then switch to PUT for all future saves
       if (!id) {
@@ -428,7 +442,32 @@ export default function PostEditor({ postId }: PostEditorProps) {
     setLinkPopoverOpen(false);
     setLinkUrlInput("");
   };
+  const handleDownloadMarkdown = () => {
+    if (!editor) return;
 
+    const html = generateHTML(editor.getJSON(), [
+      StarterKit,
+      ImageExtension,
+      LinkExtension,
+    ]);
+
+    const turndownService = new TurndownService();
+    const markdown = turndownService.turndown(html);
+
+    const filename =
+      (title.trim() || "untitled-draft")
+        .toLowerCase()
+        .replace(/[^a-z0-9\s-]/g, "")
+        .replace(/\s+/g, "-") + ".md";
+
+    const blob = new Blob([markdown], { type: "text/markdown" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
   const handlePublish = async () => {
     if (saveTimer.current) clearTimeout(saveTimer.current);
     await doSave();
@@ -695,6 +734,14 @@ export default function PostEditor({ postId }: PostEditorProps) {
             ) : (
               <Archive size={15} />
             )}
+          </button>
+          <button
+            type="button"
+            onClick={handleDownloadMarkdown}
+            aria-label="Download as Markdown"
+            data-tooltip="Download — save as .md file"
+          >
+            <Download size={15} />
           </button>
         </div>
 

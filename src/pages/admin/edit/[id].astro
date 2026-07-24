@@ -8,7 +8,7 @@ const { id } = Astro.params;
 const postId = Number(id);
 ---
 
-<Layout title="Edit Post — Admin" noindex={true}>
+<Layout title="Edit Post — Admin" noindex={true} hideVanta={true}>
   <main class="admin-editor-page">
     <div class="admin-editor-inner">
       <BackButton />
@@ -26,7 +26,7 @@ const postId = Number(id);
   }
 </style>
 
-<script>
+<!-- <script>
   document.addEventListener("astro:page-load", () => {
     const vantaMount = document.getElementById("vanta-bg");
     if (vantaMount) vantaMount.style.display = "none";
@@ -40,4 +40,4 @@ const postId = Number(id);
     },
     { once: true },
   );
-</script>
+</script> -->

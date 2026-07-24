@@ -30,6 +30,7 @@ const isAdmin = sessionToken ? await verifySessionToken(sessionToken) : false;
   description={post.description}
   image={post.cover_image ?? undefined}
   showBack={true}
+  hideVanta={true}
 >
   <main class="blog-post">
     <div class="blog-post-inner">

@@ -38,9 +38,11 @@
     "marked": "^18.0.6",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
-    "rss-parser": "^3.13.0"
+    "rss-parser": "^3.13.0",
+    "turndown": "^7.2.4"
   },
   "devDependencies": {
+    "@types/turndown": "^5.0.6",
     "prettier": "^3.9.4",
     "prettier-plugin-astro": "^0.14.1"
   }
