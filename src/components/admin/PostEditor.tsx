@@ -13,6 +13,10 @@ import {
   Strikethrough,
   Code,
   Heading2,
+  Heading3,
+  Heading4,
+  Heading5,
+  Heading6,
   AlignLeft,
   List,
   ListOrdered,
@@ -25,6 +29,10 @@ import {
   Redo2,
   ImagePlus,
   X,
+  Save,
+  Check,
+  Send,
+  Archive,
 } from "lucide-react";
 
 interface PostEditorProps {
@@ -50,7 +58,10 @@ export default function PostEditor({ postId }: PostEditorProps) {
   const [loaded, setLoaded] = useState(!postId); // true immediately for new posts
   const saveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const creating = useRef(false);
+  const dirty = useRef(false);
   const [isDraft, setIsDraft] = useState(true);
+  const [justSaved, setJustSaved] = useState(false);
+  const [justPublished, setJustPublished] = useState(false);
   const [uploadingImage, setUploadingImage] = useState(false);
   const [uploadingInlineImage, setUploadingInlineImage] = useState(false);
   const inlineImageInputRef = useRef<HTMLInputElement | null>(null);
@@ -80,6 +91,47 @@ export default function PostEditor({ postId }: PostEditorProps) {
     onTransaction: () => forceToolbarUpdate((n) => n + 1),
     editorProps: {
       handlePaste(view, event) {
+        // ── Actual image file on the clipboard (e.g. a screenshot, or an
+        // image copied from another app/webpage) — arrives as a File blob
+        // via clipboardData.items, not as text. Upload it the same way the
+        // toolbar's "insert image" button does, then drop it in at the
+        // cursor. This is a distinct path from the URL-paste handling below.
+        const items = event.clipboardData?.items;
+        if (items) {
+          for (let i = 0; i < items.length; i++) {
+            const item = items[i];
+            if (item.kind === "file" && item.type.startsWith("image/")) {
+              const file = item.getAsFile();
+              if (!file) continue;
+
+              event.preventDefault();
+              const { from } = view.state.selection;
+
+              const formData = new FormData();
+              formData.append("file", file);
+
+              fetch("/api/admin/upload-image", {
+                method: "POST",
+                body: formData,
+              })
+                .then((res) => res.json())
+                .then((result) => {
+                  if (!result.url) return;
+                  const tr = view.state.tr.insert(
+                    from,
+                    view.state.schema.nodes.image.create({ src: result.url }),
+                  );
+                  view.dispatch(tr);
+                })
+                .catch(() => {
+                  // fail silently — paste-to-upload is a convenience path
+                });
+
+              return true;
+            }
+          }
+        }
+
         const text = event.clipboardData?.getData("text/plain")?.trim();
         if (!text || !/^https?:\/\//i.test(text)) return false;
 
@@ -181,6 +233,9 @@ export default function PostEditor({ postId }: PostEditorProps) {
         });
       }
       setStatus("saved");
+      dirty.current = false;
+      setJustSaved(true);
+      setTimeout(() => setJustSaved(false), 1500);
     } catch {
       setStatus("error");
     }
@@ -188,8 +243,9 @@ export default function PostEditor({ postId }: PostEditorProps) {
 
   const scheduleSave = useCallback(() => {
     setStatus("idle");
+    dirty.current = true;
     if (saveTimer.current) clearTimeout(saveTimer.current);
-    saveTimer.current = setTimeout(() => doSave(), 10000); // 10s debounce
+    saveTimer.current = setTimeout(() => doSave(), 2000); // 2s debounce, Medium-style
   }, [doSave]);
 
   // Re-schedule autosave when title/description/tags/image change
@@ -198,6 +254,33 @@ export default function PostEditor({ postId }: PostEditorProps) {
     scheduleSave();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [title, description, tagsInput, coverImage]);
+
+  // Flush any unsaved edit before the tab closes, the page loses focus,
+  // or an SPA navigation swaps the page out — so nothing typed is lost.
+  useEffect(() => {
+    if (!loaded) return;
+
+    const flush = () => {
+      if (dirty.current) {
+        if (saveTimer.current) clearTimeout(saveTimer.current);
+        doSave();
+      }
+    };
+
+    const onVisibility = () => {
+      if (document.visibilityState === "hidden") flush();
+    };
+
+    window.addEventListener("beforeunload", flush);
+    document.addEventListener("visibilitychange", onVisibility);
+    document.addEventListener("astro:before-swap", flush, { once: true });
+
+    return () => {
+      window.removeEventListener("beforeunload", flush);
+      document.removeEventListener("visibilitychange", onVisibility);
+      document.removeEventListener("astro:before-swap", flush);
+    };
+  }, [loaded, doSave]);
 
   const handleManualSave = () => {
     if (saveTimer.current) clearTimeout(saveTimer.current);
@@ -283,6 +366,23 @@ export default function PostEditor({ postId }: PostEditorProps) {
       editor.chain().focus().toggleHeading({ level: levels[nextIndex] }).run();
     }
   };
+
+  // Maps the active heading level to its matching lucide icon, so the
+  // toolbar button visually reflects H2 vs H3 vs ... vs H6, not just the
+  // numeric badge. Falls back to Heading2 when the cursor isn't in a heading.
+  const HEADING_ICONS = {
+    2: Heading2,
+    3: Heading3,
+    4: Heading4,
+    5: Heading5,
+    6: Heading6,
+  } as const;
+  const activeHeadingLevel = ([2, 3, 4, 5, 6] as const).find((l) =>
+    editor?.isActive("heading", { level: l }),
+  );
+  const HeadingIcon = activeHeadingLevel
+    ? HEADING_ICONS[activeHeadingLevel]
+    : Heading2;
   // ── Link handling ────────────────────────────────────────────────────────
   const openLinkPopover = () => {
     if (!editor) return;
@@ -340,10 +440,8 @@ export default function PostEditor({ postId }: PostEditorProps) {
       });
       const result = await res.json();
       setIsDraft(result.draft === 1);
-      setStatus("saved");
-      if (result.draft === 0) {
-        window.location.href = "/admin";
-      }
+      setJustPublished(true);
+      setTimeout(() => setJustPublished(false), 1500);
     } catch {
       setStatus("error");
     }
@@ -475,12 +573,7 @@ export default function PostEditor({ postId }: PostEditorProps) {
             aria-label="Heading"
             data-tooltip="Heading — cycle H2 through H6"
           >
-            <Heading2 size={15} />
-            {editor?.isActive("heading") && (
-              <span className="toolbar-btn-badge">
-                {editor.getAttributes("heading").level}
-              </span>
-            )}
+            <HeadingIcon size={15} />
           </button>
           <button
             type="button"
@@ -579,6 +672,30 @@ export default function PostEditor({ postId }: PostEditorProps) {
           >
             <ImagePlus size={15} />
           </button>
+          <button
+            type="button"
+            className={justSaved ? "saved" : ""}
+            onClick={handleManualSave}
+            aria-label="Save draft"
+            data-tooltip="Save Draft"
+          >
+            {justSaved ? <Check size={15} /> : <Save size={15} />}
+          </button>
+          <button
+            type="button"
+            className={justPublished ? "saved" : ""}
+            onClick={handlePublish}
+            aria-label={isDraft ? "Publish" : "Unpublish"}
+            data-tooltip={isDraft ? "Publish" : "Unpublish"}
+          >
+            {justPublished ? (
+              <Check size={15} />
+            ) : isDraft ? (
+              <Send size={15} />
+            ) : (
+              <Archive size={15} />
+            )}
+          </button>
         </div>
 
         {linkPopoverOpen && (
@@ -648,20 +765,6 @@ export default function PostEditor({ postId }: PostEditorProps) {
           {status === "error" && "Save failed"}
           {status === "idle" && "Unsaved changes"}
         </span>
-        <div style={{ display: "flex", gap: "0.75rem" }}>
-          <button
-            type="button"
-            className="btn-primary"
-            onClick={handleManualSave}
-          >
-            <span className="btn-label">Save Draft</span>
-          </button>
-          <button type="button" className="btn-primary" onClick={handlePublish}>
-            <span className="btn-label">
-              {isDraft ? "Publish" : "Unpublish"}
-            </span>
-          </button>
-        </div>
       </div>
     </div>
   );

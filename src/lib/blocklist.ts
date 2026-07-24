@@ -2,7 +2,32 @@
 // Matching is case-insensitive and checks whole words where possible to
 // avoid catching substrings inside innocent words.
 const BLOCKED_WORDS: string[] = [
-  // Add / remove freely. Keep lowercase.
+  "fuck",
+  "shit",
+  "bitch",
+  "asshole",
+  "bastard",
+  "cunt",
+  "dick",
+  "piss",
+  "slut",
+  "whore",
+  "faggot",
+  "nigger",
+  "nigga",
+  "retard",
+  "spic",
+  "chink",
+  "kike",
+  "tranny",
+  "rape",
+  "molest",
+  "viagra",
+  "porn",
+  "xxx",
+  "casino",
+  "crypto airdrop",
+  "free money",
 ];
 
 export function containsBlockedWord(text: string): boolean {

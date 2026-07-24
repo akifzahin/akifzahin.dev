@@ -1,11 +1,16 @@
-import { defineConfig } from 'astro/config';
-import sitemap from '@astrojs/sitemap';
-import vercel from '@astrojs/vercel';
-import react from '@astrojs/react';
+import { defineConfig } from "astro/config";
+import sitemap from "@astrojs/sitemap";
+import vercel from "@astrojs/vercel";
+import react from "@astrojs/react";
 
 export default defineConfig({
-  site: 'https://akifzahin.dev',
-  output: 'static',
+  site: "https://akifzahin.dev",
+  output: "static",
   adapter: vercel(),
-  integrations: [sitemap(), react()],
+  integrations: [
+    sitemap({
+      filter: (page) => !page.includes("/admin"),
+    }),
+    react(),
+  ],
 });

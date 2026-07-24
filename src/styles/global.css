@@ -1734,6 +1734,45 @@ body::before {
   animation: glitchCardLight 6s ease-in-out infinite;
 } */
 /* ── Lists ──────────────────────────────────────────────────────────── */
+/* Base body text runs at font-weight 300, so the browser's default
+   "bolder" jump for <strong>/<b> reads as barely different. Pin it to a
+   real bold explicitly, in both the editor and the rendered post. */
+.post-editor-body .ProseMirror strong,
+.post-editor-body .ProseMirror b,
+.post-content strong,
+.post-content b {
+  font-weight: 700;
+}
+
+.post-editor-icon-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  background: transparent;
+  border: 1px solid rgba(var(--primary-rgb), 0.3);
+  color: rgba(var(--primary-rgb), 0.8);
+  cursor: pointer;
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+
+.post-editor-icon-btn:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.post-editor-icon-btn.saved {
+  border-color: #0fd28c;
+  color: #0fd28c;
+}
+
+.post-editor-toolbar button.saved {
+  border-color: #0fd28c;
+  color: #0fd28c;
+}
+
 .post-editor-body .ProseMirror ul,
 .post-editor-body .ProseMirror ol {
   padding-left: 1.5rem;
@@ -5528,7 +5567,7 @@ footer {
   }
 
   html,
-body{
+  body {
     overflow-x: hidden;
     max-width: 100%;
   }

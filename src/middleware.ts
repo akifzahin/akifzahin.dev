@@ -14,7 +14,6 @@ export const onRequest = defineMiddleware(async (context, next) => {
   }
 
   const token = context.cookies.get(COOKIE_NAME)?.value;
-  console.log("Middleware check:", { pathname, token });
   const valid = token ? await verifySessionToken(token) : false;
 
   if (!valid) {

@@ -4,6 +4,7 @@ interface Props {
   description?: string;
   image?: string;
   showBack?: boolean;
+  noindex?: boolean;
 }
 import "../styles/global.css";
 import Analytics from "@vercel/analytics/astro";
@@ -17,6 +18,7 @@ const {
   description = "I build AI-powered apps, full-stack tools, and solutions for real-world problems. Based in Dhaka, Bangladesh. Open to freelance and collaborations.",
   image = "https://akifzahin.dev/og.png",
   showBack = false,
+  noindex = false,
 } = Astro.props;
 ---
 

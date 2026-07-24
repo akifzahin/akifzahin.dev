@@ -5,7 +5,7 @@ import BackButton from "../../components/BackButton.astro";
 import BackToTop from "../../components/BackToTop.astro";
 ---
 
-<Layout title="Drafts — Admin">
+<Layout title="Drafts — Admin" noindex={true}>
   <main class="admin-dashboard">
     <div class="admin-dashboard-inner">
       <BackButton />
@@ -54,6 +54,8 @@ import BackToTop from "../../components/BackToTop.astro";
 </Layout>
 
 <script>
+  const vantaMount = document.getElementById("vanta-bg");
+  if (vantaMount) vantaMount.style.display = "";
   document.addEventListener("astro:page-load", async () => {
     const list = document.getElementById("posts-list");
     const paginationEl = document.getElementById("admin-pagination");
