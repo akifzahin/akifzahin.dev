@@ -3,6 +3,9 @@ import { generateHTML } from "@tiptap/html";
 import StarterKit from "@tiptap/starter-kit";
 import ImageExtension from "@tiptap/extension-image";
 import LinkExtension from "@tiptap/extension-link";
+import TextAlign from "@tiptap/extension-text-align";
+import TaskList from "@tiptap/extension-task-list";
+import TaskItem from "@tiptap/extension-task-item";
 
 export interface Post {
   id: number;
@@ -36,12 +39,14 @@ function rowToPost(row: any): Post {
 
 export async function getPublishedPosts(): Promise<Post[]> {
   const result = await db.execute(
-    "SELECT * FROM posts WHERE draft = 0 ORDER BY published_at DESC"
+    "SELECT * FROM posts WHERE draft = 0 ORDER BY published_at DESC",
   );
   return result.rows.map(rowToPost);
 }
 
-export async function getPostBySlug(slug: string): Promise<PostWithHtml | null> {
+export async function getPostBySlug(
+  slug: string,
+): Promise<PostWithHtml | null> {
   const result = await db.execute({
     sql: "SELECT * FROM posts WHERE slug = ? AND draft = 0",
     args: [slug],
@@ -56,6 +61,9 @@ export async function getPostBySlug(slug: string): Promise<PostWithHtml | null> 
     StarterKit.configure({ link: false }),
     ImageExtension,
     LinkExtension,
+    TextAlign.configure({ types: ["paragraph", "heading"] }),
+    TaskList,
+    TaskItem.configure({ nested: true }),
   ]);
 
   return {
