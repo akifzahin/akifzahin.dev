@@ -1752,8 +1752,8 @@ body::before {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
+  width: 29px;
+  height: 29px;
   padding: 0;
   background: transparent;
   border: 1px solid rgba(var(--primary-rgb), 0.3);
@@ -1949,7 +1949,7 @@ body::before {
 :root.light .post-editor-toolbar button[data-tooltip]::after {
   border-color: var(--accent);
   color: var(--accent);
-  box-shadow: 0 0 10px rgba(var(--accent-rgb), 0.25);
+  /* box-shadow: 0 0 10px rgba(var(--accent-rgb), 0.25); */
 }
 
 :root.light .post-editor-toolbar button[data-tooltip]::before {
@@ -1959,7 +1959,7 @@ body::before {
 
 @media (max-width: 768px) {
   .post-editor-toolbar-wrap {
-    position: fixed;
+    position: sticky;
     top: 72px;
     left: 0;
     right: 0;
@@ -2174,14 +2174,11 @@ body::before {
 
 .comments-header {
   display: inline-flex;
-  /* Shrinks the div width to fit its content */
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 2.5rem;
+  margin-bottom: 1.35rem;
   flex-wrap: wrap;
-  gap: 5.4rem;
-  margin-top: 12px;
-  margin-bottom: 8px;
+  gap: 60px;
 }
 
 /* ── Comments ────────────────────────────────────────────────────── */
@@ -2918,8 +2915,8 @@ body::before {
 }
 
 .post-editor-image-preview {
-  height: 36px;
-  width: 36px;
+  height: auto;
+  width: 100%;
   object-fit: cover;
   border: 1px solid rgba(var(--primary-rgb), 0.3);
 }
@@ -2943,7 +2940,11 @@ body::before {
   flex-direction: column;
   gap: 1rem;
   padding-bottom: 1.5rem;
-  border-bottom: 1px solid rgba(var(--primary-rgb), 0.2);
+  border-bottom: 1px solid rgba(var(--primary-rgb), 0.3);
+}
+
+:root.light .post-editor-meta {
+  border-bottom: 1px solid rgba(var(--accent-rgb), 0.3);
 }
 
 .post-editor-title-input {
@@ -3062,6 +3063,8 @@ body::before {
   gap: 0.4rem;
   flex-wrap: wrap;
   justify-content: center;
+
+
 }
 
 /* .post-editor-toolbar {
@@ -3110,10 +3113,62 @@ body::before {
   display: none;
 }
 
+.post-editor-toolbar button {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 27px;
+  height: 27px;
+  padding: 0;
+  background: transparent;
+  border: 1px solid rgba(var(--primary-rgb), 0.3);
+  color: rgba(var(--primary-rgb), 0.8);
+  cursor: pointer;
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+
+.toolbar-hamburger-icon {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+.toolbar-hamburger-icon span {
+  display: block;
+  width: 18px;
+  height: 1.5px;
+  background: var(--primary);
+  transition: all 0.3s ease;
+  transform-origin: center;
+}
+
+.toolbar-hamburger-icon.open span:nth-child(1) {
+  transform: translateY(6.5px) rotate(45deg);
+}
+
+.toolbar-hamburger-icon.open span:nth-child(2) {
+  opacity: 0;
+}
+
+.toolbar-hamburger-icon.open span:nth-child(3) {
+  transform: translateY(-6.5px) rotate(-45deg);
+}
+
+:root.light .toolbar-hamburger-icon span {
+  background: var(--accent);
+}
+
 @media (max-width: 768px) {
   .toolbar-hamburger-trigger {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 6px;
     width: 100%;
     padding: 0.5rem 0.75rem;
@@ -3126,10 +3181,17 @@ body::before {
     cursor: pointer;
   }
 
+  :root.light .toolbar-hamburger-trigger {
+    border: 1px solid rgba(var(--accent-rgb), 0.3);
+    color: rgba(var(--accent-rgb), 0.8);
+  }
+
   .post-editor-toolbar {
     display: none;
     flex-direction: column;
     width: 100%;
+    max-height: 50vh;
+    overflow-y: auto;
   }
 
   .post-editor-toolbar.open {
@@ -3225,23 +3287,10 @@ body::before {
   .post-editor-link-popover {
     flex-wrap: wrap !important;
   }
-  
+
 }
 
-.post-editor-toolbar button {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 30px;
-  height: 30px;
-  padding: 0;
-  background: transparent;
-  border: 1px solid rgba(var(--primary-rgb), 0.3);
-  color: rgba(var(--primary-rgb), 0.8);
-  cursor: pointer;
-  transition: border-color 0.2s ease, color 0.2s ease;
-}
+
 
 .post-editor-toolbar button:hover {
   border-color: var(--primary);
@@ -5692,7 +5741,7 @@ footer {
 
   html,
   body {
-    overflow-x: hidden;
+    /* overflow-x: hidden;  - CHECK THIS FOR FUTURE*/
     max-width: 100%;
   }
 

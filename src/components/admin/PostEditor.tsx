@@ -9,6 +9,7 @@ import TaskList from "@tiptap/extension-task-list";
 import TaskItem from "@tiptap/extension-task-item";
 import TurndownService from "turndown";
 import { generateHTML } from "@tiptap/html";
+import { marked } from "marked";
 import {
   Bold,
   Italic,
@@ -36,6 +37,7 @@ import {
   Send,
   Archive,
   Download,
+  Upload,
 } from "lucide-react";
 
 interface PostEditorProps {
@@ -68,6 +70,7 @@ export default function PostEditor({ postId }: PostEditorProps) {
   const [uploadingImage, setUploadingImage] = useState(false);
   const [uploadingInlineImage, setUploadingInlineImage] = useState(false);
   const inlineImageInputRef = useRef<HTMLInputElement | null>(null);
+  const uploadMdInputRef = useRef<HTMLInputElement | null>(null);
 
   // ── Link popover state ──────────────────────────────────────────────────
   const [linkPopoverOpen, setLinkPopoverOpen] = useState(false);
@@ -82,10 +85,10 @@ export default function PostEditor({ postId }: PostEditorProps) {
   const editor = useEditor({
     extensions: [
       StarterKit,
-      ImageExtension,
+      ImageExtension.configure({ inline: true }),
       LinkExtension.configure({ openOnClick: false }),
       Placeholder.configure({ placeholder: "Start writing..." }),
-      TextAlign.configure({ types: ["paragraph", "heading"] }),
+      TextAlign.configure({ types: ["paragraph", "heading", "image"] }),
       TaskList,
       TaskItem.configure({ nested: true }),
     ],
@@ -211,6 +214,7 @@ export default function PostEditor({ postId }: PostEditorProps) {
       cover_image: coverImage || null,
       content_json: editor?.getJSON() ?? {},
     };
+
     const isEmpty = (json: any) =>
       !json?.content ||
       json.content.length === 0 ||
@@ -240,6 +244,8 @@ export default function PostEditor({ postId }: PostEditorProps) {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload),
         });
+
+        window.history.replaceState(null, "", `/admin/edit/${result.id}`);
       } else {
         await fetch(`/api/admin/posts/${id}`, {
           method: "PUT",
@@ -453,7 +459,7 @@ export default function PostEditor({ postId }: PostEditorProps) {
     ]);
 
     const turndownService = new TurndownService();
-    const markdown = turndownService.turndown(html);
+    const markdown = `# ${title || "Untitled"}\n\n${turndownService.turndown(html)}`;
 
     const filename =
       (title.trim() || "untitled-draft")
@@ -469,6 +475,35 @@ export default function PostEditor({ postId }: PostEditorProps) {
     a.click();
     URL.revokeObjectURL(url);
   };
+
+  const handleUploadMarkdown = async (
+    e: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    const file = e.target.files?.[0];
+    if (!file || !editor) return;
+
+    const text = await file.text();
+    const lines = text.split("\n");
+    let parsedTitle = "";
+    let bodyStartIndex = 0;
+
+    const h1Index = lines.findIndex((l) => /^#\s+/.test(l));
+    if (h1Index !== -1) {
+      parsedTitle = lines[h1Index].replace(/^#\s+/, "").trim();
+      bodyStartIndex = h1Index + 1;
+    }
+
+    const bodyMarkdown = lines.slice(bodyStartIndex).join("\n").trim();
+    const html = await marked.parse(bodyMarkdown);
+
+    if (parsedTitle) setTitle(parsedTitle);
+    editor.commands.setContent(html);
+
+    e.target.value = "";
+
+    setTimeout(() => doSave(), 100);
+  };
+
   const handlePublish = async () => {
     if (saveTimer.current) clearTimeout(saveTimer.current);
     await doSave();
@@ -547,25 +582,26 @@ export default function PostEditor({ postId }: PostEditorProps) {
                 }
               }}
             />
-            {coverImage && (
-              <div className="post-editor-image-preview-wrap">
-                <img
-                  src={coverImage}
-                  alt="Cover preview"
-                  className="post-editor-image-preview"
-                />
-                <button
-                  type="button"
-                  className="post-editor-image-remove"
-                  aria-label="Remove cover image"
-                  onClick={() => setCoverImage("")}
-                >
-                  ×
-                </button>
-              </div>
-            )}
           </div>
         </div>
+
+        {coverImage && (
+          <div className="post-editor-image-preview-wrap">
+            <img
+              src={coverImage}
+              alt="Cover preview"
+              className="post-editor-image-preview"
+            />
+            <button
+              type="button"
+              className="post-editor-image-remove"
+              aria-label="Remove cover image"
+              onClick={() => setCoverImage("")}
+            >
+              ×
+            </button>
+          </div>
+        )}
       </div>
 
       <div className="post-editor-toolbar-wrap">
@@ -575,7 +611,14 @@ export default function PostEditor({ postId }: PostEditorProps) {
           onClick={() => setToolbarOpen((o) => !o)}
           aria-label="Toggle formatting toolbar"
         >
-          ☰ Format
+          <span
+            className={`toolbar-hamburger-icon ${toolbarOpen ? "open" : ""}`}
+          >
+            <span></span>
+            <span></span>
+            <span></span>
+          </span>
+          Format Toolbar
         </button>
         <div className={`post-editor-toolbar ${toolbarOpen ? "open" : ""}`}>
           <button
@@ -752,6 +795,14 @@ export default function PostEditor({ postId }: PostEditorProps) {
           >
             <Download size={15} />
           </button>
+          <button
+            type="button"
+            onClick={() => uploadMdInputRef.current?.click()}
+            aria-label="Upload Markdown"
+            data-tooltip="Upload — load a .md file"
+          >
+            <Upload size={15} />
+          </button>
         </div>
 
         {linkPopoverOpen && (
@@ -811,6 +862,13 @@ export default function PostEditor({ postId }: PostEditorProps) {
         ref={inlineImageInputRef}
         style={{ display: "none" }}
         onChange={handleInlineImageUpload}
+      />
+      <input
+        type="file"
+        accept=".md"
+        ref={uploadMdInputRef}
+        style={{ display: "none" }}
+        onChange={handleUploadMarkdown}
       />
       <EditorContent editor={editor} className="post-editor-body" />
 
