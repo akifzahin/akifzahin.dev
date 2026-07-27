@@ -1905,7 +1905,7 @@ body::before {
 .post-editor-toolbar button[data-tooltip]::after {
   content: attr(data-tooltip);
   position: absolute;
-  bottom: calc(100% + 8px);
+  top: calc(100% + 8px);
   left: 50%;
   transform: translateX(-50%);
   white-space: nowrap;
@@ -1926,18 +1926,18 @@ body::before {
 .post-editor-toolbar button[data-tooltip]::before {
   content: '';
   position: absolute;
-  bottom: calc(100% + 3px);
+  top: 100%;
   left: 50%;
-  transform: translateX(-50%) rotate(45deg);
-  width: 7px;
-  height: 7px;
-  background: var(--bg);
-  border-right: 1.5px solid var(--primary);
-  border-bottom: 1.5px solid var(--primary);
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-bottom: 6px solid var(--primary);
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.15s ease;
-  z-index: 60;
+  z-index: 61;
 }
 
 .post-editor-toolbar button[data-tooltip]:hover::after,
