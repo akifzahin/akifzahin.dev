@@ -1091,7 +1091,7 @@ import Layout from "../layouts/Layout.astro";
           An isometric RPG following a shattered detective rebuilding his
           worldview through the 24 conflicting voices in his head. I love this
           game due to its raw exploration of political existentialism, tragic
-          humanism, and how it embraces failure as a core philosophy.
+          humanism, and embracing failure.
         </p>
         <div class="post-tags">
           <a class="tag">Detective</a>
@@ -1322,16 +1322,20 @@ import Layout from "../layouts/Layout.astro";
 
         if (result.success) {
           form.reset();
-          const btn = form.querySelector("button[type='submit']");
-          btn.querySelector(".btn-label").textContent = "Message Deployed";
-          btn.querySelector(".icon-default").innerHTML =
+          const btn = form.querySelector(
+            "button[type='submit']",
+          ) as HTMLButtonElement | null;
+          if (!btn) return;
+
+          btn.querySelector(".btn-label")!.textContent = "Message Deployed";
+          btn.querySelector(".icon-default")!.innerHTML =
             `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 16 4 11"/></svg>`;
           btn.classList.add("success");
           btn.disabled = true;
 
           setTimeout(() => {
-            btn.querySelector(".btn-label").textContent = "Send Message";
-            btn.querySelector(".icon-default").innerHTML =
+            btn.querySelector(".btn-label")!.textContent = "Send Message";
+            btn.querySelector(".icon-default")!.innerHTML =
               `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>`;
             btn.classList.remove("success");
             btn.disabled = false;

@@ -21,6 +21,9 @@ import {
   Heading5,
   Heading6,
   AlignLeft,
+  AlignRight,
+  AlignCenter,
+  AlignJustify,
   List,
   ListOrdered,
   ListTodo,
@@ -354,16 +357,16 @@ export default function PostEditor({ postId }: PostEditorProps) {
       e.target.value = ""; // reset so choosing the same file again still fires onChange
     }
   };
+  const getTextAlign = () =>
+    editor?.getAttributes("paragraph").textAlign ??
+    editor?.getAttributes("heading").textAlign ??
+    "left";
+
   const cycleTextAlign = () => {
     if (!editor) return;
-    const current =
-      editor.getAttributes("paragraph").textAlign ??
-      editor.getAttributes("heading").textAlign ??
-      "left";
-
+    const current = getTextAlign();
     const next =
       current === "left" ? "center" : current === "center" ? "right" : "left";
-
     editor.chain().focus().setTextAlign(next).run();
   };
   const cycleHeading = () => {
@@ -670,9 +673,11 @@ export default function PostEditor({ postId }: PostEditorProps) {
             type="button"
             onClick={cycleTextAlign}
             aria-label="Align"
-            data-tooltip="Align — cycle left, center, right"
+            data-tooltip="Align — cycle left, center, right, justify"
           >
-            <AlignLeft size={15} />
+            {getTextAlign() === "center" && <AlignCenter size={15} />}
+            {getTextAlign() === "right" && <AlignRight size={15} />}
+            {getTextAlign() === "left" && <AlignLeft size={15} />}
           </button>
           <button
             type="button"
