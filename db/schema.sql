@@ -64,3 +64,10 @@ CREATE TABLE comment_likes (
   UNIQUE(comment_id, visitor_id)
 );
 CREATE INDEX idx_comment_likes_comment ON comment_likes(comment_id);
+CREATE TABLE dad_messages (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  body TEXT NOT NULL,
+  created_at TEXT NOT NULL DEFAULT (datetime('now'))
+);
+ALTER TABLE dad_messages ADD COLUMN type TEXT NOT NULL DEFAULT 'text';
+ALTER TABLE dad_messages ADD COLUMN image_url TEXT;

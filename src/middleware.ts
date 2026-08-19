@@ -5,7 +5,10 @@ export const onRequest = defineMiddleware(async (context, next) => {
   const { pathname } = context.url;
 
   const isProtected =
-    pathname.startsWith("/admin") || pathname.startsWith("/api/admin");
+    pathname.startsWith("/admin") ||
+    pathname.startsWith("/api/admin") ||
+    pathname.startsWith("/dad") ||
+    pathname.startsWith("/api/dad");
   const isLoginRoute =
     pathname === "/admin/login" || pathname === "/api/admin/login";
 

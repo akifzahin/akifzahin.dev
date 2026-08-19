@@ -1,0 +1,235 @@
+---
+export const prerender = false;
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout title="Dad" noindex={true}  hideVanta={true}>
+  <main class="dad-chat-page">
+    <div class="dad-header">
+      <img src="/images/dad.jpg" alt="Dad" class="dad-header-photo" />
+      <span class="dad-header-name font-display">Baba</span>
+    </div>
+
+    <div id="dad-messages" class="dad-messages">
+      <p class="font-mono admin-loading">Loading...</p>
+    </div>
+
+    <form id="dad-form" class="dad-input-bar">
+      <input
+        type="file"
+        accept="image/*"
+        id="dad-image-file"
+        style="display:none"
+      />
+      <button type="button" id="dad-image-btn" aria-label="Attach image">+</button>
+      <input
+        type="text"
+        id="dad-text-input"
+        class="dad-text-input font-sans"
+        placeholder="Message..."
+        autocomplete="off"
+      />
+      <button type="submit" aria-label="Send" class="dad-send-btn">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="18"
+          height="18"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          ><line x1="22" y1="2" x2="11" y2="13"></line><polygon
+            points="22 2 15 22 11 13 2 9 22 2"></polygon></svg
+        >
+      </button>
+    </form>
+
+    <div id="dad-lightbox" class="dad-lightbox">
+      <img id="dad-lightbox-img" src="" alt="" />
+    </div>
+  </main>
+</Layout>
+  <style is:global>
+    body::before {
+      display: none !important;
+    }
+
+    body::after {
+      display: none !important;
+    }
+  </style>
+<script>
+  document.addEventListener("astro:page-load", () => {
+    const list = document.getElementById("dad-messages");
+    const form = document.getElementById("dad-form") as HTMLFormElement;
+    const textInput = document.getElementById(
+      "dad-text-input",
+    ) as HTMLInputElement;
+    const imageBtn = document.getElementById("dad-image-btn");
+    const imageFile = document.getElementById(
+      "dad-image-file",
+    ) as HTMLInputElement;
+    const lightbox = document.getElementById("dad-lightbox");
+    const lightboxImg = document.getElementById(
+      "dad-lightbox-img",
+    ) as HTMLImageElement;
+    if (!list || !form || !textInput || !imageBtn || !imageFile) return;
+
+    function formatTime(iso: string) {
+      return new Date(iso).toLocaleString("en-US", {
+        month: "short",
+        day: "numeric",
+        hour: "numeric",
+        minute: "2-digit",
+      });
+    }
+
+    function renderMessage(m: any) {
+      const deleteBtn = m.id
+        ? `<button type="button" class="dad-delete-btn" data-delete-id="${m.id}" aria-label="Delete message">×</button>`
+        : "";
+      if (m.type === "image") {
+        return `
+          <div class="dad-bubble dad-bubble-image" data-id="${m.id ?? ""}">
+            ${deleteBtn}
+            <img src="${m.image_url}" alt="" class="dad-thumb" />
+            ${m.body ? `<p class="dad-bubble-caption">${m.body}</p>` : ""}
+            <span class="dad-bubble-time font-mono">${formatTime(m.created_at)}</span>
+          </div>
+        `;
+      }
+      return `
+        <div class="dad-bubble" data-id="${m.id ?? ""}">
+          ${deleteBtn}
+          <p>${m.body}</p>
+          <span class="dad-bubble-time font-mono">${formatTime(m.created_at)}</span>
+        </div>
+      `;
+    }
+
+    function appendMessage(m: any) {
+      list!.insertAdjacentHTML("beforeend", renderMessage(m));
+      list!.scrollTop = list!.scrollHeight;
+    }
+
+       async function loadMessages() {
+      try {
+        const res = await fetch("/api/dad/messages");
+        const messages = await res.json();
+        list!.innerHTML = messages.map(renderMessage).join("");
+        list!.scrollTop = list!.scrollHeight;
+        attachDeleteListeners();
+      } catch {
+        list!.innerHTML = `<p class="admin-empty font-mono">Failed to load.</p>`;
+      }
+    }
+
+    // ── Lightbox — click any thumbnail to enlarge ──────────────────────
+    list.addEventListener("click", (e) => {
+      const target = e.target as HTMLElement;
+      if (target.classList.contains("dad-thumb")) {
+        lightboxImg.src = (target as HTMLImageElement).src;
+        lightbox?.classList.add("open");
+      }
+    });
+    lightbox?.addEventListener("click", () => {
+      lightbox.classList.remove("open");
+      lightboxImg.src = "";
+    });
+
+      function attachDeleteListeners() {
+      list!.querySelectorAll(".dad-delete-btn").forEach((btn) => {
+        btn.addEventListener("click", async () => {
+          const el = btn as HTMLElement;
+          const id = el.dataset.deleteId;
+          if (!id) return;
+          el.closest(".dad-bubble")?.remove();
+          try {
+            await fetch(`/api/dad/messages/${id}`, { method: "DELETE" });
+          } catch {
+            // fail silently
+          }
+        });
+      });
+    }
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const body = textInput.value.trim();
+      if (!body) return;
+
+      textInput.value = "";
+      // Render immediately — optimistic, no waiting on the round trip
+      appendMessage({ type: "text", body, created_at: new Date().toISOString() });
+      const bubbleEl = list!.lastElementChild as HTMLElement;
+
+      try {
+        const res = await fetch("/api/dad/messages", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ type: "text", body }),
+        });
+        const result = await res.json();
+        if (result.id && bubbleEl) {
+          bubbleEl.dataset.id = String(result.id);
+          bubbleEl.insertAdjacentHTML(
+            "afterbegin",
+            `<button type="button" class="dad-delete-btn" data-delete-id="${result.id}" aria-label="Delete message">×</button>`,
+          );
+          attachDeleteListeners();
+        }
+      } catch {
+        // fail silently, keep it simple
+      }
+    });
+
+    imageBtn.addEventListener("click", () => imageFile.click());
+
+    imageFile.addEventListener("change", async () => {
+      const file = imageFile.files?.[0];
+      if (!file) return;
+
+      const formData = new FormData();
+      formData.append("file", file);
+
+      try {
+        const uploadRes = await fetch("/api/admin/upload-image", {
+          method: "POST",
+          body: formData,
+        });
+        const { url } = await uploadRes.json();
+
+              appendMessage({
+          type: "image",
+          image_url: url,
+          body: null,
+          created_at: new Date().toISOString(),
+        });
+        const imgBubbleEl = list!.lastElementChild as HTMLElement;
+
+        const res = await fetch("/api/dad/messages", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ type: "image", image_url: url }),
+        });
+        const result = await res.json();
+        if (result.id && imgBubbleEl) {
+          imgBubbleEl.dataset.id = String(result.id);
+          imgBubbleEl.insertAdjacentHTML(
+            "afterbegin",
+            `<button type="button" class="dad-delete-btn" data-delete-id="${result.id}" aria-label="Delete message">×</button>`,
+          );
+          attachDeleteListeners();
+        }
+      } catch {
+        // fail silently
+      } finally {
+        imageFile.value = "";
+      }
+    });
+
+    loadMessages();
+  });
+</script>
